@@ -1,0 +1,7 @@
+<div class="container">
+      <div class="smart-table-container">
+        <card cardTitle="REVENUE DATA">
+          <ng2-smart-table [settings]="settings" [source]="source" (deleteConfirm)="deleteRecord($event)" (createConfirm)="createRecord($event)" (editConfirm)="updateRecord($event)"></ng2-smart-table>  
+        </card>
+      </div>
+</div>

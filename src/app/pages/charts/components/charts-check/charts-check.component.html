@@ -1,0 +1,62 @@
+<div class="container">
+  <div class="left">
+    <div class="scrolling-wrapper">
+      <card cardTitle="AUTHOR DATA">
+        <form class="container" #searchForm="ngForm" (ngSubmit)="onSearch()"></form>
+        <br>
+        <ng2-smart-table [settings]="settings" [source]="source" (deleteConfirm)="deleteRecord($event)" (createConfirm)="createRecord($event)" (editConfirm)="updateRecord($event)"></ng2-smart-table>
+      </card>
+    </div>
+  </div>       
+  <div class="right">
+    <card cardTitle="AUTHOR REGISTRATION">
+      <form class="container" #editorForm="ngForm" (ngSubmit)="onSubmit()">
+        <table class="storage">
+          <tr>
+            <th>* 저자명</th>
+            <td><input type="text" class="form-control" [(ngModel)]="editorData.author" name="author"></td>
+          </tr>
+          <tr>
+            <th>주민등록번호</th>
+            <td><input type="text" class="form-control" [(ngModel)]="editorData.RRN" name="RRN">
+          </tr>
+          <tr>
+            <th>소속</th>
+            <td><input type="text" class="form-control" [(ngModel)]="editorData.org" name="org"></td>
+          </tr>
+          <tr>
+            <th>주소</th>
+            <td><input type="text" class="form-control" [(ngModel)]="editorData.addr" name="addr"> </td>
+          </tr>
+            <th>송금처</th>
+            <td><input type="text" class="form-control" [(ngModel)]="editorData.bank" name="bank"><br>※은행명을 기입하세요.</td>
+          <tr>
+            <th>계좌번호</th>
+            <td><input type="text" class="form-control" [(ngModel)]="editorData.bankaccount" name="bankaccount"></td>
+          </tr>
+          <tr>
+            <th>연락처1</th>
+            <td><input type="text" class="form-control" [(ngModel)]="editorData.cel1" name="cel1"></td>
+          </tr>
+          <tr>
+            <th>연락처2</th>
+            <td><input type="text" class="form-control" [(ngModel)]="editorData.cel2" name="cel2"></td>
+          </tr>
+          <tr>
+            <th>E-Mail</th>
+            <td><input type="text" class="form-control" [(ngModel)]="editorData.email" name="email"></td>
+          </tr>
+          <tr>
+            <th>저자약력</th>
+            <td><textarea name="profile" class= "form-control"></textarea></td>
+          </tr>
+        </table>
+        <br>
+        <div>
+          <button type="submit" class="submit_button">저장</button>
+        </div>
+        <br>
+      </form>
+    </card>
+  </div>
+</div>

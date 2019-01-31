@@ -1,0 +1,68 @@
+<div class="row">
+  <div class="col-md-12">
+    <card cardTitle="Data Table">
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>이름</th>
+            <th>소속</th>
+            <th>은행</th>
+            <th>계좌번호</th>
+            <th>연락처_01</th>
+            <th>연락처_02</th>
+            <th>팩스</th>
+            <th>이메일</th>
+            <th>주민번호</th>
+            <th>주소</th>
+            <th>비고_01</th>
+            <th>비고_02</th>
+            <th>비고_03</th>
+            <th>구분</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of tableData | paginate: { id: 'pager', itemsPerPage: pageSize, currentPage: pageNumber};let index = index">
+            <td>{{item.id}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.belongTo}}</td>
+            <td>{{item.bank}}</td>
+            <td>{{item.accountNum}}</td>
+            <td>{{item.phoneNum_01}}</td>
+            <td>{{item.phoneNum_02}}</td>
+            <td>{{item.fax}}</td>
+            <td>{{item.email}}</td>
+            <td>{{item.residentNum}}</td>
+            <td>{{item.address}}</td>
+            <td>{{item.note_01}}</td>
+            <td>{{item.note_02}}</td>
+            <td>{{item.note_03}}</td>
+            <td>{{item.divsion}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <form class="pagination-wrapper">
+        <div class="form-group pages">
+          <pagination-controls class="my-pagination" id="pager" (pageChange)="pageChanged($event)" maxSize="9" directionLinks="true"
+            autoHide="true" previousLabel="Prev" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+            screenReaderCurrentLabel="You're on page">
+          </pagination-controls>
+        </div>
+        <div class="form-group options pages">
+          <div class="input-group input-group-sm">
+            <select class="form-control" name="pageChangedName" [(ngModel)]="pageSize" (ngModelChange)="loadData()">
+              <option>1</option>
+              <option>5</option>
+              <option>10</option>
+              <option>20</option>
+              <option>50</option>
+              <option>100</option>
+              <option>200</option>
+            </select>
+            <span class="input-group-addon addon-right">Per Page</span>
+          </div>
+        </div>
+      </form>
+    </card>
+  </div>
+</div>

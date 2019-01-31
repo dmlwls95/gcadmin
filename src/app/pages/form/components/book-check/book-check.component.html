@@ -1,0 +1,64 @@
+<div class="container">
+  <div class="left">
+     <card cardTitle="BOOK DATA">
+      <div class="scrolling-wrapper">
+        <ng2-smart-table [settings]="settings" [source]="source" (deleteConfirm)="deleteRecord($event)" (createConfirm)="createRecord($event)" (editConfirm)="updateRecord($event)"></ng2-smart-table>  
+      </div>
+    </card>
+  </div>       
+  <div class="right">
+    <card cardTitle="AUTHOR REGISTRATION">
+      <form class="container" #editorForm="ngForm" (ngSubmit)="onSubmit()">
+        <table class="storage">
+          <tr>
+            <th>바코드</th>
+            <td><input type="text" class="form-control" [(ngModel)]="bookData.barcode" name="barcode"></td>
+          </tr>
+          <tr>
+            <th>도서코드</th>
+            <td><input type="text" class="form-control" [(ngModel)]="bookData.bookcode" name="bookcode">
+          </tr>
+          <tr>
+            <th>책이름</th>
+            <td><input type="text" class="form-control" [(ngModel)]="bookData.bookname" name="bookname"></td>
+          </tr>
+          <tr>
+            <th>저자</th>
+            <td><input type="text" class="form-control" [(ngModel)]="bookData.author" name="author"></td>
+          </tr>
+          <tr>
+            <th>신간일</th>
+            <td><input type="text" class="form-control" [(ngModel)]="bookData.relday" name="relday"> </td>
+          </tr>
+            <th>발행처</th>
+            <td><input type="text" class="form-control" [(ngModel)]="bookData.from" name="from"></td>
+          <tr>
+            <th>정가</th>
+            <td><input type="text" class="form-control" [(ngModel)]="bookData.price" name="price"></td>
+          </tr>
+          <tr>
+            <th>총재고</th>
+            <td><input type="text" class="form-control" [(ngModel)]="bookData.totalnumber" name="totalnumber"></td>
+          </tr>
+          <tr>
+            <th>본사재고</th>
+            <td><input type="text" class="form-control" [(ngModel)]="bookData.homenumber" name="homenumber"></td>
+          </tr>
+          <tr>
+            <th>정품재고</th>
+            <td><input type="text" class="form-control" [(ngModel)]="bookData.genuinenumber" name="genuinenumber"></td>
+          </tr>
+          <tr>
+            <th>반품재고</th>
+            <td><input type="text" class="form-control" [(ngModel)]="bookData.refundnumber" name="refundnumber"></td>
+          </tr>
+        </table>
+          <br>
+          <div>
+            <button type="submit" class="submit_button">저장</button>
+          </div>
+          <br>
+         </form>
+      </card>
+    </div>
+  </div>

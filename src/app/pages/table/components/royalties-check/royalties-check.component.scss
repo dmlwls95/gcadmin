@@ -1,0 +1,53 @@
+.scrolling-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    overflow-x: scroll;
+    
+    .card {
+      flex: 0 0 scroll;
+    }
+}
+
+input {
+    width: 400px;
+    height: 30px;
+    font-weight: normal;
+    font-size: 13px;
+    margin: 2px 0 2px 0;
+}
+
+:host /deep/ ng2-smart-table table > tbody > tr > td {
+    box-sizing: border-box;
+}
+
+:host /deep/ ng2-smart-table tbody th {
+    font-weight: bold;
+    vertical-align: top;
+    border-bottom: 1px solid #ddd;
+    background: #e8edf4;
+}
+
+/* headers grid color*/
+:host /deep/ ng2-smart-table thead th  { 
+    background: #E2E9F5;
+    border-width: 2px;
+    border-color: white;
+} 
+:host /deep/ ng2-smart-table thead > tr > td  { 
+    border-width: 2px;
+    border-color: white;
+    border-bottom: 1px solid #ddd;
+}
+:host /deep/ ng2-smart-table thead > tr > td { 
+    border-width: 1px;
+    border-color: #ddd;
+    border-bottom: 1px solid #ddd;
+}  
+/*font size*/
+:host /deep/ ng2-smart-table {
+    font-size:13px;
+}
+:host /deep/ ng2-smart-table table tr td{
+    font-size:1em;
+    word-break: keep-all !important;
+}
