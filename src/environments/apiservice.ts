@@ -1,1 +1,1 @@
-export const apiurl = 'https://gcmean.herokuapp.com' //'http://121.136.243.232:4000';
+export const apiurl = 'http://localhost:4000' //'https://gcmean.herokuapp.com' //'http://121.136.243.232:4000';

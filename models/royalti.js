@@ -4,7 +4,7 @@ var royaltiSchema = mongoose.Schema({
 
   _id: mongoose.Schema.Types.ObjectId,
 
-  일자: { type: String},
+  일자: { type: Date},
 
   저자: { type: String },
 

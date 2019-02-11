@@ -764,5 +764,19 @@ gcUnitRoutes.delete('/royalti/:id', function(req,res){
 })
 // admin payday manage api END*************************
 
+// admin datepicker manage api START*************************
+gcUnitRoutes.post('/daterange', function(req, res){
+  Royalti.find({일자: {'$gte': req.body.start,'$lt' : req.body.end}},function(err, result){
+    if(err){
+      console.log(err);
+    }
+    else{
+      res.json(result);
+    }
+    
+  })
+})
+// admin datepicker manage api END*************************
+
 
 module.exports = gcUnitRoutes;
