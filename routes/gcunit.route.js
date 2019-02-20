@@ -321,18 +321,28 @@ gcUnitRoutes.get('/editorchart', function(req,res,next){
   }else{
     paged = req.query.page;
   }
-  var query = req.query.저자;
-  if(query == null){
-    Editor.paginate({}, {page: paged , limit: 10}, function(err, result){
+  var query = req.query;
+  console.log(query)
+  if(query.저자){
+    Editor.paginate({저자: { $regex: '.*' + query.저자 + '.*'}}, {page: paged , limit: 10}, function(err, result){
       if(err){
         console.log(err);
       }
       else {
         res.json(result);
       }
-    })
+    });
+  }else if(query.주민번호){
+    Editor.paginate({주민번호:{ $regex: '.*' + query.주민번호 + '.*'}}, {page: paged , limit: 10}, function(err, result){
+      if(err){
+        console.log(err);
+      }
+      else {
+        res.json(result);
+      }
+    });
   }else{
-    Editor.paginate({저자: query}, {page: paged , limit: 10}, function(err, result){
+    Editor.paginate({}, {page: paged , limit: 10}, function(err, result){
       if(err){
         console.log(err);
       }
@@ -400,33 +410,57 @@ gcUnitRoutes.delete('/editorchart/:id', function(req,res){
 
 // admin editor managefix api Start*************************
 gcUnitRoutes.post('/editoradd', function(req,res){
-  console.log(req)
-  let editor = new Editor();
-  if(req.body.author) editor.저자 = req.body.author;
-  if(req.body.org) editor.소속 = req.body.org;
-  if(req.body.bank) editor.은행 = req.body.bank;
-  if(req.body.bankaccount) editor.계좌번호 = req.body.bankaccount;
-  if(req.body.cel1) editor.연락처_01 = req.body.cel1;
-  if(req.body.cel2) editor.연락처_02 = req.body.cel2;
-  if(req.body.email) editor.이메일 = req.body.email;
-  if(req.body.RRN) editor.주민번호 = req.body.RRN;
-  if(req.body.addr) editor.주소 = req.body.addr;
-  if(req.body.비고_01) editor.비고_01 = req.body.비고_01;
-  if(req.body.비고_02) editor.비고_02 = req.body.비고_02;
-  if(req.body.비고_03) editor.비고_03 = req.body.비고_03;
-  if(req.body.구분) editor.구분 = req.body.구분;
-  editor._id = new mongoose.Types.ObjectId();
-  editor.save(function(err) {
-    if(err){
-      console.log(err);
-    } else {
-      res.json(editor)
+  
+  Editor.findOne({저자: req.body.author}, (err,result)=>{
+    if(err) return res.status(500).json({ error: 'database failure'});
+    if(result){
+      if(req.body.author) result.저자 = req.body.author;
+      if(req.body.org) result.소속 = req.body.org;
+      if(req.body.bank) result.은행 = req.body.bank;
+      if(req.body.bankaccount) result.계좌번호 = req.body.bankaccount;
+      if(req.body.cel1) result.연락처_01 = req.body.cel1;
+      if(req.body.cel2) result.연락처_02 = req.body.cel2;
+      if(req.body.email) result.이메일 = req.body.email;
+      if(req.body.RRN) result.주민번호 = req.body.RRN;
+      if(req.body.addr) result.주소 = req.body.addr;
+      if(req.body.비고_01) result.비고_01 = req.body.비고_01;
+      if(req.body.비고_02) result.비고_02 = req.body.비고_02;
+      if(req.body.비고_03) result.비고_03 = req.body.비고_03;
+      if(req.body.구분) result.구분 = req.body.구분;
+      result.save(function(err){
+        if(err) res.status(500).json({error: 'fail to updtae'});
+        res.json({message: 'updated successfully'})
+      })
+    }else if(!result){
+      let editor = new Editor();
+      if(req.body.author) editor.저자 = req.body.author;
+      if(req.body.org) editor.소속 = req.body.org;
+      if(req.body.bank) editor.은행 = req.body.bank;
+      if(req.body.bankaccount) editor.계좌번호 = req.body.bankaccount;
+      if(req.body.cel1) editor.연락처_01 = req.body.cel1;
+      if(req.body.cel2) editor.연락처_02 = req.body.cel2;
+      if(req.body.email) editor.이메일 = req.body.email;
+      if(req.body.RRN) editor.주민번호 = req.body.RRN;
+      if(req.body.addr) editor.주소 = req.body.addr;
+      if(req.body.비고_01) editor.비고_01 = req.body.비고_01;
+      if(req.body.비고_02) editor.비고_02 = req.body.비고_02;
+      if(req.body.비고_03) editor.비고_03 = req.body.비고_03;
+      if(req.body.구분) editor.구분 = req.body.구분;
+      editor._id = new mongoose.Types.ObjectId();
+      editor.save(function(err) {
+      if(err){
+        console.log(err);
+      } else {
+        res.json(editor)
+      }
+    });
     }
-  });
+  })
+  
 });
 
-gcUnitRoutes.post('/editorsearch', function(req,res){
-  Editor.findOne({저자:req.body.query},function(err,result){
+gcUnitRoutes.get('/editorsearch', function(req,res){
+  Editor.find({},function(err,result){
     if(err){console.log(err)};
 
     res.json(result);
@@ -437,27 +471,50 @@ gcUnitRoutes.post('/editorsearch', function(req,res){
 
 // admin book managefix api START*************************
 gcUnitRoutes.post('/bookadd', function(req,res){
-  console.log(req)
-  let book = new Bookcode();
-  if(req.body.barcode) book.바코드 = req.body.barcode;
-  if(req.body.bookcode) book.도서코드 = req.body.bookcode;
-  if(req.body.bookname) book.도서명 = req.body.bookname;
-  if(req.body.author) book.저자 = req.body.author;
-  if(req.body.relday) book.신간일 = req.body.relday;
-  if(req.body.from) book.발행처 = req.body.from;
-  if(req.body.price) book.정가 = req.body.price;
-  if(req.body.totalnumber) book.총재고 = req.body.totalnumber;
-  if(req.body.homenumber) book.본사재고 = req.body.homenumber;
-  if(req.body.genuinenumber) book.정품재고 = req.body.genuinenumber;
-  if(req.body.refundnumber) book.반품재고 = req.body.refundnumber;
-  book._id = new mongoose.Types.ObjectId();
-  book.save(function(err) {
-    if(err){
-      console.log(err);
-    } else {
-      res.json(book)
+  
+  Bookcode.findOne({바코드:req.body.barcode}, (err,result)=>{
+    if(err) return res.status(500).json({ error: 'database failure'});
+    if(result){
+      if(req.body.barcode) result.바코드 = req.body.barcode;
+      if(req.body.bookcode) result.도서코드 = req.body.bookcode;
+      if(req.body.bookname) result.도서명 = req.body.bookname;
+      if(req.body.author) result.저자 = req.body.author;
+      if(req.body.relday) result.신간일 = req.body.relday;
+      if(req.body.from) result.발행처 = req.body.from;
+      if(req.body.price) result.정가 = req.body.price;
+      if(req.body.totalnumber) result.총재고 = req.body.totalnumber;
+      if(req.body.homenumber) result.본사재고 = req.body.homenumber;
+      if(req.body.genuinenumber) result.정품재고 = req.body.genuinenumber;
+      if(req.body.refundnumber) result.반품재고 = req.body.refundnumber;
+      result.save(function(err){
+        if(err) res.status(500).json({error: 'fail to updtae'});
+        res.json({message: 'updated successfully'})
+      })
+    }else if(!result){
+      let book = new Bookcode();
+      if(req.body.barcode) book.바코드 = req.body.barcode;
+      if(req.body.bookcode) book.도서코드 = req.body.bookcode;
+      if(req.body.bookname) book.도서명 = req.body.bookname;
+      if(req.body.author) book.저자 = req.body.author;
+      if(req.body.relday) book.신간일 = req.body.relday;
+      if(req.body.from) book.발행처 = req.body.from;
+      if(req.body.price) book.정가 = req.body.price;
+      if(req.body.totalnumber) book.총재고 = req.body.totalnumber;
+      if(req.body.homenumber) book.본사재고 = req.body.homenumber;
+      if(req.body.genuinenumber) book.정품재고 = req.body.genuinenumber;
+      if(req.body.refundnumber) book.반품재고 = req.body.refundnumber;
+      book._id = new mongoose.Types.ObjectId();
+      book.save(function(err) {
+        if(err){
+          console.log(err);
+        } else {
+          res.json(book)
+        }
+      });
     }
-  });
+  })
+
+  
 });
 
 // admin book managefix api END*************************
@@ -470,18 +527,45 @@ gcUnitRoutes.get('/bookcode', function(req,res,next){
   }else{
     paged = req.query.page;
   }
-  var query = req.query.바코드;
-  if(query == null){
-    Bookcode.paginate({}, {page: paged , limit: 10}, function(err, result){
+  var query = req.query;
+  if(query.바코드){
+    Bookcode.paginate({바코드: { $regex: '.*' + query.바코드 + '.*'}}, {page: paged , limit: 10}, function(err, result){
       if(err){
         console.log(err);
       }
       else {
         res.json(result);
       }
-    })
+    });
+  }else if(query.도서코드){
+    Bookcode.paginate({도서코드:{ $regex: '.*' + query.도서코드 + '.*'}}, {page: paged , limit: 10}, function(err, result){
+      if(err){
+        console.log(err);
+      }
+      else {
+        res.json(result);
+      }
+    });
+  }else if(query.도서명){
+    Bookcode.paginate({도서명:{ $regex: '.*' + query.도서명 + '.*'}}, {page: paged , limit: 10}, function(err, result){
+      if(err){
+        console.log(err);
+      }
+      else {
+        res.json(result);
+      }
+    });
+  }else if(query.저자){
+    Bookcode.paginate({저자:{ $regex: '.*' + query.저자 + '.*'}}, {page: paged , limit: 10}, function(err, result){
+      if(err){
+        console.log(err);
+      }
+      else {
+        res.json(result);
+      }
+    });
   }else{
-    Bookcode.paginate({바코드:query}, {page: paged , limit: 10}, function(err, result){
+    Bookcode.paginate({}, {page: paged , limit: 10}, function(err, result){
       if(err){
         console.log(err);
       }

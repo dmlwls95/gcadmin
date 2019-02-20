@@ -46,18 +46,21 @@ export class ChartsCheckComponent {
         title: '이름',
         type: 'string'
       },
-      /*소속: {
+      소속: {
         title: '소속',
-        type: 'string'
+        type: 'string',
+        filter: false
       },
       은행: {
         title: '은행',
-        type: 'string'
+        type: 'string',
+        filter: false
       },
       계좌번호: {
         title: '계좌번호',
-        type: 'string'
-      },*/
+        type: 'string',
+        filter: false
+      },
       연락처_01: {
         title: '연락처_01',
         type: 'string',
@@ -77,15 +80,16 @@ export class ChartsCheckComponent {
         type: 'string',
         filter: false
       },
-      /*주민번호: {
+      주민번호: {
         title: '주민번호',
         type: 'string'
       },
       주소: {
         title: '주소',
-        type: 'string'
+        type: 'string',
+        filter: false
       },
-      비고_01: {
+      /*비고_01: {
         title: '비고_01',
         type: 'string'
       },
@@ -122,7 +126,8 @@ export class ChartsCheckComponent {
       bankaccount: '',
       cel1: '',
       cel2: '',
-      email: ''
+      email: '',
+      bigo: ''
   };
   searchForm: FormGroup;
   searchData = { query: ''};
@@ -134,7 +139,7 @@ export class ChartsCheckComponent {
     pagerPageKey: 'page',
     dataKey: 'docs',
     totalKey: 'pages',
-    filterFieldKey: '저자'
+    filterFieldKey: '#field#'
     });
     this.source.setPaging(1, 10);
     console.log(this.source);
@@ -160,8 +165,9 @@ export class ChartsCheckComponent {
   onSubmit(){
       this.http.post(`${apiurl}/gcUnit/editoradd`, this.editorData)
       .subscribe(res => {
+        console.log(res);
+        this.source.refresh();
       })
-      this.editorForm.reset();
   }
   
   onSearch() {
@@ -219,5 +225,18 @@ export class ChartsCheckComponent {
             }
         }
       );
+    }
+
+    onRecordselected(event) {
+      this.editorData.author = event.data.저자;
+      this.editorData.RRN = event.data.주민번호;
+      this.editorData.org = event.data.소속;
+      this.editorData.addr = event.data.주소;
+      this.editorData.bank = event.data.은행;
+      this.editorData.bankaccount = event.data.계좌번호;
+      this.editorData.cel1 = event.data.연락처_01;
+      this.editorData.cel2 = event.data.연락처_02;
+      this.editorData.email = event.data.이메일;
+      this.editorData.bigo = event.data.비고_01;
     }
 }

@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { ServerDataSource } from 'ng2-smart-table';
 import { apiurl } from '../../../../../environments/apiservice';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-
+import { CompleterService, CompleterData } from 'ng2-completer';
 @Component({
   selector: 'app-book-check',
   templateUrl: './book-check.component.html',
@@ -52,10 +52,10 @@ export class BookCheckComponent {
         title: '저자',
         type: 'string'
       },
-      /*신간일: {
+      신간일: {
         title: '신간일',
         type: 'string'
-      },*/
+      },
       발행처: {
         title: '발행처',
         type: 'string',
@@ -72,6 +72,11 @@ export class BookCheckComponent {
         filter: false
       },
       본사재고: {
+        title: '본사재고',
+        type: 'string',
+        filter: false
+      },
+      정품재고: {
         title: '정품재고',
         type: 'string',
         filter: false
@@ -108,23 +113,41 @@ export class BookCheckComponent {
       refundnumber: ''
   };
 
-  constructor(private http: HttpClient) { 
+  protected searchStr: String;
+  protected dataService: CompleterData;
+  protected searchData;
+  constructor(private http: HttpClient, private completerService: CompleterService) { 
     this.source = new ServerDataSource(http, {
       endPoint: `${apiurl}/gcUnit/bookcode`,
     pagerLimitKey: 'limit',
     pagerPageKey: 'page',
     dataKey: 'docs',
     totalKey: 'pages',
-    filterFieldKey: '바코드'
+    filterFieldKey: '#field#'
     });
     this.source.setPaging(1, 10);
+    this.dataService = completerService.local(this.searchData, '저자', '저자');
+    this.http.get(`${apiurl}/gcUnit/editorsearch`)
+    .map(res =>res)
+    .subscribe(res => {
+      let tmp: any[] = Array.of(res);
+      let stack = new Array();
+      tmp.forEach(element => {
+        element.forEach(result => {
+          stack.push(result.저자);
+        });
+      });
+      this.searchData = stack;
+      console.log(this.searchData);
+    })
   }
 
   onSubmit(){
     this.http.post(`${apiurl}/gcUnit/bookadd`, this.bookData)
     .subscribe(res => {
+      console.log(res);
+      this.source.refresh();
     })
-    this.bookForm.reset();
 }
 
   updateRecord(event) {
@@ -177,4 +200,19 @@ export class BookCheckComponent {
       );
     }
 
+    onRecordselected(event) {
+      
+      this.bookData.barcode = event.data.바코드;
+      this.bookData.bookcode = event.data.도서코드;
+      this.bookData.bookname = event.data.도서명;
+      this.bookData.author = event.data.저자;
+      this.bookData.relday = event.data.신간일;
+      this.bookData.from = event.data.발행처;
+      this.bookData.price = event.data.정가;
+      this.bookData.totalnumber = event.data.총재고;
+      this.bookData.homenumber = event.data.본사재고;
+      this.bookData.genuinenumber = event.data.정품재고;
+      this.bookData.refundnumber = event.data.반품재고;
+    }
 }
+

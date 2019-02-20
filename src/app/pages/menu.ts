@@ -67,20 +67,5 @@ export let MENU_ITEM = [
                 title: '인세 지급 현황'
             }
         ]
-    },
-    {
-        path: 'menu-levels',
-        title: '문의사항',
-        icon: 'question-circle',
-        children: [
-            {
-                path: 'levels1',
-                title: '저자 문의사항',
-            },
-            {
-                path: 'levels2',
-                title: '출판 문의사항'
-            }
-        ]
-    },
+    }
 ];

@@ -4,7 +4,7 @@
       <card cardTitle="AUTHOR DATA">
         <form class="container" #searchForm="ngForm" (ngSubmit)="onSearch()"></form>
         <br>
-        <ng2-smart-table [settings]="settings" [source]="source" (deleteConfirm)="deleteRecord($event)" (createConfirm)="createRecord($event)" (editConfirm)="updateRecord($event)"></ng2-smart-table>
+        <ng2-smart-table [settings]="settings" [source]="source" (deleteConfirm)="deleteRecord($event)" (createConfirm)="createRecord($event)" (editConfirm)="updateRecord($event)" (rowSelect)="onRecordselected($event)"></ng2-smart-table>
       </card>
     </div>
   </div>       
@@ -47,8 +47,8 @@
             <td><input type="text" class="form-control" [(ngModel)]="editorData.email" name="email"></td>
           </tr>
           <tr>
-            <th>저자약력</th>
-            <td><textarea name="profile" class= "form-control"></textarea></td>
+            <th>비고</th>
+            <td><input type="text" class="form-control" [(ngModel)]="editorData.bigo" name="bigo"></td>
           </tr>
         </table>
         <br>
@@ -57,6 +57,9 @@
         </div>
         <br>
       </form>
+      <hr>
+      *저자 이름이 일치할경우 -> 수정<br>
+      *저자 이름 불일치할경우 -> 추가
     </card>
   </div>
 </div>

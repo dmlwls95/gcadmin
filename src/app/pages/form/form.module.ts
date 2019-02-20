@@ -6,7 +6,7 @@ import { FileUploadModule } from 'ng2-file-upload';
 import { SelectModule } from 'ng2-select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
-
+import { Ng2CompleterModule } from "ng2-completer";
 
 /* components */
 import { FormComponent } from './form.component';
@@ -29,7 +29,8 @@ import { BookCheckComponent } from './components/book-check/book-check.component
         routing,
         FormsModule, 
         ReactiveFormsModule,
-        Ng2SmartTableModule
+        Ng2SmartTableModule,
+        Ng2CompleterModule
     ],
     declarations: [
         FormComponent,

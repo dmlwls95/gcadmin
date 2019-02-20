@@ -109,7 +109,7 @@ export class RoyaltiesCheckComponent implements OnInit {
     },
     pager : {
       display: true,
-      perPage : 10
+      perPage : 1
     }
   };
 
