@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var mongoosePaginate = require('mongoose-paginate');
-var royaltiSchema = mongoose.Schema({
+var payedSchema = mongoose.Schema({
 
   _id: mongoose.Schema.Types.ObjectId,
 
@@ -16,7 +16,7 @@ var royaltiSchema = mongoose.Schema({
   
   payed: { type: Boolean }
 
-}, { collection: 'royalti'});
-royaltiSchema.plugin(mongoosePaginate);
-var Royalti  = mongoose.model('royalti', royaltiSchema);
-module.exports = Royalti;
+}, { collection: 'payed'});
+payedSchema.plugin(mongoosePaginate);
+var Payed  = mongoose.model('payed', payedSchema);
+module.exports = Payed;

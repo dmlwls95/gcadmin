@@ -10,9 +10,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { ChartsComponent } from './charts.component';
 import { EChartsComponent } from './components/echarts/echarts.component';
 import { ChartsCheckComponent } from './components/charts-check/charts-check.component';
-import { ChartsUploadComponent } from './components/charts-upload/charts-upload.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ContractUploadComponent } from './components/contract-upload/contract-upload.component';
 
 @NgModule({
     imports: [
@@ -28,9 +26,7 @@ import { ContractUploadComponent } from './components/contract-upload/contract-u
     declarations: [
         ChartsComponent,
         EChartsComponent,
-        ChartsCheckComponent,
-        ChartsUploadComponent,
-        ContractUploadComponent,
+        ChartsCheckComponent
     ]
 })
 export class ChartsModule { }

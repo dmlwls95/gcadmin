@@ -4,12 +4,12 @@ import { ServerDataSource, LocalDataSource } from 'ng2-smart-table';
 import { apiurl } from '../../../../../environments/apiservice';
 
 @Component({
-  selector: 'app-royalties-check',
-  templateUrl: './royalties-check.component.html',
-  styleUrls: ['./royalties-check.component.scss']
+  selector: 'app-royalties-period',
+  templateUrl: './royalties-period.component.html',
+  styleUrls: ['./royalties-period.component.scss']
 })
-export class RoyaltiesCheckComponent implements OnInit {
-
+export class RoyaltiesPeriodComponent implements OnInit {
+  
   settings = {
     add: {
       addButtonContent: '<span class="fa fa-plus"></span>',
@@ -79,6 +79,12 @@ export class RoyaltiesCheckComponent implements OnInit {
       deleteButtonContent: '<span class="fa fa-trash"></span>',
       confirmDelete: true
     },
+    selectMode: 'multi',
+    action: {
+      select: true,
+      add: false,
+      delete: false
+    },
     region: {
       class: 'wide'
     },
@@ -88,11 +94,11 @@ export class RoyaltiesCheckComponent implements OnInit {
         type: 'string',
         hideHeader: true,
         hideSubHeader: true
-      },*/
-      매출일자: {
+      },
+      일자: {
         title: '일자',
         type: 'shortDate'
-      },
+      },*/
       저자: {
         title: '저자',
         type: 'string'
@@ -101,10 +107,10 @@ export class RoyaltiesCheckComponent implements OnInit {
         title: '도서명',
         type: 'string'
       },
-      서점명: {
+      /*서점명: {
         title: '서점명',
         type: 'string'
-      },
+      },*/
       인세금액: {
         title: '인세금액',
         type: 'string',
@@ -130,11 +136,11 @@ export class RoyaltiesCheckComponent implements OnInit {
       perPage : 30
     }
   };
-
   source: ServerDataSource;
   lsource: LocalDataSource;
   gridSelected: any;
   date: any;
+
   constructor(private http: HttpClient) {
     this.source = new ServerDataSource(http, {
       endPoint: `${apiurl}/gcUnit/royalti`, // 'http://localhost:4000/gcUnit/paylist',
@@ -172,7 +178,7 @@ export class RoyaltiesCheckComponent implements OnInit {
 
   selected(value: any){
     this.date = value;
-    this.http.post(`${apiurl}/gcUnit/daterange`, value)
+    this.http.post(`${apiurl}/gcUnit/daterangeNcalc`, value)
     .map(res=>res)
     .subscribe(res => {
       let tmp: any[] = Array.of(res);
@@ -198,4 +204,5 @@ export class RoyaltiesCheckComponent implements OnInit {
     this.gridSelected = event.selected;
     
   }
+
 }

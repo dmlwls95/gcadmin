@@ -11,7 +11,8 @@ import { TableComponent } from './table.component';
 import { BasicTablesComponent } from './components/basic-tables/basic-tables.component';
 import { DataTableComponent } from './components/data-table/data-table.component';
 import { RoyaltiesCheckComponent } from './components/royalties-check/royalties-check.component';
-import { RoyaltiesUploadComponent } from './components/royalties-upload/royalties-upload.component';
+import { RoyaltiePayedComponent } from './components/royaltie-payed/royaltie-payed.component';
+import { RoyaltiesPeriodComponent } from './components/royalties-period/royalties-period.component';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { RoyaltiesUploadComponent } from './components/royalties-upload/royaltie
         BasicTablesComponent,
         DataTableComponent,
         RoyaltiesCheckComponent,
-        RoyaltiesUploadComponent
+        RoyaltiePayedComponent,
+        RoyaltiesPeriodComponent
     ]
 })
 export class TableModule { }

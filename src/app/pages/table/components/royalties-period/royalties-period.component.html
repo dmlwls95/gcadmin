@@ -6,10 +6,11 @@
     </div>
   </card>-->
   <card cardTitle="CALCULATED DATA">
-      <input type="text" name="daterangeInput" daterangepicker [options]="options" (selected)="selectedDate($event, daterange)"/>
-      <!--<button type="submit" (click)="onSubmit()">결산</button>-->
+    
+    <input  type="text" name="daterangeInput" daterangepicker [options]="options" (selected)="selectedDate($event, daterange)"/>
+    <button type="submit" (click)="onSubmit()">결산</button>
       <div class="scrolling-wrapper">
-        <ng2-smart-table [settings]="lsettings" [source]="lsource"></ng2-smart-table>
+        <ng2-smart-table [settings]="lsettings" [source]="lsource" (userRowSelect)="onUserRowSelect($event)" ></ng2-smart-table>
       </div>
     </card>
 </div>

@@ -17,6 +17,7 @@ var Contract = require('../models/contractdb.js');
 var Paylist = require('../models/paylistdb.js');
 var Payday = require('../models/payday.js');
 var Royalti = require('../models/royalti.js');
+var Payed = require('../models/payed.js');
 bnpanal = require('../services/services.js').bnpanal;
 halfofyear = require('../services/services.js').halfofyear;
 const upload = multer({
@@ -861,6 +862,124 @@ gcUnitRoutes.post('/daterange', function(req, res){
   })
 })
 // admin datepicker manage api END*************************
+function groupBy(list, keyGetter) {
+  const map = new Map();
+  list.forEach((item) => {
+      const key = keyGetter(item);
+      const collection = map.get(key);
+      if (!collection) {
+          map.set(key, [item]);
+      } else {
+          collection.push(item);
+      }
+  });
+  return map;
+}
+// admin datepickNcalc api START*************************
+gcUnitRoutes.post('/daterangeNcalc', function(req,res){
 
+  Royalti.find({
+    $and: [
+        {일자: {'$gte': req.body.start,'$lt' : req.body.end}},
+        {payed: false}
+    ]}
+  ,function(err, result){
+    if(err){
+      console.log(err);
+    }
+    else{
+      let booknames = new Array();
+      result.forEach((data)=>{
+        booknames.push(data.도서명);
+      }) //booknames 엔 기간동안 모든 도서명들어감
+      let groupedRes = groupBy(result, result => result.도서명); //그룹화 변수
+      let single = booknames.reduce(( a, b )=> {
+        if( a.indexOf(b)< 0) a.push(b);
+        return a;
+      }, []);//booknames의 책이름 중복 삭제
+      let tosend = new Array();
+      single.forEach((data)=>{ 
+        let tmp = groupedRes.get(data); //그룹화 변수에 책이름 넣어서 돌림
+        
+        let idcol = new Array();
+        let restmp = {
+          저자: tmp[0].저자,
+          도서명: tmp[0].도서명,
+          인세금액: 0,
+          ids: null
+        }
+        for(let i in tmp){ //인세는 인세끼리 합산
+          if(tmp[i]){
+            restmp.인세금액 = restmp.인세금액 + tmp[i].인세금액;
+          }else{
+            restmp.인세금액 = restmp.인세금액 + 0;
+          }
+          idcol.push(tmp[i]._id);
+        }
+        restmp.ids = idcol;
+        tosend.push(restmp);
+      })
+      res.send(tosend);
+
+    }
+    
+  })
+  
+})
+// admin datepickNcalc api END*************************
+
+// admin paying api START*************************
+gcUnitRoutes.post('/paying', function(req,res){
+  let tmp = req.body;
+  for(var i in tmp){
+    let payed = new Payed();
+    payed._id = new mongoose.Types.ObjectId();
+    payed.일자 = Date.now();
+    if(tmp[i].저자) payed.저자 = tmp[i].저자;
+    if(tmp[i].도서명) payed.도서명 = tmp[i].도서명;
+    if(tmp[i].인세금액) payed.인세금액 = tmp[i].인세금액;
+    if(tmp[i].payed) payed.payed = true;
+    payed.save(function(err){
+      console.log(err);
+      if(err) res.status(500).json({error: 'fail to save'});
+    })
+    let _ids = tmp[i].ids;
+    _ids.forEach((data)=>{
+      Royalti.findById({_id:data}, (err,result)=>{
+        if(err) console.log(err);
+        result.payed = true;
+        result.save((err)=>{
+          if(err) res.status(500).json({error: 'fail to update'});
+        })
+        console.log(result);
+        console.log('----------------updated------------------')
+      })
+    })
+  }
+  res.json({message: 'saved successfully'})
+})
+
+// admin paying api END*************************
+
+
+// admin paying api START*************************
+gcUnitRoutes.get('/getpayed', function(req,res){
+  var paged;
+  if(req.query.page == null){
+    paged = 1;
+  }else{
+    paged = req.query.page;
+  }
+  Payed.paginate({}, {page: paged , limit: 10}, function(err, result){
+    if(err){
+      console.log(err);
+    }
+    else {
+      res.json(result);
+    }
+  })
+})
+
+// admin paying api END*************************
 
 module.exports = gcUnitRoutes;

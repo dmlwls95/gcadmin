@@ -17,7 +17,6 @@ import { Ng2SelectComponent } from './components/ng2-select/ng2-select.component
 import { SingleSelectComponent } from './components/ng2-select/single-select/single-select.component';
 import { MultipleSelectComponent } from './components/ng2-select/multiple-select/multiple-select.component';
 import { ChildrenSelectComponent } from './components/ng2-select/children-select/children-select.component';
-import { BookUploadComponent } from './components/book-upload/book-upload.component';
 import { BookCheckComponent } from './components/book-check/book-check.component';
 
 @NgModule({
@@ -41,7 +40,6 @@ import { BookCheckComponent } from './components/book-check/book-check.component
         SingleSelectComponent,
         MultipleSelectComponent,
         ChildrenSelectComponent,
-        BookUploadComponent,
         BookCheckComponent
     ]
 })

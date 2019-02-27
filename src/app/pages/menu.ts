@@ -10,16 +10,8 @@ export let MENU_ITEM = [
         icon: 'address-card',
         children: [
             {
-                path: 'charts-upload',
-                title: '저자 데이터 업로드'
-            },
-            {
                 path: 'charts-check',
                 title: '저자 조회 및 등록'  
-            },
-            {
-                path: 'contract-upload',
-                title: '계약 조건 업로드'
             }
         ]
     },
@@ -28,10 +20,6 @@ export let MENU_ITEM = [
         title: '도서 관리',
         icon: 'book',
         children: [
-            {
-                path: 'book-upload',
-                title: '도서 데이터 업로드'
-            },
             {
                 path: 'book-check',
                 title: '도서 조회 및 등록'
@@ -59,12 +47,39 @@ export let MENU_ITEM = [
         icon: 'usd',
         children: [
             {
-                path: 'royalties-upload',
-                title: '인세 데이터 업로드'
+                path: 'royalties-check',
+                title: '일일 인세 정산 현황'
             },
             {
-                path: 'royalties-check',
+                path: 'royalties-period',
+                title: '기간별 인세 정산'
+            },
+            {
+                path: 'royaltie-payed',
                 title: '인세 지급 현황'
+            }
+        ]
+    },
+    {
+        path: 'upload',
+        title: '업로드',
+        icon: 'upload',
+        children: [
+            {
+                path: 'charts-upload',
+                title: '저자 데이터 업로드'
+            },
+            {
+                path: 'book-upload',
+                title: '도서 데이터 업로드'
+            },
+            {
+                path: 'contract-upload',
+                title: '계약 조건 업로드'
+            },
+            {
+                path: 'royalties-upload',
+                title: '인세 데이터 업로드'
             }
         ]
     }
