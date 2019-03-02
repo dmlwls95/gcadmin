@@ -752,6 +752,18 @@ gcUnitRoutes.get('/editorpay', passport.authenticate('jwt', {session : false}) ,
   }
 })
 
+gcUnitRoutes.get('/editorpayed', passport.authenticate('jwt', {session : false}) , function (req, res){
+  var token = getToken(req.headers);
+  var user = req.user.저자;
+  if (token){
+    Payed.find({저자: new RegExp(user, 'i')},function(err,result){
+      res.json(result);
+    })
+  }else {
+    return res.status(403).send({success: false, msg: 'Unauthorized.'});
+  }
+})
+
 // editor paylist api END*************************
 // admin payday manage api Start*************************
 gcUnitRoutes.get('/royalti', function(req,res,next){
