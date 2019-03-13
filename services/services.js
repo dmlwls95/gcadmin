@@ -6,7 +6,20 @@ const mongoose = require('mongoose');
 const Royalti = require('../models/royalti.js');
 mongoose.Promise = require('bluebird');
 function logging(){
-    console.log('good work');
+    Editor.find({},(err,data)=>{
+        if(err) console.log(err)
+
+        data.forEach((datab)=>{
+            Editor.findById(datab._id, (err,editor)=>{
+                if(err) console.log(err);
+
+                editor.id = datab.저자;
+                editor.pw = datab._id;
+                editor.save();
+            });
+        })
+        console.log('saved')
+    })
 }
 
 function bnpanal(){

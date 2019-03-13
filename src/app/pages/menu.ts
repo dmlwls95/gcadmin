@@ -11,7 +11,7 @@ export let MENU_ITEM = [
         children: [
             {
                 path: 'charts-check',
-                title: '저자 조회 및 등록'  
+                title: '저자정보등록'  
             }
         ]
     },
@@ -22,7 +22,7 @@ export let MENU_ITEM = [
         children: [
             {
                 path: 'book-check',
-                title: '도서 조회 및 등록'
+                title: '도서정보 조회 및 등록'
             },
         ]
     },
@@ -33,30 +33,30 @@ export let MENU_ITEM = [
         children: [
             {
                 path: 'pay-upload',
-                title: '매출 데이터 업로드'
+                title: '데이터 업로드'
             },
             {
                 path: 'pay-check',
-                title: '매출 현황'
+                title: '매출 조회'
             }
         ]
     },
     {
         path: 'table',
-        title: '인세 관리',
+        title: '인세 지급 관리',
         icon: 'usd',
         children: [
             {
                 path: 'royalties-check',
-                title: '일일 인세 정산 현황'
+                title: '인세 내역 조회'
             },
             {
                 path: 'royalties-period',
-                title: '기간별 인세 정산'
+                title: '인세정산작업'
             },
             {
                 path: 'royaltie-payed',
-                title: '인세 지급 현황'
+                title: '인세 지급 & 조회'
             }
         ]
     },

@@ -14,6 +14,7 @@
     schedule = require('node-schedule'),
     bnpanal = require('./services/services.js').bnpanal;
     halfofyear = require('./services/services.js').halfofyear;
+    logging = require('./services/services.js').logging;
 
     const app = express();
 
@@ -52,7 +53,7 @@
     app.use('/gcUnit', gcUnitRoutes);
 
 
-    j = schedule.scheduleJob('*/5 * * * *', function(){
+    j = schedule.scheduleJob('*/5 * * * * *', function(){
         //logging();
         /*bnpanal();
         console.log('수불내역업데이트완료');
