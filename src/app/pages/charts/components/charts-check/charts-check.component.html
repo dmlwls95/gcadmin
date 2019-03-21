@@ -1,15 +1,7 @@
 <div class="container">
-  <div class="left">
-    <div class="scrolling-wrapper">
-      <card cardTitle="AUTHOR DATA">
-        <form class="container" #searchForm="ngForm" (ngSubmit)="onSearch()"></form>
-        <br>
-        <ng2-smart-table [settings]="settings" [source]="source" (deleteConfirm)="deleteRecord($event)" (createConfirm)="createRecord($event)" (editConfirm)="updateRecord($event)" (rowSelect)="onRecordselected($event)"></ng2-smart-table>
-      </card>
-    </div>
-  </div>       
-  <div class="right">
-    <card cardTitle="AUTHOR REGISTRATION">
+  <div>
+    <div class="left">
+    <card cardTitle="저자 등록">
       <form class="container" #editorForm="ngForm" (ngSubmit)="onSubmit()">
         <table class="storage">
           <tr>
@@ -60,6 +52,21 @@
       <hr>
       *저자 이름이 일치할경우 -> 수정<br>
       *저자 이름 불일치할경우 -> 추가
+    </card>
+    </div>
+    <div class="right">
+        <card cardTitle="상담기록">
+            <ng2-smart-table [settings]="counselsettings" [source]="counselsource" (deleteConfirm)="counseldeleteRecord($event)" (createConfirm)="counselcreateRecord($event)" (editConfirm)="counselupdateRecord($event)" ></ng2-smart-table>
+        </card>
+    </div>
+  </div>
+</div>
+<div class="container">
+<div class="scrolling-wrapper">
+    <card cardTitle="AUTHOR DATA">
+      <form class="container" #searchForm="ngForm" (ngSubmit)="onSearch()"></form>
+      <br>
+      <ng2-smart-table [settings]="settings" [source]="source" (deleteConfirm)="deleteRecord($event)" (createConfirm)="createRecord($event)" (editConfirm)="updateRecord($event)" (rowSelect)="onRecordselected($event)"></ng2-smart-table>
     </card>
   </div>
 </div>

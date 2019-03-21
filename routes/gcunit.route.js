@@ -18,6 +18,7 @@ var Paylist = require('../models/paylistdb.js');
 var Payday = require('../models/payday.js');
 var Royalti = require('../models/royalti.js');
 var Payed = require('../models/payed.js');
+var Counsel = require('../models/counsel.js');
 bnpanal = require('../services/services.js').bnpanal;
 halfofyear = require('../services/services.js').halfofyear;
 logging = require('../services/services.js').logging;
@@ -1066,5 +1067,62 @@ gcUnitRoutes.get('/getpayed', function(req, res) {
 });
 
 // admin paying api END*************************
+
+// counsel edit api Start *******************************
+gcUnitRoutes.get('/counsel:id', function(req, res){
+  let paged;
+  if (req.query.page == null) {
+    paged = 1;
+  } else {
+    paged = req.query.page;
+  }
+  let param = req.params.id;
+  if(param){
+    Counsel.paginate({저자: param},{page:paged, limit:10},(err,result)=>{
+      if(err) console.log(err);
+      res.json(result);
+    })
+  }
+})
+gcUnitRoutes.post('/counsel',function(req,res){
+  let counsel = new Counsel(req.body.newdata);
+  counsel.저자 = req.body.id;
+  counsel._id = new mongoose.Types.ObjectId();
+  counsel.save((err)=>{
+    if(err){
+      console.log(err);
+      res.status(403);
+    } else {
+      res.status(201).json(counsel);
+    }
+  })
+})
+gcUnitRoutes.put('/counsel:id', function(req,res){
+  Counsel.findById(req.body._id, (err,counsel)=>{
+    if (err) return res.status(500).json({ error: 'database failure' });
+    if (!counsel) return res.status(404).json({ error: 'counsel not found' });
+
+    if(req.body.저자) counsel.저자 = req.body.저자;
+    if(req.body.연월일) counsel.연월일 = req.body.연월일;
+    if(req.body.담당자) counsel.담당자 = req.body.담당자;
+
+    counsel.save((err)=>{
+      if (err) res.status(500).json({ error: 'fail to updtae' });
+      res.json({ message: 'updated successfully' });
+    });
+  });
+})
+gcUnitRoutes.delete('/counsel:id', function(req,res){
+  Counsel.findByIdAndRemove(req.params.id, req.body, (err,gcUnit)=>{
+    if (err) {
+      console.log(err);
+      res.json(err);
+    } else {
+      console.log('successfully removed');
+      res.json('Successfully removed');
+    }
+  })
+})
+// counsel edit api End *******************************
 
 module.exports = gcUnitRoutes;

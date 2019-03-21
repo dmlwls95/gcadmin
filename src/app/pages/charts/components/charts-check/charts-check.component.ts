@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { ServerDataSource } from 'ng2-smart-table';
+import { ServerDataSource, LocalDataSource } from 'ng2-smart-table';
 import { apiurl } from '../../../../../environments/apiservice';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
@@ -114,7 +114,54 @@ export class ChartsCheckComponent {
       perPage : 1
     }
   };
+  counselsettings = {
+    add: {
+      addButtonContent: '<span class="fa fa-plus"></span>',
+      createButtonContent: '<span class="fa fa-check"></span>',
+      cancelButtonContent: '<span class="fa fa-times"></span>',
+      confirmCreate: true
+    },
+    edit: {
+      editButtonContent: '<span class="fa fa-edit"></span>',
+      saveButtonContent: '<span class="fa fa-check"></span>',
+      cancelButtonContent: '<span class="fa fa-times"></span>',
+      confirmSave: true
+    },
+    delete: {
+      deleteButtonContent: '<span class="fa fa-trash"></span>',
+      confirmDelete: true
+    },
+    region: {
+      class: 'wide'
+    },
+    columns: {
+      /*저자:{
+        title: '저자id',
+        type: 'string'
+      },*/
+      연월일: {
+        title: '연월일',
+        type: 'string'
+      },
+      내용: {
+        title: '내용',
+        type: 'string'
+      },
+      담당자: {
+        title: '담당자',
+        type: 'string'
+      }
+    },
+    attr: {
+      class: 'table table-bordered'
+    },
+    pager : {
+      display: true,
+      perPage : 10
+    }
+  };
 
+  counselsource: LocalDataSource;
   source: ServerDataSource;
   editorForm: FormGroup;
   editorData = {
@@ -129,6 +176,8 @@ export class ChartsCheckComponent {
       email: '',
       bigo: ''
   };
+
+  eventid ='';
   searchForm: FormGroup;
   searchData = { query: ''};
 
@@ -142,6 +191,8 @@ export class ChartsCheckComponent {
     filterFieldKey: '#field#'
     });
     this.source.setPaging(1, 10);
+    
+    
     console.log(this.source);
    }
 
@@ -169,6 +220,7 @@ export class ChartsCheckComponent {
         this.source.refresh();
       })
   }
+
   
   onSearch() {
     console.log(this.searchData)
@@ -226,8 +278,57 @@ export class ChartsCheckComponent {
         }
       );
     }
-
+    counselupdateRecord(event) {
+      this.http.put<any>(`${apiurl}/gcUnit/counsel/` + event.newData._id, event.newData).subscribe(
+            res => {
+              console.log(res);
+              event.confirm.resolve(event.newData);
+          },
+          (err: HttpErrorResponse) => {
+            if (err.error instanceof Error) {
+              console.log('Client-side error occured.');
+            } else {
+              console.log('Server-side error occured.');
+            }
+          });
+      }
+    
+    counseldeleteRecord(event) {
+           console.log(event.data);
+          this.http.delete<any>(`${apiurl}/gcUnit/counsel/` + event.data._id).subscribe(
+              res => {
+                console.log(res);
+                event.confirm.resolve(event.source.data);
+            },
+            (err: HttpErrorResponse) => {
+              if (err.error instanceof Error) {
+                console.log('Client-side error occured.');
+              } else {
+                console.log('Server-side error occured.');
+              }
+            });
+          // event.confirm.resolve(event.source.data);}
+      }
+    
+      counselcreateRecord(event) {
+        this.http.post<any>(`${apiurl}/gcUnit/counsel/` , {newdata: event.newData, id: this.eventid}).subscribe(
+          res => {
+            console.log(res);
+            event.confirm.resolve(event.newData);
+    
+          },
+          (err: HttpErrorResponse) => {
+            if (err.error instanceof Error) {
+              console.log('Client-side error occured.');
+              } else {
+                console.log('Server-side error occured.');
+              }
+          }
+        );
+      }
     onRecordselected(event) {
+      console.log(event.data._id)
+      this.eventid = event.data._id;
       this.editorData.author = event.data.저자;
       this.editorData.RRN = event.data.주민번호;
       this.editorData.org = event.data.소속;
@@ -238,5 +339,20 @@ export class ChartsCheckComponent {
       this.editorData.cel2 = event.data.연락처_02;
       this.editorData.email = event.data.이메일;
       this.editorData.bigo = event.data.비고_01;
+      this.http.get<any>(`${apiurl}/gcUnit/counsel` + event.data._id)
+      .subscribe(res=>{
+        console.log(res);
+        this.counselsource = new LocalDataSource();
+        this.counselsource.load(res.docs);
+      })
+      /*.map(res=>res)
+      .subscribe(res => {
+        console.log(res);
+        let tmp: any[] = Array.of(res);
+        console.log(tmp);
+        this.counselsource = new LocalDataSource();
+        this.counselsource.load(tmp[0]);
+      });*/
     }
+      
 }
