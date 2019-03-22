@@ -7,12 +7,19 @@ div.right {
     width: 49%;
     float: right;
 }
+.container {
+    width: 100%;
+    padding-left: 15px;
+    padding-right: 10px;
+    margin-right: 0;
+    margin-left: 0;
+}
 
 .scrolling-wrapper {
     display: flex;
     flex-wrap: nowrap;
     overflow-x: scroll;
-  
+    word-break: keep-all !important;
     .card {
       display: inline-block;
     }
@@ -59,11 +66,26 @@ div.right {
 }
 
 input {
-    width: 400px;
+    width: 180px;
     height: 30px;
     font-weight: normal;
     font-size: 13px;
-    margin: 2px 0 2px 0;
+    margin: 4px 0 4px 0;
+}
+
+input.long{
+    width: 630px;
+    height: 30px;
+    font-weight: normal;
+    font-size: 13px;
+    margin: 4px 0 4px 0;
+}
+th{
+    margin: 10px;
+    word-break: keep-all;
+}
+tr {
+    word-break: keep-all;
 }
 
 textarea {

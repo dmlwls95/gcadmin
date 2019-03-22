@@ -3,11 +3,13 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { ServerDataSource, LocalDataSource } from 'ng2-smart-table';
 import { apiurl } from '../../../../../environments/apiservice';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-charts-check',
   templateUrl: './charts-check.component.html',
-  styleUrls: ['./charts-check.component.scss']
+  styleUrls: ['./charts-check.component.scss'],
+  providers: [DatePipe]
 })
 export class ChartsCheckComponent {
 
@@ -43,7 +45,7 @@ export class ChartsCheckComponent {
         type: 'string'
       },*/
       저자: {
-        title: '이름',
+        title: '성명',
         type: 'string'
       },
       소속: {
@@ -51,23 +53,23 @@ export class ChartsCheckComponent {
         type: 'string',
         filter: false
       },
-      은행: {
-        title: '은행',
+      직위: {
+        title: '직위',
         type: 'string',
         filter: false
       },
-      계좌번호: {
-        title: '계좌번호',
-        type: 'string',
-        filter: false
-      },
-      연락처_01: {
-        title: '연락처_01',
+      연락처_휴대전화: {
+        title: '연락처_휴대전화',
         type: 'string',
         filter: false
       },
       연락처_02: {
         title: '연락처_02',
+        type: 'string',
+        filter: false
+      },
+      팩스: {
+        title: '팩스',
         type: 'string',
         filter: false
       },
@@ -80,16 +82,40 @@ export class ChartsCheckComponent {
         type: 'string',
         filter: false
       },
+      사업자번호: {
+        title: '사업자번호',
+        type: 'string'
+      },
+      구분: {
+        title: '구분',
+        type: 'string',
+        filter: false
+      },
       주민번호: {
         title: '주민번호',
         type: 'string'
       },
-      주소: {
-        title: '주소',
-        type: 'string',
-        filter: false
+      은행: {
+        title: '은행',
+        type: 'string'
       },
-      /*비고_01: {
+      계좌번호: {
+        title: '계좌번호',
+        type: 'string'
+      },
+      예금주: {
+        title: '예금주',
+        type: 'string'
+      },
+      주소_직장: {
+        title: '주소_직장',
+        type: 'string'
+      },
+      주소_자택: {
+        title: '주소_자택',
+        type: 'string'
+      },
+      비고_01: {
         title: '비고_01',
         type: 'string'
       },
@@ -97,14 +123,14 @@ export class ChartsCheckComponent {
         title: '비고_02',
         type: 'string'
       },
-      비고_03: {
-        title: '비고_03',
+      전공: {
+        title: '전공',
         type: 'string'
       },
-      구분: {
-        title: '구분',
+      기념일: {
+        title: '기념일',
         type: 'string'
-      }*/
+      }
     },
     attr: {
       class: 'table table-bordered'
@@ -114,6 +140,7 @@ export class ChartsCheckComponent {
       perPage : 1
     }
   };
+  today: number = Date.now();
   counselsettings = {
     add: {
       addButtonContent: '<span class="fa fa-plus"></span>',
@@ -141,7 +168,13 @@ export class ChartsCheckComponent {
       },*/
       연월일: {
         title: '연월일',
-        type: 'string'
+        type: 'string',
+        valuePrepareFunction: (date) => {
+          if(date){
+            return date;
+          }
+          return this.datepipe.transform(new Date(), 'yyyy MM dd');
+        }
       },
       내용: {
         title: '내용',
@@ -160,28 +193,38 @@ export class ChartsCheckComponent {
       perPage : 10
     }
   };
-
   counselsource: LocalDataSource;
   source: ServerDataSource;
   editorForm: FormGroup;
   editorData = {
       author: '',
-      RRN: '',
       org: '',
-      addr: '',
-      bank: '',
-      bankaccount: '',
+      hierarchy: '',
       cel1: '',
       cel2: '',
+      fax: '',
       email: '',
-      bigo: ''
+      busn: '',
+      cate: '',
+      RRN: '',
+      bank: '',
+      bankaccount: '',
+      bankaccount_owner: '',
+      addr_comp: '',
+      addr_home: '',
+      bigo_01: '',
+      bigo_02: '',
+      major: '',
+      anniversary: '',
   };
 
   eventid ='';
   searchForm: FormGroup;
   searchData = { query: ''};
-
-  constructor(private http: HttpClient, private formBuilder: FormBuilder) {
+  date;
+  constructor(public datepipe: DatePipe,private http: HttpClient, private formBuilder: FormBuilder) {
+    this.date = new Date();
+    console.log(this.date)
     this.source = new ServerDataSource(http, {
       endPoint: `${apiurl}/gcUnit/editorchart`,
     pagerLimitKey: 'limit',
@@ -295,7 +338,7 @@ export class ChartsCheckComponent {
     
     counseldeleteRecord(event) {
            console.log(event.data);
-          this.http.delete<any>(`${apiurl}/gcUnit/counsel/` + event.data._id).subscribe(
+          this.http.delete<any>(`${apiurl}/gcUnit/counsel` + event.data._id).subscribe(
               res => {
                 console.log(res);
                 event.confirm.resolve(event.source.data);
@@ -330,15 +373,28 @@ export class ChartsCheckComponent {
       console.log(event.data._id)
       this.eventid = event.data._id;
       this.editorData.author = event.data.저자;
-      this.editorData.RRN = event.data.주민번호;
       this.editorData.org = event.data.소속;
-      this.editorData.addr = event.data.주소;
+      this.editorData.hierarchy = event.data.직위;
+      this.editorData.cel1 = event.data.연락처_휴대전화;
+      this.editorData.cel2 = event.data.연락처_02;
+      this.editorData.fax = event.data.팩스;
+      this.editorData.email = event.data.이메일;
+      this.editorData.busn = event.data.사업자번호;
+      this.editorData.cate = event.data.구분;
+      this.editorData.RRN = event.data.주민번호;
       this.editorData.bank = event.data.은행;
       this.editorData.bankaccount = event.data.계좌번호;
-      this.editorData.cel1 = event.data.연락처_01;
-      this.editorData.cel2 = event.data.연락처_02;
-      this.editorData.email = event.data.이메일;
-      this.editorData.bigo = event.data.비고_01;
+      this.editorData.bankaccount_owner = event.data.예금주;
+      this.editorData.addr_comp = event.data.주소_직장;
+      this.editorData.addr_home = event.data.주소_자택;
+      this.editorData.bigo_01 = event.data.비고_01;
+      this.editorData.bigo_02 = event.data.비고_02;
+      this.editorData.major = event.data.전공;
+      this.editorData.anniversary = event.data.기념일;
+      
+      
+      
+      
       this.http.get<any>(`${apiurl}/gcUnit/counsel` + event.data._id)
       .subscribe(res=>{
         console.log(res);

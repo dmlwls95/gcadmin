@@ -433,20 +433,7 @@ gcUnitRoutes.put('/editorchart/:id', function(req, res) {
     if (err) return res.status(500).json({ error: 'database failure' });
     if (!editor) return res.status(404).json({ error: 'editor not found' });
 
-    if (req.body.저자) editor.저자 = req.body.저자;
-    if (req.body.소속) editor.소속 = req.body.소속;
-    if (req.body.은행) editor.은행 = req.body.은행;
-    if (req.body.계좌번호) editor.계좌번호 = req.body.계좌번호;
-    if (req.body.연락처_01) editor.연락처_01 = req.body.연락처_01;
-    if (req.body.연락처_02) editor.연락처_02 = req.body.연락처_02;
-    if (req.body.팩스) editor.팩스 = req.body.팩스;
-    if (req.body.이메일) editor.이메일 = req.body.이메일;
-    if (req.body.주민번호) editor.주민번호 = req.body.주민번호;
-    if (req.body.주소) editor.주소 = req.body.주소;
-    if (req.body.비고_01) editor.비고_01 = req.body.비고_01;
-    if (req.body.비고_02) editor.비고_02 = req.body.비고_02;
-    if (req.body.비고_03) editor.비고_03 = req.body.비고_03;
-    if (req.body.구분) editor.구분 = req.body.구분;
+   editor = req.body;
     editor.save(function(err) {
       if (err) res.status(500).json({ error: 'fail to updtae' });
       res.json({ message: 'updated successfully' });
@@ -472,38 +459,14 @@ gcUnitRoutes.post('/editoradd', function(req, res) {
   Editor.findOne({ 저자: req.body.author }, (err, result) => {
     if (err) return res.status(500).json({ error: 'database failure' });
     if (result) {
-      if (req.body.author) result.저자 = req.body.author;
-      if (req.body.org) result.소속 = req.body.org;
-      if (req.body.bank) result.은행 = req.body.bank;
-      if (req.body.bankaccount) result.계좌번호 = req.body.bankaccount;
-      if (req.body.cel1) result.연락처_01 = req.body.cel1;
-      if (req.body.cel2) result.연락처_02 = req.body.cel2;
-      if (req.body.email) result.이메일 = req.body.email;
-      if (req.body.RRN) result.주민번호 = req.body.RRN;
-      if (req.body.addr) result.주소 = req.body.addr;
-      if (req.body.비고_01) result.비고_01 = req.body.비고_01;
-      if (req.body.비고_02) result.비고_02 = req.body.비고_02;
-      if (req.body.비고_03) result.비고_03 = req.body.비고_03;
-      if (req.body.구분) result.구분 = req.body.구분;
+      result = req.body
       result.save(function(err) {
         if (err) res.status(500).json({ error: 'fail to updtae' });
         res.json({ message: 'updated successfully' });
       });
     } else if (!result) {
       let editor = new Editor();
-      if (req.body.author) editor.저자 = req.body.author;
-      if (req.body.org) editor.소속 = req.body.org;
-      if (req.body.bank) editor.은행 = req.body.bank;
-      if (req.body.bankaccount) editor.계좌번호 = req.body.bankaccount;
-      if (req.body.cel1) editor.연락처_01 = req.body.cel1;
-      if (req.body.cel2) editor.연락처_02 = req.body.cel2;
-      if (req.body.email) editor.이메일 = req.body.email;
-      if (req.body.RRN) editor.주민번호 = req.body.RRN;
-      if (req.body.addr) editor.주소 = req.body.addr;
-      if (req.body.비고_01) editor.비고_01 = req.body.비고_01;
-      if (req.body.비고_02) editor.비고_02 = req.body.비고_02;
-      if (req.body.비고_03) editor.비고_03 = req.body.비고_03;
-      if (req.body.구분) editor.구분 = req.body.구분;
+      editor = req.body;
       editor._id = new mongoose.Types.ObjectId();
       editor.save(function(err) {
         if (err) {

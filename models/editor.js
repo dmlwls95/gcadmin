@@ -9,11 +9,9 @@ var editorSchema = mongoose.Schema(
 
     소속: { type: String },
 
-    은행: { type: String },
+    직위: { type: String },
 
-    계좌번호: { type: String },
-
-    연락처_01: { type: String },
+    연락처_휴대전화: { type: String },
 
     연락처_02: { type: String },
 
@@ -21,17 +19,27 @@ var editorSchema = mongoose.Schema(
 
     이메일: { type: String },
 
-    주민번호: { type: String },
+    사업자번호: { type: String },
 
-    주소: { type: String },
+    구분: { type: String },
+
+    은행: { type: String },
+
+    계좌번호: { type: String },
+
+    예금주: { type: String },
+
+    주소_직장: { type: String },
+
+    주소_자택: { type: String },
 
     비고_01: { type: String },
 
     비고_02: { type: String },
 
-    비고_03: { type: String },
+    전공: { type: String },
 
-    구분: { type: String },
+    기념일: { type: String },
 
     id: { type: String },
 

@@ -5,43 +5,66 @@
       <form class="container" #editorForm="ngForm" (ngSubmit)="onSubmit()">
         <table class="storage">
           <tr>
-            <th>* 저자명</th>
+            <th>* 성명</th>
             <td><input type="text" class="form-control" [(ngModel)]="editorData.author" name="author"></td>
-          </tr>
-          <tr>
-            <th>주민등록번호</th>
-            <td><input type="text" class="form-control" [(ngModel)]="editorData.RRN" name="RRN">
-          </tr>
-          <tr>
             <th>소속</th>
-            <td><input type="text" class="form-control" [(ngModel)]="editorData.org" name="org"></td>
+            <td><input type="text" class="form-control" [(ngModel)]="editorData.org" name="org">
+            <th>직위</th>
+            <td><input type="text" class="form-control" [(ngModel)]="editorData.hierarchy" name="hierarchy"></td>
+          
+          
           </tr>
           <tr>
-            <th>주소</th>
-            <td><input type="text" class="form-control" [(ngModel)]="editorData.addr" name="addr"> </td>
-          </tr>
-            <th>송금처</th>
-            <td><input type="text" class="form-control" [(ngModel)]="editorData.bank" name="bank"><br>※은행명을 기입하세요.</td>
-          <tr>
-            <th>계좌번호</th>
-            <td><input type="text" class="form-control" [(ngModel)]="editorData.bankaccount" name="bankaccount"></td>
-          </tr>
-          <tr>
-            <th>연락처1</th>
-            <td><input type="text" class="form-control" [(ngModel)]="editorData.cel1" name="cel1"></td>
-          </tr>
-          <tr>
-            <th>연락처2</th>
+            <th>연락처_휴대전화</th>
+            <td><input type="text" class="form-control" [(ngModel)]="editorData.cel1" name="cel1"> </td>
+            <th>연락처_02</th>
             <td><input type="text" class="form-control" [(ngModel)]="editorData.cel2" name="cel2"></td>
+            <th>팩스</th>
+            <td><input type="text" class="form-control" [(ngModel)]="editorData.fax" name="fax"></td>
           </tr>
           <tr>
-            <th>E-Mail</th>
+            <th>사업자번호</th>
+            <td><input type="text" class="form-control" [(ngModel)]="editorData.busn" name="busn"></td>
+            <th>주민번호</th>
+            <td><input type="text" class="form-control" [(ngModel)]="editorData.RRN" name="RRN"></td>
+            <th>이메일</th>
             <td><input type="text" class="form-control" [(ngModel)]="editorData.email" name="email"></td>
           </tr>
           <tr>
-            <th>비고</th>
-            <td><input type="text" class="form-control" [(ngModel)]="editorData.bigo" name="bigo"></td>
+            <th>은행명</th>
+            <td><input type="text" class="form-control" [(ngModel)]="editorData.bank" name="bank"></td>
+            <th>계좌번호</th>
+            <td><input type="text" class="form-control" [(ngModel)]="editorData.bankaccount" name="bankaccount"></td>
+            <th>예금주</th>
+            <td><input type="text" class="form-control" [(ngModel)]="editorData.bankaccount_owner" name="bankaccount_owner"></td>
           </tr>
+          <tr>
+            <th>구분</th>
+            <td><input type="text" class="form-control" [(ngModel)]="editorData.cate" name="cate"></td>
+            <th>기념일</th>
+            <td><input type="text" class="form-control" [(ngModel)]="editorData.anniversary" name="anniversary"></td>
+            <th>전공</th>
+            <td><input type="text" class="form-control" [(ngModel)]="editorData.major" name="major"></td>
+          </tr>
+          
+        </table>
+        <table>
+          <tr>
+              <th>주소_직장</th>
+              <td><input type="text" class="form-control long" [(ngModel)]="editorData.addr_comp" name="addr_comp"></td>
+            </tr>
+            <tr>
+              <th>주소_자택</th>
+              <td><input type="text" class="form-control long" [(ngModel)]="editorData.addr_home" name="addr_home"></td>
+            </tr>
+            <tr>
+              <th>비고_01</th>
+              <td><input type="text" class="form-control long" [(ngModel)]="editorData.bigo_01" name="bigo_01"></td>
+            </tr>
+            <tr>
+              <th>비고_02</th>
+              <td><input type="text" class="form-control long" [(ngModel)]="editorData.bigo_02" name="bigo_02"></td>
+            </tr>
         </table>
         <br>
         <div>
@@ -56,7 +79,8 @@
     </div>
     <div class="right">
         <card cardTitle="상담기록">
-            <ng2-smart-table [settings]="counselsettings" [source]="counselsource" (deleteConfirm)="counseldeleteRecord($event)" (createConfirm)="counselcreateRecord($event)" (editConfirm)="counselupdateRecord($event)" ></ng2-smart-table>
+          * 날짜 미입력시 오늘날짜
+          <ng2-smart-table [settings]="counselsettings" [source]="counselsource" (deleteConfirm)="counseldeleteRecord($event)" (createConfirm)="counselcreateRecord($event)" (editConfirm)="counselupdateRecord($event)" ></ng2-smart-table>
         </card>
     </div>
   </div>
