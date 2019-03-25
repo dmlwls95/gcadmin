@@ -23,7 +23,7 @@ export let MENU_ITEM = [
             {
                 path: 'book-check',
                 title: '도서정보 조회 및 등록'
-            },
+            }
         ]
     },
     {
@@ -48,15 +48,7 @@ export let MENU_ITEM = [
         children: [
             {
                 path: 'royalties-check',
-                title: '인세 내역 조회'
-            },
-            {
-                path: 'royalties-period',
-                title: '인세정산작업'
-            },
-            {
-                path: 'royaltie-payed',
-                title: '인세 지급 & 조회'
+                title: '인세 정산 관리'
             }
         ]
     },

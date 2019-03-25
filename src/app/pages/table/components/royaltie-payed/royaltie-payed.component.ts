@@ -42,7 +42,7 @@ export class RoyaltiePayedComponent {
     columns: {
       일자: {
         title: '일자',
-        type: 'shortDate',
+        type: 'Date',
         filter: false
       },
       저자: {

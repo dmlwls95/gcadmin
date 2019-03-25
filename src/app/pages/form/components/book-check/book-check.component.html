@@ -1,12 +1,5 @@
 <div class="container">
   <div class="left">
-     <card cardTitle="BOOK DATA">
-      <div class="scrolling-wrapper">
-        <ng2-smart-table [settings]="settings" [source]="source" (deleteConfirm)="deleteRecord($event)" (createConfirm)="createRecord($event)" (editConfirm)="updateRecord($event)" (rowSelect)="onRecordselected($event)"></ng2-smart-table>  
-      </div>
-    </card>
-  </div>       
-  <div class="right">
     <card cardTitle="AUTHOR REGISTRATION">
       <form class="container" #editorForm="ngForm" (ngSubmit)="onSubmit()">
         <table class="storage">
@@ -24,7 +17,7 @@
           </tr>
           <tr>
             <th>저자</th>
-            <td><ng2-completer [placeholder]="bookData.author" [(ngModel)]="bookData.author" [datasource]="searchData" [minSearchLength]="0"></ng2-completer>
+            <td><ng2-completer [placeholder]="bookData.author" [(ngModel)]="bookData.author" name="author" [datasource]="searchData" [minSearchLength]="0"></ng2-completer>
               <!--<input type="text" class="form-control" [(ngModel)]="bookData.author" name="author">--></td>
           </tr>
           <tr>
@@ -65,4 +58,28 @@
           *바코드 불일치할경우 -> 추가
       </card>
     </div>
-  </div>
+    <div class="right">
+      <card cardTitle="재쇄기록">
+        <div class="scrolling-wrapper">
+          <ng2-smart-table [settings]="editionsettings" [source]="editionsource" (deleteConfirm)="editiondeleteRecord($event)" (createConfirm)="editioncreateRecord($event)" (editConfirm)="editionupdateRecord($event)"></ng2-smart-table>  
+        </div>
+        합계 : {{this.sum}}
+      </card>
+    </div>
+</div>
+
+<div class="container">
+  <card cardTitle="BOOK DATA">
+    <div class="scrolling-wrapper">
+      <ng2-smart-table [settings]="settings" [source]="source" (deleteConfirm)="deleteRecord($event)" (createConfirm)="createRecord($event)" (editConfirm)="updateRecord($event)" (rowSelect)="onRecordselected($event)"></ng2-smart-table>  
+    </div>
+  </card>   
+</div>
+
+<div class="container">
+  <card cardTitle="진행기록">
+      <div class="scrolling-wrapper">
+          <ng2-smart-table [settings]="processsettings" [source]="processsource" (deleteConfirm)="processdeleteRecord($event)" (createConfirm)="processcreateRecord($event)" (editConfirm)="processupdateRecord($event)"></ng2-smart-table>
+      </div>
+  </card>
+</div>

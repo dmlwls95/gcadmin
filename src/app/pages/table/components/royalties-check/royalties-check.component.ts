@@ -9,13 +9,17 @@ import { apiurl } from '../../../../../environments/apiservice';
   styleUrls: ['./royalties-check.component.scss']
 })
 export class RoyaltiesCheckComponent implements OnInit {
+  tableData: Array<any>;
 
+  /* pagination Info */
+  pageSize = 10;
+  pageNumber = 1;
   settings = {
     add: {
       addButtonContent: '<span class="fa fa-plus"></span>',
       createButtonContent: '<span class="fa fa-check"></span>',
       cancelButtonContent: '<span class="fa fa-times"></span>',
-      confirmCreate: true
+      confirmCreate: false
     },
     edit: {
       editButtonContent: '<span class="fa fa-edit"></span>',
@@ -25,33 +29,39 @@ export class RoyaltiesCheckComponent implements OnInit {
     },
     delete: {
       deleteButtonContent: '<span class="fa fa-trash"></span>',
-      confirmDelete: true
+      confirmDelete: false
     },
+    
     region: {
       class: 'wide'
     },
     columns: {
       일자: {
         title: '일자',
-        type: 'shortDate'
+        type: 'Date',
+        filter: false
       },
       저자: {
         title: '저자',
-        type: 'string'
+        type: 'string',
+        filter: true
       },
       도서명: {
         title: '도서명',
-        type: 'string'
+        type: 'string',
+        filter: true
       },
-      서점명: {
+      /*서점명: {
         title: '서점명',
-        type: 'string'
-      },
+        type: 'string',
+        filter: false
+      },*/
       인세금액: {
         title: '인세금액',
         type: 'string',
         filter: false
       }
+      
     },
     attr: {
       class: 'table table-bordered'
@@ -89,7 +99,7 @@ export class RoyaltiesCheckComponent implements OnInit {
         hideHeader: true,
         hideSubHeader: true
       },*/
-      매출일자: {
+      일자: {
         title: '일자',
         type: 'shortDate'
       },
@@ -105,6 +115,84 @@ export class RoyaltiesCheckComponent implements OnInit {
         title: '서점명',
         type: 'string'
       },
+      인세금액: {
+        title: '인세금액',
+        type: 'string',
+        filter: false
+      },
+      payed: {
+        title: '정산유무',
+        filter: {
+          type: 'checkbox',
+          config: {
+            true: 'true',
+            false: 'false',
+            resetText: 'clear'
+          }
+        }
+      }
+    },
+    attr: {
+      class: 'table table-bordered'
+    },
+    pager : {
+      display: true,
+      perPage : 30
+    }
+  };
+
+  source: ServerDataSource;
+  lsource: LocalDataSource;
+
+  paysettings = {
+    add: {
+      addButtonContent: '<span class="fa fa-plus"></span>',
+      createButtonContent: '<span class="fa fa-check"></span>',
+      cancelButtonContent: '<span class="fa fa-times"></span>',
+      confirmCreate: true
+    },
+    edit: {
+      editButtonContent: '<span class="fa fa-edit"></span>',
+      saveButtonContent: '<span class="fa fa-check"></span>',
+      cancelButtonContent: '<span class="fa fa-times"></span>',
+      confirmSave: true
+    },
+    delete: {
+      deleteButtonContent: '<span class="fa fa-trash"></span>',
+      confirmDelete: true
+    },
+    selectMode: 'multi',
+    action: {
+      select: true,
+      add: false,
+      delete: false
+    },
+    region: {
+      class: 'wide'
+    },
+    columns: {
+      /*_id: {
+        title: '_id',
+        type: 'string',
+        hideHeader: true,
+        hideSubHeader: true
+      },
+      일자: {
+        title: '일자',
+        type: 'shortDate'
+      },*/
+      저자: {
+        title: '저자',
+        type: 'string'
+      },
+      도서명: {
+        title: '도서명',
+        type: 'string'
+      },
+      /*서점명: {
+        title: '서점명',
+        type: 'string'
+      },*/
       인세금액: {
         title: '인세금액',
         type: 'string',
@@ -130,14 +218,13 @@ export class RoyaltiesCheckComponent implements OnInit {
       perPage : 30
     }
   };
+  paysource: LocalDataSource;
 
-  source: ServerDataSource;
-  lsource: LocalDataSource;
   gridSelected: any;
   date: any;
   constructor(private http: HttpClient) {
     this.source = new ServerDataSource(http, {
-      endPoint: `${apiurl}/gcUnit/royalti`, // 'http://localhost:4000/gcUnit/paylist',
+      endPoint: `${apiurl}/gcUnit/getpayed`, // 'http://localhost:4000/gcUnit/paylist',
     pagerLimitKey: 'limit',
     pagerPageKey: 'page',
     dataKey: 'docs',
@@ -182,12 +269,37 @@ export class RoyaltiesCheckComponent implements OnInit {
     });
   }
 
+  //인세 정산용 메소드들
+  public payselectedDate(value: any, datepicker?: any) {
+    // this is the date the iser selected
+    this.payselected(value);
+      // any object can be passed to the selected event and it will be passed back here
+    datepicker.start = value.start;
+    datepicker.end = value.end;
+    // or manupulat your own internal property
+    this.daterange.start = value.start;
+    this.daterange.end = value.end;
+    this.daterange.label = value.label;
+  }
+
+  payselected(value: any){
+    this.date = value;
+    this.http.post(`${apiurl}/gcUnit/daterangeNcalc`, value)
+    .map(res=>res)
+    .subscribe(res => {
+      let tmp: any[] = Array.of(res);
+      console.log(tmp);
+      this.paysource = new LocalDataSource();
+      this.paysource.load(tmp[0]);
+    });
+  }
+  //인세 정산용 메소드들
   onSubmit(){
     if(this.gridSelected){
       this.http.post(`${apiurl}/gcUnit/paying`, this.gridSelected)
       .subscribe(res => {
         console.log(res);
-        this.selected(this.date);
+        this.payselected(this.date);
       })
     }else{
       console.log('err');

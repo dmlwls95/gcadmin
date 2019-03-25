@@ -12,7 +12,7 @@ import { BasicTablesComponent } from './components/basic-tables/basic-tables.com
 import { DataTableComponent } from './components/data-table/data-table.component';
 import { RoyaltiesCheckComponent } from './components/royalties-check/royalties-check.component';
 import { RoyaltiePayedComponent } from './components/royaltie-payed/royaltie-payed.component';
-import { RoyaltiesPeriodComponent } from './components/royalties-period/royalties-period.component';
+
 
 
 @NgModule({
@@ -31,8 +31,7 @@ import { RoyaltiesPeriodComponent } from './components/royalties-period/royaltie
         BasicTablesComponent,
         DataTableComponent,
         RoyaltiesCheckComponent,
-        RoyaltiePayedComponent,
-        RoyaltiesPeriodComponent
+        RoyaltiePayedComponent
     ]
 })
 export class TableModule { }

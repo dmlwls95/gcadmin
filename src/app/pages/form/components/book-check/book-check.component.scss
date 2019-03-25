@@ -8,6 +8,14 @@ div.right {
     float: right;
 }
 
+.container {
+    width: 100%;
+    padding-left: 15px;
+    padding-right: 10px;
+    margin-right: 0;
+    margin-left: 0;
+}
+
 .scrolling-wrapper {
     display: flex;
     flex-wrap: nowrap;
@@ -16,6 +24,10 @@ div.right {
     .card {
       flex: 0 0 scroll;
     }
+}
+
+card.long{
+    width: 100%;
 }
 
 :host /deep/ ng2-smart-table table > tbody > tr > td {

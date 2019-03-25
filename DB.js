@@ -18,4 +18,6 @@ module.exports = () => {
     require('./models/paylistdb.js');
     require('./models/royalti.js');
     require('./models/payday.js');
+    require('./models/edition.js');
+    require('./models/counsel.js');
  };

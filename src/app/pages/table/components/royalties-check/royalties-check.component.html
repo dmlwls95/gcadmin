@@ -1,15 +1,24 @@
 <div class="container">
-  <!--<card cardTitle="ROYALTIES DATA">
-    <input type="text" name="daterangeInput" daterangepicker [options]="options" (selected)="selectedDate($event, daterange)" />
-    <div class="scrolling-wrapper">
-      <ng2-smart-table [settings]="settings" [source]="source" ></ng2-smart-table>
-    </div>
-  </card>-->
-  <card cardTitle="CALCULATED DATA">
+  <card cardTitle="인세 내역 조회">
       <input type="text" name="daterangeInput" daterangepicker [options]="options" (selected)="selectedDate($event, daterange)"/>
-      <!--<button type="submit" (click)="onSubmit()">결산</button>-->
       <div class="scrolling-wrapper">
         <ng2-smart-table [settings]="lsettings" [source]="lsource"></ng2-smart-table>
+      </div>
+    </card>
+</div>
+<div class="container">
+    <card cardTitle="인세 정산">
+      <input  type="text" name="daterangeInput" daterangepicker [options]="options" (selected)="payselectedDate($event, daterange)"/>
+      <button type="submit" (click)="onSubmit()">결산</button>
+        <div class="scrolling-wrapper">
+          <ng2-smart-table [settings]="paysettings" [source]="paysource" (userRowSelect)="onUserRowSelect($event)" ></ng2-smart-table>
+        </div>
+      </card>
+</div>
+<div class="container">
+    <card cardTitle="인세 지급 내역">
+      <div class="scrolling-wrapper">
+        <ng2-smart-table [settings]="settings" [source]="source" ></ng2-smart-table>
       </div>
     </card>
 </div>

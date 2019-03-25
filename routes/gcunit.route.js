@@ -19,6 +19,8 @@ var Payday = require('../models/payday.js');
 var Royalti = require('../models/royalti.js');
 var Payed = require('../models/payed.js');
 var Counsel = require('../models/counsel.js');
+var Edition = require('../models/edition.js');
+var Process = require('../models/process.js');
 bnpanal = require('../services/services.js').bnpanal;
 halfofyear = require('../services/services.js').halfofyear;
 logging = require('../services/services.js').logging;
@@ -1020,13 +1022,42 @@ gcUnitRoutes.get('/getpayed', function(req, res) {
   } else {
     paged = req.query.page;
   }
-  Payed.paginate({}, { page: paged, limit: 10 }, function(err, result) {
-    if (err) {
-      console.log(err);
-    } else {
-      res.json(result);
-    }
-  });
+  var query = req.query;
+
+  if (query.저자) {
+    Payed.paginate(
+      { 저자: { $regex: '.*' + query.저자 + '.*' } },
+      { page: paged, limit: 10 },
+      function(err, result) {
+        if (err) {
+          console.log(err);
+        } else {
+          res.json(result);
+        }
+      }
+    );
+  }else if(query.도서명){
+    Payed.paginate(
+      { 도서명: { $regex: '.*' + query.도서명 + '.*' } },
+      { page: paged, limit: 10 },
+      function(err, result) {
+        if (err) {
+          console.log(err);
+        } else {
+          res.json(result);
+        }
+      }
+    );
+  }
+  else{
+    Payed.paginate({}, { page: paged, limit: 10 }, function(err, result) {
+      if (err) {
+        console.log(err);
+      } else {
+        res.json(result);
+      }
+    });
+  }
 });
 
 // admin paying api END*************************
@@ -1087,5 +1118,115 @@ gcUnitRoutes.delete('/counsel:id', function(req,res){
   })
 })
 // counsel edit api End *******************************
+
+// edition edit api Start *******************************
+gcUnitRoutes.get('/edition:id', function(req, res){
+  let paged;
+  if (req.query.page == null) {
+    paged = 1;
+  } else {
+    paged = req.query.page;
+  }
+  let param = req.params.id;
+  if(param){
+    Edition.paginate({바코드: param},{page:paged, limit:10},(err,result)=>{
+      if(err) console.log(err);
+      res.json(result);
+    })
+  }
+})
+gcUnitRoutes.post('/edition',function(req,res){
+  let edition = new Edition(req.body.newdata);
+  edition.바코드 = req.body.barcode;
+  edition._id = new mongoose.Types.ObjectId();
+  edition.save((err)=>{
+    if(err){
+      console.log(err);
+      res.status(403);
+    } else {
+      res.status(201).json(edition);
+    }
+  })
+})
+gcUnitRoutes.put('/edition:id', function(req,res){
+  Edition.findById(req.body._id, (err,edition)=>{
+    if (err) return res.status(500).json({ error: 'database failure' });
+    if (!edition) return res.status(404).json({ error: 'edition not found' });
+
+    edition = req.body;
+
+    edition.save((err)=>{
+      if (err) res.status(500).json({ error: 'fail to updtae' });
+      res.json({ message: 'updated successfully' });
+    });
+  });
+})
+gcUnitRoutes.delete('/edition:id', function(req,res){
+  Edition.findByIdAndRemove(req.params.id, req.body, (err,gcUnit)=>{
+    if (err) {
+      console.log(err);
+      res.json(err);
+    } else {
+      console.log('successfully removed');
+      res.json('Successfully removed');
+    }
+  })
+})
+// edition edit api End *******************************
+
+// edition edit api Start *******************************
+gcUnitRoutes.get('/process:id', function(req, res){
+  let paged;
+  if (req.query.page == null) {
+    paged = 1;
+  } else {
+    paged = req.query.page;
+  }
+  let param = req.params.id;
+  if(param){
+    Process.paginate({바코드: param},{page:paged, limit:10},(err,result)=>{
+      if(err) console.log(err);
+      res.json(result);
+    })
+  }
+})
+gcUnitRoutes.post('/process',function(req,res){
+  let process = new Process(req.body.newdata);
+  process.바코드 = req.body.barcode;
+  process._id = new mongoose.Types.ObjectId();
+  process.save((err)=>{
+    if(err){
+      console.log(err);
+      res.status(403);
+    } else {
+      res.status(201).json(process);
+    }
+  })
+})
+gcUnitRoutes.put('/process:id', function(req,res){
+  Process.findById(req.body._id, (err,process)=>{
+    if (err) return res.status(500).json({ error: 'database failure' });
+    if (!process) return res.status(404).json({ error: 'process not found' });
+
+    process = req.body;
+
+    process.save((err)=>{
+      if (err) res.status(500).json({ error: 'fail to updtae' });
+      res.json({ message: 'updated successfully' });
+    });
+  });
+})
+gcUnitRoutes.delete('/process:id', function(req,res){
+  Process.findByIdAndRemove(req.params.id, req.body, (err,gcUnit)=>{
+    if (err) {
+      console.log(err);
+      res.json(err);
+    } else {
+      console.log('successfully removed');
+      res.json('Successfully removed');
+    }
+  })
+})
+// edition edit api End *******************************
 
 module.exports = gcUnitRoutes;
