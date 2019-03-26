@@ -14,9 +14,9 @@ const paydaySchema = mongoose.Schema({
 
   서점명: { type: String },
 
-  제본소입고부수: { type: String },
+  제본소입고부수: { type: Number },
 
-  제본소_외_입고부수: { type: String },
+  제본소_외_입고부수: { type: Number },
 
   저자: {type: String},
 
@@ -24,19 +24,19 @@ const paydaySchema = mongoose.Schema({
 
   매출금액: { type: Number },
 
-  본사이동부수: { type: String },
+  본사이동부수: { type: Number },
 
-  증정부수: { type: String },
+  증정부수: { type: Number },
   
-  반품부수: { type: String },
+  반품부수: { type: Number },
   
-  반품금액: { type: String },
+  반품금액: { type: Number },
   
-  폐기부수: { type: String },
+  폐기부수: { type: Number },
   
-  현정품재고: { type: String },
+  현정품재고: { type: Number },
   
-  현반품재고: { type: String },
+  현반품재고: { type: Number },
   
   순매출부수: { type: Number },
   
