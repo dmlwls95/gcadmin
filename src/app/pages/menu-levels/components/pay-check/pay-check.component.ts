@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { ServerDataSource } from 'ng2-smart-table';
+import { ServerDataSource, LocalDataSource } from 'ng2-smart-table';
 import { apiurl } from '../../../../../environments/apiservice';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
@@ -143,8 +143,137 @@ export class PayCheckComponent {
       perPage : 1
     }
   };
-  source: ServerDataSource;
 
+  lsettings = {
+    add: {
+      addButtonContent: '<span class="fa fa-plus"></span>',
+      createButtonContent: '<span class="fa fa-check"></span>',
+      cancelButtonContent: '<span class="fa fa-times"></span>',
+      confirmCreate: true
+    },
+    edit: {
+      editButtonContent: '<span class="fa fa-edit"></span>',
+      saveButtonContent: '<span class="fa fa-check"></span>',
+      cancelButtonContent: '<span class="fa fa-times"></span>',
+      confirmSave: true
+    },
+    delete: {
+      deleteButtonContent: '<span class="fa fa-trash"></span>',
+      confirmDelete: true
+    },
+    region: {
+      class: 'wide'
+    },
+    columns: {
+     /*_id: {
+        title: 'ID',
+        type: 'string'
+      },*/
+      일자: {
+        title: '일자',
+        type: 'string',
+        filter:false
+      },
+      바코드: {
+        title: '바코드',
+        type: 'string',
+        filter:false
+      },
+      도서명: {
+        title: '도서명',
+        type: 'string'
+      },
+      정가: {
+        title: '정가',
+        type: 'string',
+        filter:false
+      },
+      서점명: {
+        title: '서점명',
+        type: 'string'
+      },
+      제본소입고부수: {
+        title: '제본소입고부수',
+        type: 'string',
+        filter: false
+      },
+      제본소_외_입고부수: {
+        title: '제본소_외_입고부수',
+        type: 'string',
+        filter: false
+      },
+      매출부수: {
+        title: '매출부수',
+        type: 'string',
+        filter: false
+      },
+      매출금액: {
+        title: '매출금액',
+        type: 'string',
+        filter: false
+      },
+      본사이동부수: {
+        title: '본사이동부수',
+        type: 'string',
+        filter: false
+      },
+      증정부수: {
+        title: '증정부수',
+        type: 'string',
+        filter: false
+      },
+      반품부수: {
+        title: '반품부수',
+        type: 'string',
+        filter: false
+      },
+      반품금액: {
+        title: '반품금액',
+        type: 'string',
+        filter: false
+      },
+      폐기부수: {
+        title: '폐기부수',
+        type: 'string',
+        filter: false
+      },
+      현정품재고: {
+        title: '현정품재고',
+        type: 'string',
+        filter: false
+      },
+      현반품재고: {
+        title: '현반품재고',
+        type: 'string',
+        filter: false
+      },
+      순매출부수: {
+        title: '순매출부수',
+        type: 'string',
+        filter: false
+      },
+      순매출금액: {
+        title: '순매출금액',
+        type: 'string',
+        filter: false
+      },
+      신간일자: {
+        title: '신간일자',
+        type: 'string',
+        filter: false
+      },
+    },
+    attr: {
+      class: 'table table-bordered'
+    },
+    pager : {
+      display: true,
+      perPage : 10
+    }
+  };
+  source: ServerDataSource;
+  lsource: LocalDataSource;
+  date: any;
 
   constructor(private http: HttpClient) { 
     this.source = new ServerDataSource(http, {
@@ -160,6 +289,37 @@ export class PayCheckComponent {
   }
 
   ngOnInit() {
+  }
+  public daterange: any = {};
+ 
+  // see original project for full list of options
+  // can also be setup using the config service to apply to multiple pickers
+  public options: any = {
+      locale: { format: 'YYYY-MM-DD' },
+      alwaysShowCalendars: false,
+  };
+
+  public selectedDate(value: any, datepicker?: any) {
+    // this is the date the iser selected
+    this.selected(value);
+      // any object can be passed to the selected event and it will be passed back here
+    datepicker.start = value.start;
+    datepicker.end = value.end;
+    // or manupulat your own internal property
+    this.daterange.start = value.start;
+    this.daterange.end = value.end;
+    this.daterange.label = value.label;
+  }
+  selected(value: any){
+    this.date = value;
+    this.http.post(`${apiurl}/gcUnit/revenuerangeNcalc`, value)
+    .map(res=>res)
+    .subscribe(res => {
+      let tmp: any[] = Array.of(res);
+      console.log(tmp);
+      this.lsource = new LocalDataSource();
+      this.lsource.load(tmp[0]);
+    });
   }
 
 

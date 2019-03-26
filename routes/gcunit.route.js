@@ -327,36 +327,35 @@ gcUnitRoutes.post('/upload/payday', upload.single('payday'), (req, res) => {
   console.log('uploaded', req.file);
   res.json({ success: true, file: req.file });
 
-  var payday = [];
-
+  let tmp = [];
+  
   csv
     .fromPath(req.file.path, {
       headers: true,
       ignoreEmpty: true
     })
     .on('data', function(data) {
-      data['_id'] = new mongoose.Types.ObjectId();
-      payday.push(data);
-    })
-    .on('end', function() {
-      /*Payday.count({}).exec(function(err,result){
-      if(result>0){
-        Payday.update(payday, function(err,docs){
-          if(err) throw err;
-        },{upsert:true});
-        console.log(payday);
-      }else{
-        Payday.create(payday, function(err,docs){
-          if(err) throw err;
-        },{upsert:true});
-        console.log(payday);
-      }
-    });*/
-      Payday.deleteMany().exec();
-      Payday.create(payday, function(err, documents) {
-        if (err) throw err;
+      /*data['_id'] = new mongoose.Types.ObjectId();
+      payday.push(data);*/
+      let date = data.일자;
+      let year = date.substr(0,4);
+      let month = date.substr(4,2);
+      let day = date.substr(6,2);
+      let tdate = new Date(year, month-1, day);
+      tdate.setDate(tdate.getDate()+1);
+      let payday = new Payday(data);
+      payday.일자 = tdate;
+      payday._id = new mongoose.Types.ObjectId();
+      payday.save();
+      return new Promise(function(resolved,rejected){
+        setTimeout(
+              function(){
+                    resolved('done');
+              },1000);
       });
 
+    })
+    .on('end', function() {
       bnpanal().then(function(result) {
         return halfofyear();
       });
@@ -980,6 +979,72 @@ gcUnitRoutes.post('/daterangeNcalc', function(req, res) {
   );
 });
 // admin datepickNcalc api END*************************
+// revenue daterangepicker api END*************************
+gcUnitRoutes.post('/revenuerangeNcalc', function(req, res) {
+  Payday.find(
+    {
+      $and: [
+        { 일자: { $gte: req.body.start, $lt: req.body.end } }
+      ]
+    },
+    function(err, result) {
+      if (err) {
+        console.log(err);
+      } else {
+        let booknames = new Array();
+        result.forEach(data => {
+          booknames.push(data.도서명);
+        }); //booknames 엔 기간동안 모든 도서명들어감
+        let groupedRes = groupBy(result, result => result.도서명); //그룹화 변수
+        let single = booknames.reduce((a, b) => {
+          if (a.indexOf(b) < 0) a.push(b);
+          return a;
+        }, []); //booknames의 책이름 중복 삭제
+        let tosend = new Array();
+        single.forEach(data => {
+          let tmp = groupedRes.get(data); //그룹화 변수에 책이름 넣어서 돌림
+
+          let idcol = new Array();
+          let restmp = {
+            바코드: tmp[0].바코드,
+            도서명: tmp[0].도서명,
+            정가: tmp[0].정가,
+            서점명: tmp[0].서점명,
+            제본소입고부수: tmp[0].제본소입고부수,
+            제본소_외_입고부수: tmp[0].제본소_외_입고부수,
+            저자: tmp[0].저자,
+            매출부수: tmp[0].매출부수,
+            매출금액: 0,
+            본사이동부수: tmp[0].본사이동부수,
+            증정부수: tmp[0].증정부수,
+            반품부수: tmp[0].반품부수,
+            반품금액: tmp[0].반품금액,
+            폐기부수: tmp[0].폐기부수,
+            현정품재고: tmp[0].현정품재고,
+            현반품재고: tmp[0].현반품재고,
+            순매출부수: tmp[0].순매출부수,
+            순매출금액: tmp[0].순매출금액,
+            신간일자: tmp[0].신간일자,
+            ids: null
+          };
+          for (let i in tmp) {
+            //매출은 매출끼리 합산
+            if (tmp[i]) {
+              restmp.매출금액 = restmp.매출금액 + tmp[i].매출금액;
+            } else {
+              restmp.매출금액 = restmp.매출금액 + 0;
+            }
+            idcol.push(tmp[i]._id);
+          }
+          restmp.ids = idcol;
+          tosend.push(restmp);
+        });
+        res.send(tosend);
+      }
+    }
+  );
+});
+// admin datepickNcalc api END*************************
 
 // admin paying api START*************************
 gcUnitRoutes.post('/paying', function(req, res) {
@@ -1228,5 +1293,6 @@ gcUnitRoutes.delete('/process:id', function(req,res){
   })
 })
 // edition edit api End *******************************
+
 
 module.exports = gcUnitRoutes;

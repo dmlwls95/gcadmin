@@ -71,8 +71,9 @@ input {
     height: 30px;
     font-weight: normal;
     font-size: 13px;
-    margin: 2px 0 2px 0;
+    margin: 2px 0 2px 20px;
 }
+
 
 textarea {
     width: 400px;
@@ -91,4 +92,11 @@ textarea {
     padding: 5px 0 5px 0;
     margin-left: 22%;
     border: 0;
+}
+
+th  {
+    word-break: keep-all;
+}
+td  {
+    word-break: keep-all;
 }

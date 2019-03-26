@@ -4,6 +4,7 @@ import { routing } from './menu-levels.routing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../../shared/shared.module';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { Daterangepicker } from 'ng2-daterangepicker';
 
 /* components */
 import { MenuLevelsComponent } from './menu-levels.component';
@@ -18,7 +19,8 @@ import { PayCheckComponent } from './components/pay-check/pay-check.component';
         ReactiveFormsModule,
         SharedModule,
         routing,
-        Ng2SmartTableModule
+        Ng2SmartTableModule,
+        Daterangepicker
     ],
     declarations: [
         MenuLevelsComponent,

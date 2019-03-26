@@ -92,13 +92,7 @@ function halfofyear(){
                     
                     let royalti = new Royalti();
                     royalti._id = new mongoose.Types.ObjectId();
-                    let tmpdate = datab.일자;
-                    let year = tmpdate.substr(0,4);
-                    let month = tmpdate.substr(4,2);
-                    let day = tmpdate.substr(6,2);
-                    let tdate = new Date(year, month-1, day); 
-                    tdate.setDate(tdate.getDate()+1);
-                    royalti.일자 = tdate;
+                    royalti.일자 = datab.일자;
                     royalti.저자 = dataa.저자;
                     royalti.도서명 = datab.도서명;
                     royalti.서점명 = datab.서점명;
