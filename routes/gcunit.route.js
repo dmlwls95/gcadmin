@@ -1013,26 +1013,46 @@ gcUnitRoutes.post('/revenuerangeNcalc', function(req, res) {
             제본소입고부수: tmp[0].제본소입고부수,
             제본소_외_입고부수: tmp[0].제본소_외_입고부수,
             저자: tmp[0].저자,
-            매출부수: tmp[0].매출부수,
+            매출부수: 0,
             매출금액: 0,
-            본사이동부수: tmp[0].본사이동부수,
-            증정부수: tmp[0].증정부수,
-            반품부수: tmp[0].반품부수,
-            반품금액: tmp[0].반품금액,
-            폐기부수: tmp[0].폐기부수,
-            현정품재고: tmp[0].현정품재고,
-            현반품재고: tmp[0].현반품재고,
-            순매출부수: tmp[0].순매출부수,
-            순매출금액: tmp[0].순매출금액,
+            본사이동부수: 0,
+            증정부수: 0,
+            반품부수: 0,
+            반품금액: 0,
+            폐기부수: 0,
+            현정품재고: 0,
+            현반품재고: 0,
+            순매출부수: 0,
+            순매출금액: 0,
             신간일자: tmp[0].신간일자,
             ids: null
           };
           for (let i in tmp) {
             //매출은 매출끼리 합산
             if (tmp[i]) {
+              restmp.매출부수 = restmp.매출부수 + tmp[i].매출부수;
               restmp.매출금액 = restmp.매출금액 + tmp[i].매출금액;
+              restmp.본사이동부수 = restmp.본사이동부수 + tmp[i].본사이동부수;
+              restmp.증정부수 = restmp.증정부수 + tmp[i].증정부수;
+              restmp.반품부수 = restmp.반품부수 + tmp[i].반품부수;
+              restmp.반품금액 = restmp.반품금액 + tmp[i].반품금액;
+              restmp.폐기부수 = restmp.폐기부수 + tmp[i].폐기부수;
+              restmp.현정품재고 = restmp.현정품재고 + tmp[i].현정품재고;
+              restmp.현반품재고 = restmp.현반품재고 + tmp[i].현반품재고;
+              restmp.순매출부수 = restmp.순매출부수 + tmp[i].순매출부수;
+              restmp.순매출금액 = restmp.순매출금액 + tmp[i].순매출금액;
             } else {
+              restmp.매출부수 += 0;
               restmp.매출금액 = restmp.매출금액 + 0;
+              restmp.본사이동부수 += 0;
+              restmp.증정부수 += 0;
+              restmp.반품부수 += 0;
+              restmp.반품금액 += 0;
+              restmp.폐기부수 += 0;
+              restmp.현정품재고 += 0;
+              restmp.현반품재고 += 0;
+              restmp.순매출부수 += 0;
+              restmp.순매출금액 += 0;
             }
             idcol.push(tmp[i]._id);
           }
