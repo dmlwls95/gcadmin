@@ -434,7 +434,26 @@ gcUnitRoutes.put('/editorchart/:id', function(req, res) {
     if (err) return res.status(500).json({ error: 'database failure' });
     if (!editor) return res.status(404).json({ error: 'editor not found' });
 
-   editor = req.body;
+    if (req.body.저자) editor.저자 = req.body.저자; else if(req.body.저자 ==null) editor.저자 = '';
+    if (req.body.소속) editor.소속 = req.body.소속; else if(req.body.소속 ==null) editor.소속 = '';
+    if (req.body.직위) editor.직위 = req.body.직위; else if(req.body.직위 ==null) editor.직위 = '';
+    if (req.body.연락처_휴대전화) editor.연락처_휴대전화 = req.body.연락처_휴대전화;  else if(req.body.연락처_휴대전화 ==null) editor.연락처_휴대전화 = '';
+    if (req.body.연락처_02) editor.연락처_02 = req.body.연락처_02;  else if(req.body.연락처_02 ==null) editor.연락처_02 = '';
+    if (req.body.팩스) editor.팩스 = req.body.팩스; else if(req.body.팩스 ==null) editor.팩스 = '';
+    if (req.body.이메일) editor.이메일 = req.body.이메일; else if(req.body.이메일 ==null) editor.이메일 = '';
+    if (req.body.사업자번호) editor.사업자번호 = req.body.사업자번호; else if(req.body.사업자번호 ==null) editor.사업자번호 = '';
+    if (req.body.구분) editor.구분 = req.body.구분; else if(req.body.구분 ==null) editor.구분 = '';
+    if (req.body.은행) editor.은행 = req.body.은행; else if(req.body.은행 ==null) editor.은행 = '';
+    if (req.body.계좌번호) editor.계좌번호 = req.body.계좌번호; else if(req.body.계좌번호 ==null) editor.계좌번호 = '';
+    if (req.body.예금주) editor.예금주 = req.body.예금주; else if(req.body.예금주 ==null) editor.예금주 = '';
+    if (req.body.주소_직장) editor.주소_직장 = req.body.주소_직장;  else if(req.body.주소_직장 ==null) editor.주소_직장 = '';
+    if (req.body.주소_자택) editor.주소_자택 = req.body.주소_자택;  else if(req.body.주소_자택 ==null) editor.주소_자택 = '';
+    if (req.body.비고_01) editor.비고_01 = req.body.비고_01;  else if(req.body.비고_01 ==null) editor.비고_01 = '';
+    if (req.body.비고_02) editor.비고_02 = req.body.비고_02;  else if(req.body.비고_02 ==null) editor.비고_02 = '';
+    if (req.body.전공) editor.전공 = req.body.전공; else if(req.body.전공 ==null) editor.전공 = '';
+    if (req.body.기념일) editor.기념일 = req.body.기념일; else if(req.body.기념일 ==null) editor.기념일 = '';
+    if (req.body.id) editor.id = req.body.id;
+    if (req.body.pw) editor.pw = req.body.pw;
     editor.save(function(err) {
       if (err) res.status(500).json({ error: 'fail to updtae' });
       res.json({ message: 'updated successfully' });
