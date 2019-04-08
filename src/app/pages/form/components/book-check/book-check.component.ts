@@ -52,9 +52,15 @@ export class BookCheckComponent {
         title: '저자',
         type: 'string'
       },
-      신간일: {
+      계약일: {
         title: '신간일',
-        type: 'string'
+        type: 'string',
+        filter: false
+      },
+      발행일: {
+        title: '발행일',
+        type: 'string',
+        filter: false
       },
       발행처: {
         title: '발행처',
@@ -66,23 +72,68 @@ export class BookCheckComponent {
         type: 'string',
         filter: false
       },
-      총재고: {
-        title: '총재고',
+      계약기간: {
+        title: '계약기간',
         type: 'string',
         filter: false
       },
-      본사재고: {
-        title: '본사재고',
+      상태: {
+        title: '상태',
         type: 'string',
         filter: false
       },
-      정품재고: {
-        title: '정품재고',
+      인세율: {
+        title: '인세율',
+        type: 'number',
+        filter: false
+      },
+      인세주기: {
+        title: '인세주기',
+        type: 'String',
+        filter: false
+      },
+      판_쇄: {
+        title: '판_쇄',
+        type: 'String',
+        filter: false
+      },
+      발행부수: {
+        title: '발행부수',
         type: 'string',
         filter: false
       },
-      반품재고: {
-        title: '반품재고',
+      저술_번역: {
+        title: '저술_번역',
+        type: 'String',
+        filter: false
+      },
+      에이전시: {
+        title: '에이전시',
+        type: 'string',
+        filter: false
+      },
+      원출판사: {
+        title: '원출판사',
+        type: 'string',
+        filter: false
+      },
+      로열티: {
+        title: '로열티',
+        type: 'string',
+        filter: false
+      },
+      판형: {
+        title: '판형',
+        type: 'string',
+        filter: false
+      },
+      제본: {
+        title: '제본',
+        type: 'string',
+        filter: false
+      },
+      비고: {
+        title: '비고',
         type: 'string',
         filter: false
       }
@@ -201,13 +252,24 @@ export class BookCheckComponent {
       bookcode: '',
       bookname: '',
       author: '',
+      contactdate: '',
       relday: '',
       from: '',
       price: '',
-      totalnumber: '',
-      homenumber: '',
-      genuinenumber: '',
-      refundnumber: ''
+      contactrange: '',
+      status: '',
+      royaltipercent: '',
+      royaltijugi: '',
+      edition: '',
+      relnumber: '',
+      translate: '',
+      agency: '',
+      originrel: '',
+      royalti: '',
+      panhyng: '',
+      jaebon: '',
+      page: '',
+      bigo: '',
   };
 
   eventbarcode = '';
@@ -402,13 +464,24 @@ export class BookCheckComponent {
       this.bookData.bookcode = event.data.도서코드;
       this.bookData.bookname = event.data.도서명;
       this.bookData.author = event.data.저자;
-      this.bookData.relday = event.data.신간일;
+      this.bookData.relday = event.data.발행일;
       this.bookData.from = event.data.발행처;
       this.bookData.price = event.data.정가;
-      this.bookData.totalnumber = event.data.총재고;
-      this.bookData.homenumber = event.data.본사재고;
-      this.bookData.genuinenumber = event.data.정품재고;
-      this.bookData.refundnumber = event.data.반품재고;
+      this.bookData.contactrange = event.data.계약기간;
+      this.bookData.status = event.data.상태;
+      this.bookData.royaltipercent = event.data.인세율;
+      this.bookData.royaltijugi = event.data.인세주기;
+      this.bookData.edition = event.data.판_쇄;
+      this.bookData.relnumber = event.data.발행부수;
+      this.bookData.translate = event.data.저술_번역;
+      this.bookData.agency = event.data.에이전시;
+      this.bookData.originrel = event.data.원출판사;
+      this.bookData.royalti = event.data.로열티;
+      this.bookData.panhyng = event.data.판형;
+      this.bookData.jaebon = event.data.제본;
+      this.bookData.page = event.data.페이지;
+      this.bookData.bigo = event.data.비고;
+
 
       this.http.get<any>(`${apiurl}/gcUnit/edition` + event.data.바코드)
       .subscribe(res=>{

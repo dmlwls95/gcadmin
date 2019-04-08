@@ -48,7 +48,15 @@ export let MENU_ITEM = [
         children: [
             {
                 path: 'royalties-check',
-                title: '인세 정산 관리'
+                title: '인세 내역 조회'
+            },
+            {
+                path: 'royalties-paying',
+                title: '인세 정산 작업'
+            },
+            {
+                path: 'royaltie-payed',
+                title: '인세 지급 내역'
             }
         ]
     },

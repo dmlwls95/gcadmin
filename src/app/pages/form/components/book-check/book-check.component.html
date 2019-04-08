@@ -4,47 +4,60 @@
       <form class="container" #editorForm="ngForm" (ngSubmit)="onSubmit()">
         <table class="storage">
           <tr>
+            <th>발행처</th>
+            <td><input type="text" class="form-control" [(ngModel)]="bookData.from" name="from"></td>
+            <th>도서명</th>
+            <td><input type="text" class="form-control" [(ngModel)]="bookData.bookname" name="bookname">
+            <th>저자</th>
+            <td><input type="text" class="form-control" [(ngModel)]="bookData.author" name="author"></td>
+          </tr>
+          <tr>
             <th>바코드</th>
-            <td><input type="text" class="form-control" [(ngModel)]="bookData.barcode" name="barcode"></td>
+            <td><input type="text" class="form-control" [(ngModel)]="bookData.barcode" name="barcode"> </td>
+            <th>정가</th>
+            <td><input type="text" class="form-control" [(ngModel)]="bookData.price" name="price"></td>
+            <th>발행일</th>
+            <td><input type="text" class="form-control" [(ngModel)]="bookData.relday" name="relday"></td>
+          </tr>
+          <tr>
+            <th>상태</th>
+            <td><input type="text" class="form-control" [(ngModel)]="bookData.status" name="status"></td>
+            <th>인세율</th>
+            <td><input type="text" class="form-control" [(ngModel)]="bookData.royaltipercent" name="royaltipercent"></td>
+            <th>판쇄</th>
+            <td><input type="text" class="form-control" [(ngModel)]="bookData.edition" name="edition"></td>
+          </tr>
+          <tr>
+            <th>에이전시</th>
+            <td><input type="text" class="form-control" [(ngModel)]="bookData.agency" name="agency"></td>
+            <th>원출판사</th>
+            <td><input type="text" class="form-control" [(ngModel)]="bookData.originrel" name="originrel"></td>
+            <th>로열티</th>
+            <td><input type="text" class="form-control" [(ngModel)]="bookData.royalti" name="royalti"></td>
+          </tr>
+          <tr>
+            <th>판형</th>
+            <td><input type="text" class="form-control" [(ngModel)]="bookData.panhyng" name="panhyng"></td>
+            <th>제본</th>
+            <td><input type="text" class="form-control" [(ngModel)]="bookData.jaebon" name="jaebon"></td>
+            <th>페이지</th>
+            <td><input type="text" class="form-control" [(ngModel)]="bookData.page" name="page"></td>
+          </tr>
+          <tr>
+            <th>계약기간</th>
+            <td><input type="text" class="form-control" [(ngModel)]="bookData.contactrange" name="contactrange"></td>
+            <th>인세주기</th>
+            <td><input type="text" class="form-control" [(ngModel)]="bookData.royaltijugi" name="royaltijugi"></td>
+            <th>저술_번역</th>
+            <td><input type="text" class="form-control" [(ngModel)]="bookData.translate" name="translate"></td>
           </tr>
           <tr>
             <th>도서코드</th>
-            <td><input type="text" class="form-control" [(ngModel)]="bookData.bookcode" name="bookcode">
-          </tr>
-          <tr>
-            <th>책이름</th>
-            <td><input type="text" class="form-control" [(ngModel)]="bookData.bookname" name="bookname"></td>
-          </tr>
-          <tr>
-            <th>저자</th>
-            <td><ng2-completer [placeholder]="bookData.author" [(ngModel)]="bookData.author" name="author" [datasource]="searchData" [minSearchLength]="0"></ng2-completer>
-              <!--<input type="text" class="form-control" [(ngModel)]="bookData.author" name="author">--></td>
-          </tr>
-          <tr>
-            <th>신간일</th>
-            <td><input type="text" class="form-control" [(ngModel)]="bookData.relday" name="relday"> </td>
-          </tr>
-            <th>발행처</th>
-            <td><input type="text" class="form-control" [(ngModel)]="bookData.from" name="from"></td>
-          <tr>
-            <th>정가</th>
-            <td><input type="text" class="form-control" [(ngModel)]="bookData.price" name="price"></td>
-          </tr>
-          <tr>
-            <th>총재고</th>
-            <td><input type="text" class="form-control" [(ngModel)]="bookData.totalnumber" name="totalnumber"></td>
-          </tr>
-          <tr>
-            <th>본사재고</th>
-            <td><input type="text" class="form-control" [(ngModel)]="bookData.homenumber" name="homenumber"></td>
-          </tr>
-          <tr>
-            <th>정품재고</th>
-            <td><input type="text" class="form-control" [(ngModel)]="bookData.genuinenumber" name="genuinenumber"></td>
-          </tr>
-          <tr>
-            <th>반품재고</th>
-            <td><input type="text" class="form-control" [(ngModel)]="bookData.refundnumber" name="refundnumber"></td>
+            <td><input type="text" class="form-control" [(ngModel)]="bookData.bookcode" name="bookcode"></td>
+            <th>계약일</th>
+            <td><input type="text" class="form-control" [(ngModel)]="bookData.contactdate" name="contactdate"></td>
+            <th>발행부수</th>
+            <td><input type="text" class="form-control" [(ngModel)]="bookData.relnumber" name="relnumber"></td>
           </tr>
         </table>
           <br>

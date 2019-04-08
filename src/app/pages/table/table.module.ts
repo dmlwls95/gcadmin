@@ -12,6 +12,7 @@ import { BasicTablesComponent } from './components/basic-tables/basic-tables.com
 import { DataTableComponent } from './components/data-table/data-table.component';
 import { RoyaltiesCheckComponent } from './components/royalties-check/royalties-check.component';
 import { RoyaltiePayedComponent } from './components/royaltie-payed/royaltie-payed.component';
+import { RoyaltiesPayingComponent } from './components/royalties-paying/royalties-paying.component';
 
 
 
@@ -31,7 +32,8 @@ import { RoyaltiePayedComponent } from './components/royaltie-payed/royaltie-pay
         BasicTablesComponent,
         DataTableComponent,
         RoyaltiesCheckComponent,
-        RoyaltiePayedComponent
+        RoyaltiePayedComponent,
+        RoyaltiesPayingComponent
     ]
 })
 export class TableModule { }

@@ -48,12 +48,12 @@ export class RoyaltiePayedComponent {
       저자: {
         title: '저자',
         type: 'string',
-        filter: false
+        filter: true
       },
       도서명: {
         title: '도서명',
         type: 'string',
-        filter: false
+        filter: true
       },
       /*서점명: {
         title: '서점명',

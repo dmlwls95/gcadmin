@@ -520,30 +520,50 @@ gcUnitRoutes.post('/bookadd', function(req, res) {
       if (req.body.bookcode) result.도서코드 = req.body.bookcode;
       if (req.body.bookname) result.도서명 = req.body.bookname;
       if (req.body.author) result.저자 = req.body.author;
-      if (req.body.relday) result.신간일 = req.body.relday;
+      if (req.body.relday) result.발행일 = req.body.relday;
       if (req.body.from) result.발행처 = req.body.from;
       if (req.body.price) result.정가 = req.body.price;
-      if (req.body.totalnumber) result.총재고 = req.body.totalnumber;
-      if (req.body.homenumber) result.본사재고 = req.body.homenumber;
-      if (req.body.genuinenumber) result.정품재고 = req.body.genuinenumber;
-      if (req.body.refundnumber) result.반품재고 = req.body.refundnumber;
+      if (req.body.contactrange) result.계약기간 = req.body.contactrange;
+      if (req.body.status) result.상태 = req.body.status;
+      if (req.body.royaltipercent) result.인세율 = req.body.royaltipercent;
+      if (req.body.royaltijugi) result.인세주기 = req.body.royaltijugi;
+      if (req.body.edition) result.판_쇄 = req.body.edition;
+      if (req.body.relnumber) result.발행부수 = req.body.relnumber;
+      if (req.body.translate) result.저술_번역 = req.body.translate;
+      if (req.body.agency) result.에이전시 = req.body.agency;
+      if (req.body.originrel) result.원출판사 = req.body.originrel;
+      if (req.body.royalti) result.로열티 = req.body.royalti;
+      if (req.body.panhyng) result.판형 = req.body.panhyng;
+      if (req.body.jaebon) result.제본 = req.body.jaebon;
+      if (req.body.page) result.페이지 = req.body.page;
+      if (req.body.bigo) result.비고 = req.body.bigo;
+
       result.save(function(err) {
         if (err) res.status(500).json({ error: 'fail to updtae' });
         res.json({ message: 'updated successfully' });
       });
     } else if (!result) {
       let book = new Bookcode();
-      if (req.body.barcode) book.바코드 = req.body.barcode;
-      if (req.body.bookcode) book.도서코드 = req.body.bookcode;
-      if (req.body.bookname) book.도서명 = req.body.bookname;
-      if (req.body.author) book.저자 = req.body.author;
-      if (req.body.relday) book.신간일 = req.body.relday;
-      if (req.body.from) book.발행처 = req.body.from;
-      if (req.body.price) book.정가 = req.body.price;
-      if (req.body.totalnumber) book.총재고 = req.body.totalnumber;
-      if (req.body.homenumber) book.본사재고 = req.body.homenumber;
-      if (req.body.genuinenumber) book.정품재고 = req.body.genuinenumber;
-      if (req.body.refundnumber) book.반품재고 = req.body.refundnumber;
+      if (req.body.bookcode) result.도서코드 = req.body.bookcode;
+      if (req.body.bookname) result.도서명 = req.body.bookname;
+      if (req.body.author) result.저자 = req.body.author;
+      if (req.body.relday) result.발행일 = req.body.relday;
+      if (req.body.from) result.발행처 = req.body.from;
+      if (req.body.price) result.정가 = req.body.price;
+      if (req.body.contactrange) result.계약기간 = req.body.contactrange;
+      if (req.body.status) result.상태 = req.body.status;
+      if (req.body.royaltipercent) result.인세율 = req.body.royaltipercent;
+      if (req.body.royaltijugi) result.인세주기 = req.body.royaltijugi;
+      if (req.body.edition) result.판_쇄 = req.body.edition;
+      if (req.body.relnumber) result.발행부수 = req.body.relnumber;
+      if (req.body.translate) result.저술_번역 = req.body.translate;
+      if (req.body.agency) result.에이전시 = req.body.agency;
+      if (req.body.originrel) result.원출판사 = req.body.originrel;
+      if (req.body.royalti) result.로열티 = req.body.royalti;
+      if (req.body.panhyng) result.판형 = req.body.panhyng;
+      if (req.body.jaebon) result.제본 = req.body.jaebon;
+      if (req.body.page) result.페이지 = req.body.page;
+      if (req.body.bigo) result.비고 = req.body.bigo;
       book._id = new mongoose.Types.ObjectId();
       book.save(function(err) {
         if (err) {
