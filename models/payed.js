@@ -14,7 +14,9 @@ var payedSchema = mongoose.Schema({
 
   인세금액: { type: Number },
   
-  payed: { type: Boolean }
+  payed: { type: Boolean },
+
+  comment: { type: String }
 
 }, { collection: 'payed'});
 payedSchema.plugin(mongoosePaginate);
