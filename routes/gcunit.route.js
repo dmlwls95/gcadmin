@@ -513,6 +513,7 @@ gcUnitRoutes.get('/editorsearch', function(req, res) {
 
 // admin book managefix api START*************************
 gcUnitRoutes.post('/bookadd', function(req, res) {
+  console.log(req.body);
   Bookcode.findOne({ 바코드: req.body.barcode }, (err, result) => {
     if (err) return res.status(500).json({ error: 'database failure' });
     if (result) {
@@ -590,7 +591,7 @@ gcUnitRoutes.get('/bookcode', function(req, res, next) {
   if (query.바코드) {
     Bookcode.paginate(
       { 바코드: { $regex: '.*' + query.바코드 + '.*' } },
-      { page: paged, limit: 10 },
+      { page: paged, limit: 3 },
       function(err, result) {
         if (err) {
           console.log(err);
@@ -602,7 +603,7 @@ gcUnitRoutes.get('/bookcode', function(req, res, next) {
   } else if (query.도서코드) {
     Bookcode.paginate(
       { 도서코드: { $regex: '.*' + query.도서코드 + '.*' } },
-      { page: paged, limit: 10 },
+      { page: paged, limit: 3 },
       function(err, result) {
         if (err) {
           console.log(err);
@@ -614,7 +615,7 @@ gcUnitRoutes.get('/bookcode', function(req, res, next) {
   } else if (query.도서명) {
     Bookcode.paginate(
       { 도서명: { $regex: '.*' + query.도서명 + '.*' } },
-      { page: paged, limit: 10 },
+      { page: paged, limit: 3 },
       function(err, result) {
         if (err) {
           console.log(err);
@@ -626,7 +627,7 @@ gcUnitRoutes.get('/bookcode', function(req, res, next) {
   } else if (query.저자) {
     Bookcode.paginate(
       { 저자: { $regex: '.*' + query.저자 + '.*' } },
-      { page: paged, limit: 10 },
+      { page: paged, limit: 3 },
       function(err, result) {
         if (err) {
           console.log(err);
@@ -636,7 +637,7 @@ gcUnitRoutes.get('/bookcode', function(req, res, next) {
       }
     );
   } else {
-    Bookcode.paginate({}, { page: paged, limit: 10 }, function(err, result) {
+    Bookcode.paginate({}, { page: paged, limit: 3 }, function(err, result) {
       if (err) {
         console.log(err);
       } else {

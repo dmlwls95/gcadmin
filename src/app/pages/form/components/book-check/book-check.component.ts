@@ -248,6 +248,7 @@ export class BookCheckComponent {
   sum: any;
   bookForm: FormGroup;
   bookData = {
+      publisher: '',
       barcode: '',
       bookcode: '',
       bookname: '',
@@ -276,6 +277,15 @@ export class BookCheckComponent {
   protected searchStr: String;
   protected dataService: CompleterData;
   protected searchData;
+  protected publisherName = [
+    '글로벌컨텐츠',
+    '작가와비평',
+    '글모아출판',
+    '세림출판',
+    '컴원미디어',
+    'G노벨'
+  ]
+  protected publisher: string;
   constructor(private http: HttpClient, private completerService: CompleterService) { 
     this.source = new ServerDataSource(http, {
       endPoint: `${apiurl}/gcUnit/bookcode`,

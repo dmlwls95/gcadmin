@@ -1,4 +1,4 @@
-<div class="fixed">
+
 <div class="container">
   <div class="left">
     <card cardTitle="AUTHOR REGISTRATION">
@@ -6,7 +6,18 @@
         <table class="storage">
           <tr>
             <th>발행처</th>
-            <td><input type="text" class="form-control" [(ngModel)]="bookData.from" name="from"></td>
+            <td>
+              
+              <select class="form-control" [(ngModel)]="bookData.from" name="from" id="publisher">
+                <option [ngValue]="null">{{bookData.from}}</option>
+                <option value="글로벌콘텐츠출판그룹">글로벌콘텐츠출판그룹</option>
+                <option value="작가와비평(글로벌콘텐츠)">작가와비평(글로벌콘텐츠)</option>
+                <option value="글모아출판(글로벌콘텐츠)">글모아출판(글로벌콘텐츠)</option>
+                <option value="세림출판(글로벌콘텐츠)">세림출판(글로벌콘텐츠)</option>
+                <option value="컴원미디어(글로벌콘텐츠)">컴원미디어(글로벌콘텐츠)</option>
+                <option value="G노벨(글로벌콘텐츠)">G노벨(글로벌콘텐츠)</option>
+              </select>
+            </td>
             <th>도서명</th>
             <td><input type="text" class="form-control" [(ngModel)]="bookData.bookname" name="bookname">
             <th>저자</th>
@@ -90,8 +101,7 @@
       </div>
     </div>
 </div>
-</div>
-<div class="containerbottom">
+<div class="container">
   <card cardTitle="BOOK DATA">
     <div class="scrolling-wrapper">
       <ng2-smart-table [settings]="settings" [source]="source" (deleteConfirm)="deleteRecord($event)" (createConfirm)="createRecord($event)" (editConfirm)="updateRecord($event)" (rowSelect)="onRecordselected($event)"></ng2-smart-table>  
