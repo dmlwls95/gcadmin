@@ -646,6 +646,72 @@ gcUnitRoutes.get('/bookcode', function(req, res, next) {
     });
   }
 });
+gcUnitRoutes.get('/bookcodebyten', function(req, res, next) {
+  var paged;
+  if (req.query.page == null) {
+    paged = 1;
+  } else {
+    paged = req.query.page;
+  }
+  var query = req.query;
+  if (query.바코드) {
+    Bookcode.paginate(
+      { 바코드: { $regex: '.*' + query.바코드 + '.*' } },
+      { page: paged, limit: 10 },
+      function(err, result) {
+        if (err) {
+          console.log(err);
+        } else {
+          res.json(result);
+        }
+      }
+    );
+  } else if (query.도서코드) {
+    Bookcode.paginate(
+      { 도서코드: { $regex: '.*' + query.도서코드 + '.*' } },
+      { page: paged, limit: 10 },
+      function(err, result) {
+        if (err) {
+          console.log(err);
+        } else {
+          res.json(result);
+        }
+      }
+    );
+  } else if (query.도서명) {
+    Bookcode.paginate(
+      { 도서명: { $regex: '.*' + query.도서명 + '.*' } },
+      { page: paged, limit: 10 },
+      function(err, result) {
+        if (err) {
+          console.log(err);
+        } else {
+          res.json(result);
+        }
+      }
+    );
+  } else if (query.저자) {
+    Bookcode.paginate(
+      { 저자: { $regex: '.*' + query.저자 + '.*' } },
+      { page: paged, limit: 10 },
+      function(err, result) {
+        if (err) {
+          console.log(err);
+        } else {
+          res.json(result);
+        }
+      }
+    );
+  } else {
+    Bookcode.paginate({}, { page: paged, limit: 10 }, function(err, result) {
+      if (err) {
+        console.log(err);
+      } else {
+        res.json(result);
+      }
+    });
+  }
+});
 
 gcUnitRoutes.post('/bookcode', function(req, res) {
   console.log(req.body);

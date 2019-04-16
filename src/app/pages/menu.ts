@@ -23,6 +23,10 @@ export let MENU_ITEM = [
             {
                 path: 'book-check',
                 title: '도서정보 조회 및 등록'
+            },
+            {
+                path: 'book-only-check',
+                title: '도서정보 조회(10행)'
             }
         ]
     },

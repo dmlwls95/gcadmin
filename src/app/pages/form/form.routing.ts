@@ -5,7 +5,7 @@ import { FormLayoutsComponent } from './components/form-layouts/form-layouts.com
 import { FileUploadComponent } from './components/file-upload/file-upload.component';
 import { Ng2SelectComponent } from './components/ng2-select/ng2-select.component';
 import { BookCheckComponent } from './components/book-check/book-check.component';
-
+import { BookOnlyCheckComponent } from './components/book-only-check/book-only-check.component';
 const childRoutes: Routes = [
     {
         path: '',
@@ -16,7 +16,8 @@ const childRoutes: Routes = [
             { path: 'form-layouts', component: FormLayoutsComponent },
             { path: 'file-upload', component: FileUploadComponent },
             { path: 'ng2-select', component: Ng2SelectComponent },
-            { path: 'book-check', component: BookCheckComponent}
+            { path: 'book-check', component: BookCheckComponent},
+            { path: 'book-only-check', component: BookOnlyCheckComponent}
         ]
     }
 ];

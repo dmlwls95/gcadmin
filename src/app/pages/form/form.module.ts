@@ -18,6 +18,7 @@ import { SingleSelectComponent } from './components/ng2-select/single-select/sin
 import { MultipleSelectComponent } from './components/ng2-select/multiple-select/multiple-select.component';
 import { ChildrenSelectComponent } from './components/ng2-select/children-select/children-select.component';
 import { BookCheckComponent } from './components/book-check/book-check.component';
+import { BookOnlyCheckComponent } from './components/book-only-check/book-only-check.component';
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import { BookCheckComponent } from './components/book-check/book-check.component
         SingleSelectComponent,
         MultipleSelectComponent,
         ChildrenSelectComponent,
-        BookCheckComponent
+        BookCheckComponent,
+        BookOnlyCheckComponent
     ]
 })
 export class FormModule { }

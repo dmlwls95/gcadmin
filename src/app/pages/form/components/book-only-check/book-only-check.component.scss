@@ -1,0 +1,125 @@
+div.left {
+  width: 49%;
+  float: left;
+}
+
+div.right {
+  width: 49%;
+  float: right;
+}
+.fixed {
+  position: fixed;
+  width: 100%;
+  height: 100px;
+  z-index: 999;
+}
+.container {
+  width: 100%;
+  padding-left: 15px;
+  padding-right: 10px;
+  padding-bottom: 0;
+  margin-right: 0;
+  margin-left: 0;
+  margin-bottom: 0;
+}
+.containerbottom {
+  width: 100%;
+  padding-top: 700px;
+  padding-left: 15px;
+  padding-right: 10px;
+  margin-right: 0;
+  margin-left: 0;
+}
+
+
+.scrolling-wrapper {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: scroll;
+  word-break: keep-all !important;
+  .card {
+    display: inline-block;
+  }
+}
+
+.ng2-smart-table {
+  width: 100%;
+}
+
+:host /deep/ ng2-smart-table table > tbody > tr > td {
+  box-sizing: border-box;
+}
+
+:host /deep/ ng2-smart-table tbody th {
+  font-weight: bold;
+  vertical-align: top;
+  border-bottom: 1px solid #ddd;
+  background: #e8edf4;
+}
+
+/* headers grid color*/
+:host /deep/ ng2-smart-table thead th  { 
+  background: #E2E9F5;
+  border-width: 2px;
+  border-color: white;
+} 
+:host /deep/ ng2-smart-table thead > tr > td  { 
+  border-width: 2px;
+  border-color: white;
+  border-bottom: 1px solid #ddd;
+}
+:host /deep/ ng2-smart-table thead > tr > td { 
+  border-width: 1px;
+  border-color: #ddd;
+  border-bottom: 1px solid #ddd;
+}  
+/*font size*/
+:host /deep/ ng2-smart-table {
+  font-size:13px;
+}
+:host /deep/ ng2-smart-table table tr td{
+  font-size:1em;
+  word-break: keep-all !important;
+}
+
+input {
+  width: 180px;
+  height: 30px;
+  font-weight: normal;
+  font-size: 13px;
+  margin: 4px 0 4px 0;
+}
+
+input.long{
+  width: 630px;
+  height: 30px;
+  font-weight: normal;
+  font-size: 13px;
+  margin: 4px 0 4px 0;
+}
+th{
+  margin: 10px;
+  word-break: keep-all;
+}
+tr {
+  word-break: keep-all;
+}
+
+textarea {
+  width: 400px;
+  height: 200px;
+  font-weight: normal;
+  font-size: 13px;
+  margin: 2px 0 2px 0;
+}
+
+.storage {
+  width: 60%;
+}
+
+.submit_button {
+  width: 5%;
+  padding: 5px 0 5px 0;
+  margin-left: 23%;
+  border: 0;
+}

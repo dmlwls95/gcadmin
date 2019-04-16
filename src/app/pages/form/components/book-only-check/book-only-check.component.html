@@ -1,0 +1,7 @@
+<div class="container">
+    <card cardTitle="BOOK DATA">
+      <div class="scrolling-wrapper">
+        <ng2-smart-table [settings]="settings" [source]="source" (deleteConfirm)="deleteRecord($event)" (createConfirm)="createRecord($event)" (editConfirm)="updateRecord($event)" ></ng2-smart-table>  
+      </div>
+    </card>   
+  </div>
