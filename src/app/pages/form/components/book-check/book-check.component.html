@@ -18,10 +18,15 @@
               </select>
             </td>
             <th>도서명</th>
-            <td><input type="text" class="form-control" [(ngModel)]="bookData.bookname" name="bookname">
+            <td>
+                <select (ngModelChange)="selectedBook($event)" class="form-control" [(ngModel)]="bookData.bookname" name="bookname" id="books">
+                    <option [ngValue]="null">{{bookData.bookname}}</option>
+                    <option *ngFor="let bookname of bookNames" [value]="bookname">{{bookname}}</option>
+                  </select>
+            </td>
             <th>저자</th>
             <td>
-              <select class="form-control" [(ngModel)]="bookData.author" name="author" id="authors">
+              <select (ngModelChange)="selectedAuthor($event)" class="form-control" [(ngModel)]="bookData.author" name="author" id="authors">
                 <option [ngValue]="null">{{bookData.author}}</option>
                 <option *ngFor="let author of searchData" [value]="author">{{author}}</option>
               </select>
@@ -83,9 +88,6 @@
           </div>
           <br>
          </form>
-         <hr>
-          *바코드 일치할경우 -> 수정<br>
-          *바코드 불일치할경우 -> 추가
       </card>
     </div>
     <div class="right">
@@ -109,7 +111,7 @@
 <div class="container">
   <card cardTitle="BOOK DATA">
     <div class="scrolling-wrapper">
-      <ng2-smart-table [settings]="settings" [source]="source" (deleteConfirm)="deleteRecord($event)" (createConfirm)="createRecord($event)" (editConfirm)="updateRecord($event)" (rowSelect)="onRecordselected($event)"></ng2-smart-table>  
+      <ng2-smart-table [settings]="settings" [source]="lsource" (deleteConfirm)="deleteRecord($event)" (createConfirm)="createRecord($event)" (editConfirm)="updateRecord($event)" (rowSelect)="onRecordselected($event)"></ng2-smart-table>  
     </div>
   </card>   
 </div>

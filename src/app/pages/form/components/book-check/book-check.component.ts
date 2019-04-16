@@ -143,7 +143,7 @@ export class BookCheckComponent {
     },
     pager : {
       display: true,
-      perPage : 1
+      perPage : 3
     }
   };
 
@@ -244,6 +244,7 @@ export class BookCheckComponent {
   editionsource: LocalDataSource;
   processsource: LocalDataSource;
   source: ServerDataSource;
+  lsource: LocalDataSource;
 
   sum: any;
   bookForm: FormGroup;
@@ -277,16 +278,26 @@ export class BookCheckComponent {
   protected searchStr: String;
   protected dataService: CompleterData;
   protected searchData;
+  protected bookNames;
   constructor(private http: HttpClient, private completerService: CompleterService) { 
-    this.source = new ServerDataSource(http, {
+    /*this.source = new ServerDataSource(http, {
       endPoint: `${apiurl}/gcUnit/bookcode`,
     pagerLimitKey: 'limit',
     pagerPageKey: 'page',
     dataKey: 'docs',
     totalKey: 'pages',
     filterFieldKey: '#field#'
-    });
-    this.source.setPaging(1, 10);
+    });*/
+
+    this.http.get(`${apiurl}/gcUnit/bookcodesearch`)
+      .map(res=>res)
+      .subscribe(res=>{
+        let tmp: any[] = Array.of(res);
+        console.log(tmp);
+        this.lsource = new LocalDataSource();
+        this.lsource.load(tmp[0]);
+    })
+    
     this.dataService = completerService.local(this.searchData, '저자', '저자');
     this.http.get(`${apiurl}/gcUnit/editorsearch`)
     .map(res =>res)
@@ -299,7 +310,18 @@ export class BookCheckComponent {
         });
       });
       this.searchData = stack;
-      console.log(this.searchData);
+    })
+    this.http.get(`${apiurl}/gcUnit/bookcodesearch`)
+    .map(res =>res)
+    .subscribe(res => {
+      let tmp: any[] = Array.of(res);
+      let stack = new Array();
+      tmp.forEach(element => {
+        element.forEach(result => {
+          stack.push(result.도서명);
+        });
+      });
+      this.bookNames = stack;
     })
   }
 
@@ -516,6 +538,27 @@ export class BookCheckComponent {
         console.log(res);
         this.processsource = new LocalDataSource();
         this.processsource.load(res.docs);
+      })
+    }
+
+    selectedAuthor(event){
+      this.http.post(`${apiurl}/gcUnit/bookcodebyname`,{name:event})
+      .map(res=>res)
+      .subscribe(res=>{
+        let tmp: any[] = Array.of(res);
+        console.log(tmp);
+        this.lsource = new LocalDataSource();
+        this.lsource.load(tmp[0]);
+      })
+    }
+    selectedBook(event){
+      this.http.post(`${apiurl}/gcUnit/bookcodebybook`,{name:event})
+      .map(res=>res)
+      .subscribe(res=>{
+        let tmp: any[] = Array.of(res);
+        console.log(tmp);
+        this.lsource = new LocalDataSource();
+        this.lsource.load(tmp[0]);
       })
     }
 }

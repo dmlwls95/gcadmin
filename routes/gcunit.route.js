@@ -712,6 +712,49 @@ gcUnitRoutes.get('/bookcodebyten', function(req, res, next) {
     });
   }
 });
+gcUnitRoutes.post('/bookcodebyname', (req,res)=>{
+  let name = req.body.name;
+  Bookcode.find({저자:name}, (err,result)=>{
+    if(err){
+      console.log(err);
+    }
+    if(result.length){
+      res.status(201).json(result);
+    }else{
+      Bookcode.find({},(err,all)=>{
+        if(err) console.log(err)
+        res.status(200).json(all);
+      })
+    }
+    
+  })
+})
+gcUnitRoutes.post('/bookcodebybook', (req,res)=>{
+  let name = req.body.name;
+  Bookcode.find({도서명:name}, (err,result)=>{
+    if(err){
+      console.log(err);
+    }
+    if(result.length){
+      res.status(201).json(result);
+    }else{
+      Bookcode.find({},(err,all)=>{
+        if(err) console.log(err)
+        res.status(200).json(all);
+      })
+    }
+    
+  })
+})
+gcUnitRoutes.get('/bookcodesearch', function(req, res) {
+  Bookcode.find({}, function(err, result) {
+    if (err) {
+      console.log(err);
+    }
+
+    res.json(result);
+  });
+});
 
 gcUnitRoutes.post('/bookcode', function(req, res) {
   console.log(req.body);
