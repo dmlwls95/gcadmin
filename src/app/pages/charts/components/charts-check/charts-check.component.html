@@ -3,7 +3,7 @@
   <div>
     <div class="left">
     <card cardTitle="저자 등록">
-      <form class="container" #editorForm="ngForm" (ngSubmit)="onSubmit()">
+      <form (keydown.enter)="$event.preventDefault()" class="container" #editorForm="ngForm" (ngSubmit)="onSubmit()">
         <table class="storage">
           <tr>
             <th>* 성명</th>
@@ -69,6 +69,7 @@
         </table>
         <br>
         <div>
+          <button type="button" class="submit_button">신규</button>
           <button type="submit" class="submit_button">저장</button>
         </div>
         <br>
@@ -86,7 +87,7 @@
     </div>
   </div>
 </div>
-<div class="containerbottom">
+<div class="container">
 <div class="scrolling-wrapper">
     <card cardTitle="AUTHOR DATA">
       <form class="container" #searchForm="ngForm" (ngSubmit)="onSearch()"></form>

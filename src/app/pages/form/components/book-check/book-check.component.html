@@ -2,12 +2,11 @@
 <div class="container">
   <div class="left">
     <card cardTitle="AUTHOR REGISTRATION">
-      <form class="container" #editorForm="ngForm" (ngSubmit)="onSubmit()">
+      <form (keydown.enter)="$event.preventDefault()" class="container" #editorForm="ngForm" (ngSubmit)="onSubmit()">
         <table class="storage">
           <tr>
             <th>발행처</th>
             <td>
-              
               <select class="form-control" [(ngModel)]="bookData.from" name="from" id="publisher">
                 <option [ngValue]="null">{{bookData.from}}</option>
                 <option value="글로벌콘텐츠출판그룹">글로벌콘텐츠출판그룹</option>
@@ -21,7 +20,12 @@
             <th>도서명</th>
             <td><input type="text" class="form-control" [(ngModel)]="bookData.bookname" name="bookname">
             <th>저자</th>
-            <td><input type="text" class="form-control" [(ngModel)]="bookData.author" name="author"></td>
+            <td>
+              <select class="form-control" [(ngModel)]="bookData.author" name="author" id="authors">
+                <option [ngValue]="null">{{bookData.author}}</option>
+                <option *ngFor="let author of searchData" [value]="author">{{author}}</option>
+              </select>
+            </td>
           </tr>
           <tr>
             <th>바코드</th>
@@ -74,6 +78,7 @@
         </table>
           <br>
           <div>
+            <button type="button" class="submit_button" (click)="onNew()">신규</button>
             <button type="submit" class="submit_button">저장</button>
           </div>
           <br>

@@ -543,37 +543,37 @@ gcUnitRoutes.post('/bookadd', function(req, res) {
         if (err) res.status(500).json({ error: 'fail to updtae' });
         res.json({ message: 'updated successfully' });
       });
-    } else if (!result) {
-      let book = new Bookcode();
-      if (req.body.bookcode) result.도서코드 = req.body.bookcode;
-      if (req.body.bookname) result.도서명 = req.body.bookname;
-      if (req.body.author) result.저자 = req.body.author;
-      if (req.body.relday) result.발행일 = req.body.relday;
-      if (req.body.from) result.발행처 = req.body.from;
-      if (req.body.price) result.정가 = req.body.price;
-      if (req.body.contactrange) result.계약기간 = req.body.contactrange;
-      if (req.body.status) result.상태 = req.body.status;
-      if (req.body.royaltipercent) result.인세율 = req.body.royaltipercent;
-      if (req.body.royaltijugi) result.인세주기 = req.body.royaltijugi;
-      if (req.body.edition) result.판_쇄 = req.body.edition;
-      if (req.body.relnumber) result.발행부수 = req.body.relnumber;
-      if (req.body.translate) result.저술_번역 = req.body.translate;
-      if (req.body.agency) result.에이전시 = req.body.agency;
-      if (req.body.originrel) result.원출판사 = req.body.originrel;
-      if (req.body.royalti) result.로열티 = req.body.royalti;
-      if (req.body.panhyng) result.판형 = req.body.panhyng;
-      if (req.body.jaebon) result.제본 = req.body.jaebon;
-      if (req.body.page) result.페이지 = req.body.page;
-      if (req.body.bigo) result.비고 = req.body.bigo;
-      book._id = new mongoose.Types.ObjectId();
-      book.save(function(err) {
-        if (err) {
-          console.log(err);
-        } else {
-          res.json(book);
-        }
-      });
     }
+  });
+});
+gcUnitRoutes.post('/bookaddnew', function(req, res) {
+  let book = new Bookcode();
+  if (req.body.barcode) book.바코드 = req.body.barcode;
+  if (req.body.bookcode) book.도서코드 = req.body.bookcode;
+  if (req.body.bookname) book.도서명 = req.body.bookname;
+  if (req.body.author) book.저자 = req.body.author;
+  if (req.body.relday) book.발행일 = req.body.relday;
+  if (req.body.from) book.발행처 = req.body.from;
+  if (req.body.price) book.정가 = req.body.price;
+  if (req.body.contactrange) book.계약기간 = req.body.contactrange;
+  if (req.body.status) book.상태 = req.body.status;
+  if (req.body.royaltipercent) book.인세율 = req.body.royaltipercent;
+  if (req.body.royaltijugi) book.인세주기 = req.body.royaltijugi;
+  if (req.body.edition) book.판_쇄 = req.body.edition;
+  if (req.body.relnumber) book.발행부수 = req.body.relnumber;
+  if (req.body.translate) book.저술_번역 = req.body.translate;
+  if (req.body.agency) book.에이전시 = req.body.agency;
+  if (req.body.originrel) book.원출판사 = req.body.originrel;
+  if (req.body.royalti) book.로열티 = req.body.royalti;
+  if (req.body.panhyng) book.판형 = req.body.panhyng;
+  if (req.body.jaebon) book.제본 = req.body.jaebon;
+  if (req.body.page) book.페이지 = req.body.page;
+  if (req.body.bigo) book.비고 = req.body.bigo;
+  book._id = new mongoose.Types.ObjectId();
+
+  Bookcode.insertMany(book,(err,docs)=>{
+    if(err) res.status(404).send(err);
+    res.status(201).json(docs);
   });
 });
 
@@ -687,10 +687,10 @@ gcUnitRoutes.delete('/bookcode/:id', function(req, res) {
   Bookcode.findByIdAndRemove(req.params.id, req.body, function(err, gcUnit) {
     if (err) {
       console.log(err);
-      res.json(err);
+      res.status(404).json(err);
     } else {
       console.log('successfully removed');
-      res.json('Successfully removed');
+      res.status(200).json('Successfully removed');
     }
   });
 });

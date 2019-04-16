@@ -277,15 +277,6 @@ export class BookCheckComponent {
   protected searchStr: String;
   protected dataService: CompleterData;
   protected searchData;
-  protected publisherName = [
-    '글로벌컨텐츠',
-    '작가와비평',
-    '글모아출판',
-    '세림출판',
-    '컴원미디어',
-    'G노벨'
-  ]
-  protected publisher: string;
   constructor(private http: HttpClient, private completerService: CompleterService) { 
     this.source = new ServerDataSource(http, {
       endPoint: `${apiurl}/gcUnit/bookcode`,
@@ -320,17 +311,32 @@ export class BookCheckComponent {
     })
 }
 
+  onNew(){
+    this.http.post(`${apiurl}/gcUnit/bookaddnew`, this.bookData)
+    .subscribe(res=>{
+      console.log(res);
+      this.source.refresh();
+      alert('successfully added');
+    },(err: HttpErrorResponse) => {
+      if (err.error instanceof Error) {
+        alert('Client-side error occured.');
+      } else {
+        alert('Server-side error occured.');
+      }
+    })
+  }
+
   updateRecord(event) {
     this.http.put<any>(`${apiurl}/gcUnit/bookcode/` + event.newData._id, event.newData).subscribe(
           res => {
-            console.log(res);
+            alert('successfully updated')
             event.confirm.resolve(event.newData);
         },
         (err: HttpErrorResponse) => {
           if (err.error instanceof Error) {
-            console.log('Client-side error occured.');
+            alert('Client-side error occured.');
           } else {
-            console.log('Server-side error occured.');
+            alert('Server-side error occured.');
           }
         });
     }
@@ -339,14 +345,14 @@ export class BookCheckComponent {
          console.log(event.data);
         this.http.delete<any>(`${apiurl}/gcUnit/bookcode/` + event.data._id).subscribe(
             res => {
-              console.log(res);
+              alert('successfully removed')
               event.confirm.resolve(event.source.data);
           },
           (err: HttpErrorResponse) => {
             if (err.error instanceof Error) {
-              console.log('Client-side error occured.');
+              alert('Client-side error occured.');
             } else {
-              console.log('Server-side error occured.');
+              alert('Server-side error occured.');
             }
           });
         // event.confirm.resolve(event.source.data);}
@@ -356,15 +362,15 @@ export class BookCheckComponent {
     // console.log(data);
       this.http.post<any>(`${apiurl}/gcUnit/bookcode/` , event.newData).subscribe(
         res => {
-          console.log(res);
+          alert('successfully created')
           event.confirm.resolve(event.newData);
 
         },
         (err: HttpErrorResponse) => {
           if (err.error instanceof Error) {
-            console.log('Client-side error occured.');
+              alert('Client-side error occured.');
             } else {
-              console.log('Server-side error occured.');
+              alert('Server-side error occured.');
             }
         }
       );
@@ -378,9 +384,9 @@ export class BookCheckComponent {
           },
           (err: HttpErrorResponse) => {
             if (err.error instanceof Error) {
-              console.log('Client-side error occured.');
+              alert('Client-side error occured.');
             } else {
-              console.log('Server-side error occured.');
+              alert('Server-side error occured.');
             }
           });
       }
@@ -394,9 +400,9 @@ export class BookCheckComponent {
             },
             (err: HttpErrorResponse) => {
               if (err.error instanceof Error) {
-                console.log('Client-side error occured.');
+                alert('Client-side error occured.');
               } else {
-                console.log('Server-side error occured.');
+                alert('Server-side error occured.');
               }
             });
           // event.confirm.resolve(event.source.data);}
@@ -411,9 +417,9 @@ export class BookCheckComponent {
           },
           (err: HttpErrorResponse) => {
             if (err.error instanceof Error) {
-              console.log('Client-side error occured.');
+              alert('Client-side error occured.');
               } else {
-                console.log('Server-side error occured.');
+                alert('Server-side error occured.');
               }
           }
         );
@@ -426,9 +432,9 @@ export class BookCheckComponent {
             },
             (err: HttpErrorResponse) => {
               if (err.error instanceof Error) {
-                console.log('Client-side error occured.');
+                alert('Client-side error occured.');
               } else {
-                console.log('Server-side error occured.');
+                alert('Server-side error occured.');
               }
             });
         }
@@ -442,9 +448,9 @@ export class BookCheckComponent {
               },
               (err: HttpErrorResponse) => {
                 if (err.error instanceof Error) {
-                  console.log('Client-side error occured.');
+                  alert('Client-side error occured.');
                 } else {
-                  console.log('Server-side error occured.');
+                  alert('Server-side error occured.');
                 }
               });
             // event.confirm.resolve(event.source.data);}
@@ -459,9 +465,9 @@ export class BookCheckComponent {
             },
             (err: HttpErrorResponse) => {
               if (err.error instanceof Error) {
-                console.log('Client-side error occured.');
+                alert('Client-side error occured.');
                 } else {
-                  console.log('Server-side error occured.');
+                  alert('Server-side error occured.');
                 }
             }
           );
