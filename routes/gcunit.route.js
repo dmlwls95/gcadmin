@@ -384,7 +384,7 @@ gcUnitRoutes.get('/editorchart', function(req, res, next) {
   if (query.저자) {
     Editor.paginate(
       { 저자: { $regex: '.*' + query.저자 + '.*' } },
-      { page: paged, limit: 10 },
+      { page: paged, limit: 3 },
       function(err, result) {
         if (err) {
           console.log(err);
@@ -396,7 +396,7 @@ gcUnitRoutes.get('/editorchart', function(req, res, next) {
   } else if (query.주민번호) {
     Editor.paginate(
       { 주민번호: { $regex: '.*' + query.주민번호 + '.*' } },
-      { page: paged, limit: 10 },
+      { page: paged, limit: 3 },
       function(err, result) {
         if (err) {
           console.log(err);
@@ -406,7 +406,7 @@ gcUnitRoutes.get('/editorchart', function(req, res, next) {
       }
     );
   } else {
-    Editor.paginate({}, { page: paged, limit: 10 }, function(err, result) {
+    Editor.paginate({}, { page: paged, limit: 3 }, function(err, result) {
       if (err) {
         console.log(err);
       } else {
@@ -479,25 +479,63 @@ gcUnitRoutes.post('/editoradd', function(req, res) {
   Editor.findOne({ 저자: req.body.author }, (err, result) => {
     if (err) return res.status(500).json({ error: 'database failure' });
     if (result) {
-      result = req.body
+      if (req.body.author) result.저자 = req.body.author; else result.저자 = '';
+      if (req.body.org) result.소속 = req.body.org; else result.소속 = '';
+      if (req.body.hierarchy) result.직위 = req.body.hierarchy; else result.직위 = '';
+      if (req.body.cel1) result.연락처_휴대전화 = req.body.cel1; else result.연락처_휴대전화 = '';
+      if (req.body.cel2) result.연락처_02 = req.body.cel2; else result.연락처_02 = '';
+      if (req.body.fax) result.팩스 = req.body.fax; else result.팩스 = '';
+      if (req.body.email) result.이메일 = req.body.email; else result.이메일 = '';
+      if (req.body.busn) result.사업자번호 = req.body.busn; else result.사업자번호 = '';
+      if (req.body.cate) result.구분 = req.body.cate; else result.구분 = '';
+      if (req.body.bank) result.은행 = req.body.bank; else result.은행 = '';
+      if (req.body.bankaccount) result.계좌번호 = req.body.bankaccount; else result.계좌번호 = '';
+      if (req.body.bankaccount_owner) result.예금주 = req.body.bankaccount_owner;else result.예금주 = '';
+      if (req.body.addr_comp) result.주소_직장 = req.body.addr_comp; else result.주소_직장 = '';
+      if (req.body.addr_home) result.주소_자택 = req.body.addr_home; else result.주소_자택 = '';
+      if (req.body.bigo_01) result.비고_01 = req.body.bigo_01; else result.비고_01 = '';
+      if (req.body.bigo_02) result.비고_02 = req.body.bigo_02; else result.비고_02 = '';
+      if (req.body.major) result.전공 = req.body.major; else result.전공 = '';
+      if (req.body.anniversary) result.기념일 = req.body.anniversary; else result.기념일 = '';
+      if (req.body.id) result.id = req.body.id; else result.id = '';
+      if (req.body.pw) result.pw = req.body.pw; else result.pw = '';
       result.save(function(err) {
         if (err) res.status(500).json({ error: 'fail to updtae' });
         res.json({ message: 'updated successfully' });
       });
-    } else if (!result) {
-      let editor = new Editor();
-      editor = req.body;
-      editor._id = new mongoose.Types.ObjectId();
-      editor.save(function(err) {
-        if (err) {
-          console.log(err);
-        } else {
-          res.json(editor);
-        }
-      });
+    } else {
+      res.status(404).json({ message: 'no one found in editorDB'})
     }
   });
 });
+gcUnitRoutes.post('/editoraddnew', (req,res)=>{
+  let editor = new Editor();
+  if (req.body.author) editor.저자 = req.body.author; else editor.저자 = '';
+  if (req.body.org) editor.소속 = req.body.org; else editor.소속 = '';
+  if (req.body.hierarchy) editor.직위 = req.body.hierarchy; else editor.직위 = '';
+  if (req.body.cel1) editor.연락처_휴대전화 = req.body.cel1; else editor.연락처_휴대전화 = '';
+  if (req.body.cel2) editor.연락처_02 = req.body.cel2; else editor.연락처_02 = '';
+  if (req.body.fax) editor.팩스 = req.body.fax; else editor.팩스 = '';
+  if (req.body.email) editor.이메일 = req.body.email; else editor.이메일 = '';
+  if (req.body.busn) editor.사업자번호 = req.body.busn; else editor.사업자번호 = '';
+  if (req.body.cate) editor.구분 = req.body.cate; else editor.구분 = '';
+  if (req.body.bank) editor.은행 = req.body.bank; else editor.은행 = '';
+  if (req.body.bankaccount) editor.계좌번호 = req.body.bankaccount; else editor.계좌번호 = '';
+  if (req.body.bankaccount_owner) editor.예금주 = req.body.bankaccount_owner;else editor.예금주 = '';
+  if (req.body.addr_comp) editor.주소_직장 = req.body.addr_comp; else editor.주소_직장 = '';
+  if (req.body.addr_home) editor.주소_자택 = req.body.addr_home; else editor.주소_자택 = '';
+  if (req.body.bigo_01) editor.비고_01 = req.body.bigo_01; else editor.비고_01 = '';
+  if (req.body.bigo_02) editor.비고_02 = req.body.bigo_02; else editor.비고_02 = '';
+  if (req.body.major) editor.전공 = req.body.major; else editor.전공 = '';
+  if (req.body.anniversary) editor.기념일 = req.body.anniversary; else editor.기념일 = '';
+  if (req.body.id) editor.id = req.body.id; else editor.id = '';
+  if (req.body.pw) editor.pw = req.body.pw; else editor.pw = '';
+  editor._id = new mongoose.Types.ObjectId();
+  Editor.insertMany(editor,(err,docs)=>{
+    if(err) res.status(404).send(err);
+    res.status(201).json(docs);
+  })
+})
 
 gcUnitRoutes.get('/editorsearch', function(req, res) {
   Editor.find({}, function(err, result) {

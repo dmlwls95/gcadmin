@@ -47,6 +47,12 @@
             <th>전공</th>
             <td><input type="text" class="form-control" [(ngModel)]="editorData.major" name="major"></td>
           </tr>
+          <tr>
+            <th>ID</th>
+            <td><input type="text" class="form-control" [(ngModel)]="editorData.id" name="id"></td>
+            <th>PW</th>
+            <td><input type="text" class="form-control" [(ngModel)]="editorData.pw" name="pw"></td>
+          </tr>
           
         </table>
         <table>
@@ -69,14 +75,11 @@
         </table>
         <br>
         <div>
-          <button type="button" class="submit_button">신규</button>
+          <button type="button" class="submit_button" (click)="onNew()">신규</button>
           <button type="submit" class="submit_button">저장</button>
         </div>
         <br>
       </form>
-      <hr>
-      *저자 이름이 일치할경우 -> 수정<br>
-      *저자 이름 불일치할경우 -> 추가
     </card>
     </div>
     <div class="right">
@@ -92,7 +95,7 @@
     <card cardTitle="AUTHOR DATA">
       <form class="container" #searchForm="ngForm" (ngSubmit)="onSearch()"></form>
       <br>
-      <ng2-smart-table [settings]="settings" [source]="source" (deleteConfirm)="deleteRecord($event)" (createConfirm)="createRecord($event)" (editConfirm)="updateRecord($event)" (rowSelect)="onRecordselected($event)"></ng2-smart-table>
+      <ng2-smart-table [settings]="settings" [source]="lsource" (deleteConfirm)="deleteRecord($event)" (createConfirm)="createRecord($event)" (editConfirm)="updateRecord($event)" (rowSelect)="onRecordselected($event)"></ng2-smart-table>
     </card>
   </div>
 </div>

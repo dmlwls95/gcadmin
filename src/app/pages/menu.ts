@@ -12,6 +12,10 @@ export let MENU_ITEM = [
             {
                 path: 'charts-check',
                 title: '저자정보등록'  
+            },
+            {
+                path: 'chart-only-check',
+                title: '저자정보 조회(10행)'
             }
         ]
     },

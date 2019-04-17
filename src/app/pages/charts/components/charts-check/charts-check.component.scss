@@ -32,7 +32,7 @@ div.right {
 
 .scrolling-wrapper {
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: keep-all;
     overflow-x: scroll;
     word-break: keep-all !important;
     .card {
@@ -46,6 +46,7 @@ div.right {
 
 :host /deep/ ng2-smart-table table > tbody > tr > td {
     box-sizing: border-box;
+    word-break: keep-all !important;
 }
 
 :host /deep/ ng2-smart-table tbody th {
@@ -53,6 +54,7 @@ div.right {
     vertical-align: top;
     border-bottom: 1px solid #ddd;
     background: #e8edf4;
+    word-break: keep-all !important;
 }
 
 /* headers grid color*/
@@ -60,20 +62,24 @@ div.right {
     background: #E2E9F5;
     border-width: 2px;
     border-color: white;
+    word-break: keep-all !important;
 } 
 :host /deep/ ng2-smart-table thead > tr > td  { 
     border-width: 2px;
     border-color: white;
     border-bottom: 1px solid #ddd;
+    word-break: keep-all !important;
 }
 :host /deep/ ng2-smart-table thead > tr > td { 
     border-width: 1px;
     border-color: #ddd;
     border-bottom: 1px solid #ddd;
+    word-break: keep-all !important;
 }  
 /*font size*/
 :host /deep/ ng2-smart-table {
     font-size:13px;
+    word-break: keep-all !important;
 }
 :host /deep/ ng2-smart-table table tr td{
     font-size:1em;

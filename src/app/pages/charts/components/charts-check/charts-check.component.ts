@@ -109,7 +109,8 @@ export class ChartsCheckComponent {
       },
       주소_직장: {
         title: '주소_직장',
-        type: 'string'
+        type: 'string',
+        width: '200px'
       },
       주소_자택: {
         title: '주소_자택',
@@ -130,6 +131,14 @@ export class ChartsCheckComponent {
       기념일: {
         title: '기념일',
         type: 'string'
+      },
+      id: {
+        title: 'id',
+        type: 'string'
+      },
+      pw: {
+        title: 'pw',
+        type: 'string'
       }
     },
     attr: {
@@ -137,7 +146,7 @@ export class ChartsCheckComponent {
     },
     pager : {
       display: true,
-      perPage : 1
+      perPage : 3
     }
   };
   today: number = Date.now();
@@ -195,6 +204,7 @@ export class ChartsCheckComponent {
   };
   counselsource: LocalDataSource;
   source: ServerDataSource;
+  lsource: LocalDataSource;
   editorForm: FormGroup;
   editorData = {
       author: '',
@@ -216,6 +226,8 @@ export class ChartsCheckComponent {
       bigo_02: '',
       major: '',
       anniversary: '',
+      id: '',
+      pw: ''
   };
 
   eventid ='';
@@ -225,7 +237,7 @@ export class ChartsCheckComponent {
   constructor(public datepipe: DatePipe,private http: HttpClient, private formBuilder: FormBuilder) {
     this.date = new Date();
     console.log(this.date)
-    this.source = new ServerDataSource(http, {
+    /*this.source = new ServerDataSource(http, {
       endPoint: `${apiurl}/gcUnit/editorchart`,
     pagerLimitKey: 'limit',
     pagerPageKey: 'page',
@@ -233,10 +245,11 @@ export class ChartsCheckComponent {
     totalKey: 'pages',
     filterFieldKey: '#field#'
     });
-    this.source.setPaging(1, 10);
+    this.source.setPaging(1, 10);*/
     
     
-    console.log(this.source);
+    //console.log(this.source);
+    this.loadeditordata()
    }
 
    ngOnInit() {
@@ -256,12 +269,51 @@ export class ChartsCheckComponent {
     })*/
   }
 
+  loadeditordata(){
+    this.http.get(`${apiurl}/gcUnit/editorsearch`)
+      .map(res=>res)
+      .subscribe(res=>{
+        let tmp: any[] = Array.of(res);
+        console.log(tmp);
+        this.lsource = new LocalDataSource();
+        this.lsource.load(tmp[0]);
+    })
+  }
+
   onSubmit(){
-      this.http.post(`${apiurl}/gcUnit/editoradd`, this.editorData)
-      .subscribe(res => {
-        console.log(res);
-        this.source.refresh();
-      })
+    this.http.post(`${apiurl}/gcUnit/editoradd`, this.editorData)
+    .subscribe(res => {
+      console.log(res);
+    },
+    (err: HttpErrorResponse) => {
+      if (err.error instanceof Error) {
+        alert('Client-side error occured.');
+      } else {
+        alert('Server-side error occured.');
+      }
+    },
+    ()=>{
+      this.loadeditordata();
+      alert('저장완료');
+      
+    })
+  }
+
+  onNew(){
+    this.http.post(`${apiurl}/gcUnit/editoraddnew`, this.editorData)
+    .subscribe(res=>{
+      console.log(res);
+    },(err: HttpErrorResponse) => {
+      if (err.error instanceof Error) {
+        alert('Client-side error occured.');
+      } else {
+        alert('Server-side error occured.');
+      }
+    },
+    ()=>{
+      this.loadeditordata();
+      alert('신규추가완료');
+    })
   }
 
   
@@ -391,6 +443,8 @@ export class ChartsCheckComponent {
       this.editorData.bigo_02 = event.data.비고_02;
       this.editorData.major = event.data.전공;
       this.editorData.anniversary = event.data.기념일;
+      this.editorData.id = event.data.id;
+      this.editorData.pw = event.data.pw;
       
       
       

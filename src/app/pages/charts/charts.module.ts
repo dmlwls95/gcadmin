@@ -11,6 +11,7 @@ import { ChartsComponent } from './charts.component';
 import { EChartsComponent } from './components/echarts/echarts.component';
 import { ChartsCheckComponent } from './components/charts-check/charts-check.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ChartOnlyCheckComponent } from './components/chart-only-check/chart-only-check.component';
 
 @NgModule({
     imports: [
@@ -26,7 +27,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     declarations: [
         ChartsComponent,
         EChartsComponent,
-        ChartsCheckComponent
+        ChartsCheckComponent,
+        ChartOnlyCheckComponent
     ]
 })
 export class ChartsModule { }
