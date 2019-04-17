@@ -260,7 +260,7 @@ export class BookCheckComponent {
       price: '',
       contactrange: '',
       status: '',
-      royaltipercent: '',
+      royaltipercent: 0,
       royaltijugi: '',
       edition: '',
       relnumber: '',
@@ -273,6 +273,10 @@ export class BookCheckComponent {
       page: '',
       bigo: '',
   };
+  searchSelect = {
+    author: '',
+    bookname: ''
+  }
 
   eventbarcode = '';
   protected searchStr: String;
@@ -288,15 +292,8 @@ export class BookCheckComponent {
     totalKey: 'pages',
     filterFieldKey: '#field#'
     });*/
-
-    this.http.get(`${apiurl}/gcUnit/bookcodesearch`)
-      .map(res=>res)
-      .subscribe(res=>{
-        let tmp: any[] = Array.of(res);
-        console.log(tmp);
-        this.lsource = new LocalDataSource();
-        this.lsource.load(tmp[0]);
-    })
+    this.loadbookdata();
+    
     
     this.dataService = completerService.local(this.searchData, '저자', '저자');
     this.http.get(`${apiurl}/gcUnit/editorsearch`)
@@ -325,33 +322,58 @@ export class BookCheckComponent {
     })
   }
 
+  loadbookdata(){
+    this.http.get(`${apiurl}/gcUnit/bookcodesearch`)
+      .map(res=>res)
+      .subscribe(res=>{
+        let tmp: any[] = Array.of(res);
+        console.log(tmp);
+        this.lsource = new LocalDataSource();
+        this.lsource.load(tmp[0]);
+    })
+  }
+
   onSubmit(){
     this.http.post(`${apiurl}/gcUnit/bookadd`, this.bookData)
     .subscribe(res => {
       console.log(res);
-      this.source.refresh();
+    },
+    (err: HttpErrorResponse) => {
+      if (err.error instanceof Error) {
+        alert('Client-side error occured.');
+      } else {
+        alert('Server-side error occured.');
+      }
+    },
+    ()=>{
+      this.loadbookdata();
+      alert('저장완료');
+      
     })
 }
 
   onNew(){
+    console.log(this.bookData.royaltipercent)
     this.http.post(`${apiurl}/gcUnit/bookaddnew`, this.bookData)
     .subscribe(res=>{
       console.log(res);
-      this.source.refresh();
-      alert('successfully added');
     },(err: HttpErrorResponse) => {
       if (err.error instanceof Error) {
         alert('Client-side error occured.');
       } else {
         alert('Server-side error occured.');
       }
+    },
+    ()=>{
+      this.loadbookdata();
+      alert('신규추가완료');
     })
   }
 
   updateRecord(event) {
     this.http.put<any>(`${apiurl}/gcUnit/bookcode/` + event.newData._id, event.newData).subscribe(
           res => {
-            alert('successfully updated')
+            
             event.confirm.resolve(event.newData);
         },
         (err: HttpErrorResponse) => {
@@ -360,6 +382,9 @@ export class BookCheckComponent {
           } else {
             alert('Server-side error occured.');
           }
+        },
+        ()=>{
+          alert('successfully updated')
         });
     }
 

@@ -526,7 +526,7 @@ gcUnitRoutes.post('/bookadd', function(req, res) {
       if (req.body.price) result.정가 = req.body.price;
       if (req.body.contactrange) result.계약기간 = req.body.contactrange;
       if (req.body.status) result.상태 = req.body.status;
-      if (req.body.royaltipercent) result.인세율 = req.body.royaltipercent;
+      if (req.body.royaltipercent>=0) result.인세율 = req.body.royaltipercent;
       if (req.body.royaltijugi) result.인세주기 = req.body.royaltijugi;
       if (req.body.edition) result.판_쇄 = req.body.edition;
       if (req.body.relnumber) result.발행부수 = req.body.relnumber;
@@ -557,7 +557,7 @@ gcUnitRoutes.post('/bookaddnew', function(req, res) {
   if (req.body.price) book.정가 = req.body.price;
   if (req.body.contactrange) book.계약기간 = req.body.contactrange;
   if (req.body.status) book.상태 = req.body.status;
-  if (req.body.royaltipercent) book.인세율 = req.body.royaltipercent;
+  if (req.body.royaltipercent>=0) book.인세율 = req.body.royaltipercent;
   if (req.body.royaltijugi) book.인세주기 = req.body.royaltijugi;
   if (req.body.edition) book.판_쇄 = req.body.edition;
   if (req.body.relnumber) book.발행부수 = req.body.relnumber;

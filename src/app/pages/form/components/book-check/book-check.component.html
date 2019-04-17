@@ -5,6 +5,25 @@
       <form (keydown.enter)="$event.preventDefault()" class="container" #editorForm="ngForm" (ngSubmit)="onSubmit()">
         <table class="storage">
           <tr>
+            <th>검색</th>
+            <td>&nbsp;</td>
+            <th>도서명</th>
+            <td>
+              <select (ngModelChange)="selectedBook($event)" class="form-control" [(ngModel)]="searchSelect.bookname" name="authorSearch" id="books">
+                <option [ngValue]="null">{{searchSelect.bookname}}</option>
+                <option *ngFor="let bookname of bookNames" [value]="bookname">{{bookname}}</option>
+              </select>
+            </td>
+            <th>저자</th>
+            <td>
+              <select (ngModelChange)="selectedAuthor($event)" class="form-control" [(ngModel)]="searchSelect.author" name="authorSearch" id="authors">
+                <option [ngValue]="null">{{searchSelect.author}}</option>
+                <option *ngFor="let author of searchData" [value]="author">{{author}}</option>
+              </select>
+            </td>
+          </tr>
+          <hr>
+          <tr>
             <th>발행처</th>
             <td>
               <select class="form-control" [(ngModel)]="bookData.from" name="from" id="publisher">
@@ -18,19 +37,9 @@
               </select>
             </td>
             <th>도서명</th>
-            <td>
-                <select (ngModelChange)="selectedBook($event)" class="form-control" [(ngModel)]="bookData.bookname" name="bookname" id="books">
-                    <option [ngValue]="null">{{bookData.bookname}}</option>
-                    <option *ngFor="let bookname of bookNames" [value]="bookname">{{bookname}}</option>
-                  </select>
-            </td>
+            <td><input type="text" class="form-control" [(ngModel)]="bookData.bookname" name="barname"></td>
             <th>저자</th>
-            <td>
-              <select (ngModelChange)="selectedAuthor($event)" class="form-control" [(ngModel)]="bookData.author" name="author" id="authors">
-                <option [ngValue]="null">{{bookData.author}}</option>
-                <option *ngFor="let author of searchData" [value]="author">{{author}}</option>
-              </select>
-            </td>
+            <td><input type="text" class="form-control" [(ngModel)]="bookData.author" name="author"></td>
           </tr>
           <tr>
             <th>바코드</th>
@@ -44,7 +53,7 @@
             <th>상태</th>
             <td><input type="text" class="form-control" [(ngModel)]="bookData.status" name="status"></td>
             <th>인세율</th>
-            <td><input type="text" class="form-control" [(ngModel)]="bookData.royaltipercent" name="royaltipercent"></td>
+            <td><input type="number" class="form-control" [(ngModel)]="bookData.royaltipercent" name="royaltipercent"></td>
             <th>판쇄</th>
             <td><input type="text" class="form-control" [(ngModel)]="bookData.edition" name="edition"></td>
           </tr>
@@ -81,7 +90,7 @@
             <td><input type="text" class="form-control" [(ngModel)]="bookData.relnumber" name="relnumber"></td>
           </tr>
         </table>
-          <br>
+          <hr>
           <div>
             <button type="button" class="submit_button" (click)="onNew()">신규</button>
             <button type="submit" class="submit_button">저장</button>
