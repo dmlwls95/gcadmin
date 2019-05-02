@@ -586,5 +586,10 @@ export class BookCheckComponent {
         this.lsource.load(tmp[0]);
       })
     }
+    bookKeydown(event){
+      let tmp = this.searchSelect.bookname;
+      this.lsource.setFilter([{ field: '도서명', search: tmp }])
+
+    }
 }
 

@@ -6,7 +6,7 @@
     cors = require('cors'),
     mongoose = require('mongoose'),
     db = require('./DB.js'),
-    
+    json2xls = require('json2xls'),
     passport = require('passport'),
     session = require('express-session'),
     cookieParser = require('cookie-parser'),
@@ -51,7 +51,7 @@
     const port = process.env.PORT || 4000;
     
     app.use('/gcUnit', gcUnitRoutes);
-
+    app.use(json2xls.middleware);
 
     j = schedule.scheduleJob('*/5 * * * * *', function(){
         //logging();

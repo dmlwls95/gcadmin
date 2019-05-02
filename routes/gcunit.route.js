@@ -10,6 +10,7 @@ const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const config = require('../config/database.js');
 const fs = require('fs');
+const json2xls = require('json2xls');
 // Require model in our routes module
 var Editor = require('../models/editor.js');
 var Bookcode = require('../models/bookcode.js');
@@ -35,6 +36,7 @@ const upload = multer({
   })
 });
 
+gcUnitRoutes.use(json2xls.middleware);
 // Defined store route
 gcUnitRoutes.get('/', function(req, res, next) {
   res.render('../src/index.html');
@@ -1331,6 +1333,31 @@ gcUnitRoutes.get('/getpayed', function(req, res) {
     });
   }
 });
+gcUnitRoutes.put('/getpayed/:id', function(req, res) {
+  Payed.findById(req.body._id, function(err, docs) {
+    if (err) return res.status(500).json({ error: 'database failure' });
+    if (!docs) return res.status(404).json({ error: 'docs not found' });
+
+    if (req.body.comment) docs.comment = req.body.comment;  else if(req.body.comment ==null) docs.comment = '';
+    
+    docs.save(function(err) {
+      if (err) res.status(500).json({ error: 'fail to updtae' });
+      res.json({ message: 'updated successfully' });
+    });
+  });
+});
+
+gcUnitRoutes.delete('/getpayed/:id', function(req, res) {
+  Payed.findByIdAndRemove(req.params.id, req.body, function(err, gcUnit) {
+    if (err) {
+      console.log(err);
+      res.json(err);
+    } else {
+      console.log('successfully removed');
+      res.json('Successfully removed');
+    }
+  });
+});
 
 // admin paying api END*************************
 
@@ -1500,6 +1527,4 @@ gcUnitRoutes.delete('/process:id', function(req,res){
   })
 })
 // edition edit api End *******************************
-
-
 module.exports = gcUnitRoutes;

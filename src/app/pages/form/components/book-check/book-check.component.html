@@ -9,10 +9,11 @@
             <td>&nbsp;</td>
             <th>도서명</th>
             <td>
-              <select (ngModelChange)="selectedBook($event)" class="form-control" [(ngModel)]="searchSelect.bookname" name="authorSearch" id="books">
+              <!--<select (ngModelChange)="selectedBook($event)" class="form-control" [(ngModel)]="searchSelect.bookname" name="authorSearch" id="books">
                 <option [ngValue]="null">{{searchSelect.bookname}}</option>
                 <option *ngFor="let bookname of bookNames" [value]="bookname">{{bookname}}</option>
-              </select>
+              </select>-->
+              <input type="text" class="form-control" [(ngModel)]="searchSelect.bookname" name="findbookname" (keyup)="bookKeydown($event)">
             </td>
             <th>저자</th>
             <td>
@@ -92,8 +93,8 @@
         </table>
           <hr>
           <div>
-            <button type="button" class="submit_button" (click)="onNew()">신규</button>
-            <button type="submit" class="submit_button">저장</button>
+            <button type="button" class="submit_button" (click)="onNew()">저장</button>
+            <button type="submit" class="submit_button">수정</button>
           </div>
           <br>
          </form>

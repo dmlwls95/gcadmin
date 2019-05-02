@@ -64,6 +64,11 @@ export class RoyaltiePayedComponent {
         title: '인세금액',
         type: 'string',
         filter: false
+      },
+      comment:{
+        title: '코멘트',
+        type: 'string',
+        filter: false
       }
       
     },
@@ -93,7 +98,7 @@ export class RoyaltiePayedComponent {
    }
 
   updateRecord(event) {
-    this.http.put<any>(`${apiurl}/gcUnit/editorchart/` + event.newData._id, event.newData).subscribe(
+    this.http.put<any>(`${apiurl}/gcUnit/getpayed/` + event.newData._id, event.newData).subscribe(
           res => {
             console.log(res);
             event.confirm.resolve(event.newData);
@@ -109,7 +114,7 @@ export class RoyaltiePayedComponent {
 
   deleteRecord(event) {
        console.log(event.data);
-      this.http.delete<any>(`${apiurl}/gcUnit/editorchart/` + event.data._id).subscribe(
+      this.http.delete<any>(`${apiurl}/gcUnit/getpayed/` + event.data._id).subscribe(
           res => {
             console.log(res);
             event.confirm.resolve(event.source.data);
@@ -122,23 +127,6 @@ export class RoyaltiePayedComponent {
           }
         });
       // event.confirm.resolve(event.source.data);}
-  }
-
-  createRecord(event) {
-    this.http.post<any>(`${apiurl}/gcUnit/editorchart/` , event.newData).subscribe(
-      res => {
-        console.log(res);
-        event.confirm.resolve(event.newData);
-
-      },
-      (err: HttpErrorResponse) => {
-        if (err.error instanceof Error) {
-          console.log('Client-side error occured.');
-          } else {
-            console.log('Server-side error occured.');
-          }
-      }
-    );
   }
 
   

@@ -96,7 +96,7 @@ function halfofyear(){
                     royalti.저자 = dataa.저자;
                     royalti.도서명 = datab.도서명;
                     royalti.서점명 = datab.서점명;
-                    royalti.인세금액 = (datab.매출금액*dataa.인세율) / 100;
+                    royalti.인세금액 = (datab.순매출금액*dataa.인세율) / 100;
                     royalti.payed = false;
                     
                     royalti.save(function(err){

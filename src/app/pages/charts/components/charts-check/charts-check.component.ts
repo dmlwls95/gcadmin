@@ -229,6 +229,9 @@ export class ChartsCheckComponent {
       id: '',
       pw: ''
   };
+  searchFname = {
+    author: ''
+  }
 
   eventid ='';
   searchForm: FormGroup;
@@ -463,6 +466,11 @@ export class ChartsCheckComponent {
         this.counselsource = new LocalDataSource();
         this.counselsource.load(tmp[0]);
       });*/
+    }
+
+    authorKeyup(event){
+      let tmp = this.searchFname.author;
+      this.lsource.setFilter([{ field:'저자', search: tmp}]);
     }
       
 }

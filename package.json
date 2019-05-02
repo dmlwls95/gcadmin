@@ -25,6 +25,7 @@
     "@angular/platform-browser": "^7.2.1",
     "@angular/platform-browser-dynamic": "^7.2.1",
     "@angular/router": "^7.2.1",
+    "@types/file-saver": "^2.0.0",
     "angular2-froala-wysiwyg": "^2.6.0",
     "animate.css": "^3.5.2",
     "bcrypt-nodejs": "0.0.3",
@@ -38,9 +39,11 @@
     "express": "^4.16.4",
     "express-session": "^1.15.6",
     "fast-csv": "^2.4.1",
+    "file-saver": "^2.0.1",
     "firebase": "^5.8.0",
     "font-awesome": "^4.7.0",
     "jquery": "^3.2.1",
+    "json2xls": "^0.1.2",
     "jsonwebtoken": "^8.4.0",
     "mongoose": "^5.4.2",
     "mongoose-paginate": "^5.0.3",
@@ -65,6 +68,7 @@
     "rxjs-compat": "^6.0.0-rc.0",
     "sweetalert2": "^7.6.3",
     "tslib": "^1.9.0",
+    "xlsx": "^0.14.2",
     "zone.js": "^0.8.28"
   },
   "devDependencies": {

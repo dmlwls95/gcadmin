@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { ServerDataSource, LocalDataSource } from 'ng2-smart-table';
 import { apiurl } from '../../../../../environments/apiservice';
-
+import * as FileSaver from 'file-saver';
+import * as XLSX from 'xlsx';
 @Component({
   selector: 'app-royalties-paying',
   templateUrl: './royalties-paying.component.html',
@@ -86,6 +87,7 @@ export class RoyaltiesPayingComponent implements OnInit {
   };
   paysource: LocalDataSource;
   gridSelected: any;
+  nowrange: any;
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
@@ -107,6 +109,7 @@ export class RoyaltiesPayingComponent implements OnInit {
     this.daterange.start = value.start;
     this.daterange.end = value.end;
     this.daterange.label = value.label;
+    this.nowrange = value;
   }
 
   payselected(value: any){
@@ -131,6 +134,25 @@ export class RoyaltiesPayingComponent implements OnInit {
       console.log('err');
     }
   }
+
+  
+  excel(){
+    this.http.post(`${apiurl}/gcUnit/daterangeNcalc`, this.nowrange)
+    .map(res=>res)
+    .subscribe(res => {
+      let tmp: any[] = Array.of(res);
+      console.log(tmp);
+      //this.paysource = new LocalDataSource();
+      //this.paysource.load(tmp[0]);
+      this.exportExcel(tmp[0]);
+    });
+    
+  }
+  exportExcel(data: any[]){
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data);
+    const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+    XLSX.writeFile(workbook, 'my_file.xls', { bookType: 'xls', type: 'buffer' });
+ }
 
   onUserRowSelect(event) {
     this.gridSelected = event.selected;

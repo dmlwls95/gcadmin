@@ -2,6 +2,7 @@
   <card cardTitle="인세 정산">
     <input  type="text" name="daterangeInput" daterangepicker [options]="options" (selected)="payselectedDate($event, daterange)"/>
     <button type="submit" (click)="onSubmit()">결산</button>
+    <button type="button" (click)="excel()">엑셀다운로드</button>
       <div class="scrolling-wrapper">
         <ng2-smart-table [settings]="paysettings" [source]="paysource" (userRowSelect)="onUserRowSelect($event)" ></ng2-smart-table>
       </div>
