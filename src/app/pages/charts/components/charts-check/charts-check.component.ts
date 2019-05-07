@@ -468,7 +468,7 @@ export class ChartsCheckComponent {
       });*/
     }
 
-    authorKeyup(event){
+    authorKeyup(){
       let tmp = this.searchFname.author;
       this.lsource.setFilter([{ field:'저자', search: tmp}]);
     }

@@ -281,7 +281,7 @@ export class BookCheckComponent {
   eventbarcode = '';
   protected searchStr: String;
   protected dataService: CompleterData;
-  protected searchData;
+  public searchData;
   protected bookNames;
   constructor(private http: HttpClient, private completerService: CompleterService) { 
     /*this.source = new ServerDataSource(http, {

@@ -39,7 +39,7 @@ const upload = multer({
 gcUnitRoutes.use(json2xls.middleware);
 // Defined store route
 gcUnitRoutes.get('/', function(req, res, next) {
-  res.render('../src/index.html');
+  res.render('../dist/index.html');
 });
 
 // loginparts**************************************************
