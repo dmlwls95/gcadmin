@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 
 module.exports = () => {
     function connect() {
-        mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/admin',{ useNewUrlParser: true}, function(err){
+        mongoose.connect(process.env.MONGODB_URI || 'mongodb://gcbookadmin:cafe3280@ds117545.mlab.com:17545/heroku_4lbrvz3c',{ useNewUrlParser: true}, function(err){
             if(err) {
                 console.error('mongodb connection err', err);
             }
