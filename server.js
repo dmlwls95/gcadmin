@@ -48,7 +48,7 @@
         saveUninitialized: false
     }));*/
     require('./config/passport')(passport);
-    const port = process.env.PORT || 8001;
+    const port = process.env.PORT || 4000;
     
     app.use('/gcUnit', gcUnitRoutes);
     app.use(json2xls.middleware);
