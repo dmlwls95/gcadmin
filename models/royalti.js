@@ -14,7 +14,15 @@ var royaltiSchema = mongoose.Schema({
 
   인세금액: { type: Number },
   
-  payed: { type: Boolean }
+  payed: { type: Boolean },
+  
+  은행: { type: String },
+  
+  계좌번호: { type: String},
+  
+  예금주: { type: String},
+
+  연락처: {type: String}
 
 }, { collection: 'royalti'});
 royaltiSchema.plugin(mongoosePaginate);

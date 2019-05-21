@@ -217,19 +217,23 @@ export class BookCheckComponent {
     columns: {
       항목:{
         title: '항목',
-        type: 'string'
+        type: 'string',
+        width: '10%'
       },
       날짜: {
         title: '날짜',
-        type: 'string'
+        type: 'string',
+        width: '10%'
       },
       담당자: {
         title: '담당자',
-        type: 'string'
+        type: 'string',
+        width: '10%'
       },
       작업내용: {
         title: '작업내용',
-        type: 'string'
+        type: 'string',
+        width: '70%'
       },
     },
     attr: {
@@ -590,6 +594,30 @@ export class BookCheckComponent {
       let tmp = this.searchSelect.bookname;
       this.lsource.setFilter([{ field: '도서명', search: tmp }])
 
+    }
+    clear(){
+      this.eventbarcode = null;
+      this.bookData.barcode = null;
+      this.bookData.bookcode = null;
+      this.bookData.bookname = null;
+      this.bookData.author = null;
+      this.bookData.relday = null;
+      this.bookData.from = null;
+      this.bookData.price = null;
+      this.bookData.contactrange = null;
+      this.bookData.status = null;
+      this.bookData.royaltipercent = null;
+      this.bookData.royaltijugi = null;
+      this.bookData.edition = null;
+      this.bookData.relnumber = null;
+      this.bookData.translate = null;
+      this.bookData.agency = null;
+      this.bookData.originrel = null;
+      this.bookData.royalti = null;
+      this.bookData.panhyng = null;
+      this.bookData.jaebon = null;
+      this.bookData.page = null;
+      this.bookData.bigo = null;
     }
 }
 

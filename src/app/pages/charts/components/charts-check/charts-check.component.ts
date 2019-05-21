@@ -473,4 +473,28 @@ export class ChartsCheckComponent {
       this.lsource.setFilter([{ field:'저자', search: tmp}]);
     }
       
+    clear(){
+      this.eventid = null;
+      this.editorData.author = null;
+      this.editorData.org = null;
+      this.editorData.hierarchy = null;
+      this.editorData.cel1 = null;
+      this.editorData.cel2 = null;
+      this.editorData.fax = null;
+      this.editorData.email = null;
+      this.editorData.busn = null;
+      this.editorData.cate = null;
+      this.editorData.RRN = null;
+      this.editorData.bank = null;
+      this.editorData.bankaccount = null;
+      this.editorData.bankaccount_owner = null;
+      this.editorData.addr_comp = null;
+      this.editorData.addr_home = null;
+      this.editorData.bigo_01 = null;
+      this.editorData.bigo_02 = null;
+      this.editorData.major = null;
+      this.editorData.anniversary = null;
+      this.editorData.id = null;
+      this.editorData.pw = null;
+    }
 }

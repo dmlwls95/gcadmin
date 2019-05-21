@@ -46,42 +46,6 @@ function bnpanal(){
 }
 
 function halfofyear(){
-    /*Payday.find().exec(function(err,data){
-        data.forEach(function(dataa){ // data는 모든 매출데이터 dataa는 한줄
-            
-            let royalti = new Royalti();
-            royalti._id = new mongoose.Types.ObjectId();
-            royalti.일자 = Date.now();
-            royalti.저자 = dataa.저자;
-            royalti.도서명 = dataa.도서명;
-            royalti.서점명 = dataa.서점명;
-            royalti.인세금액 = paydata.매출금액 / dataa.인세율;
-            royalti.save(function(err){
-                if(err) console.log(err);
-
-        
-    })
-        })
-    })*/
-    /*Payday.find().exec(function(err1,data){
-        data.forEach(function(dataa){
-            Contract.find({저자: { $regex: '.*' + dataa.저자 + '.*'}}).exec(function(err2,result){
-                    result.forEach(function(datab){
-                        let royalti = new Royalti();
-                        royalti._id = new mongoose.Types.ObjectId();
-                        royalti.일자 = dataa.일자;
-                        royalti.저자 = datab.저자;
-                        royalti.도서명 = dataa.도서명;
-                        royalti.서점명 = dataa.서점명;
-                        royalti.인세금액 = (dataa.매출금액*datab.인세율) / 100;
-                        //console.log(royalti);
-                        royalti.save(function(err){
-                            if(err) console.log(err);
-                        })
-                    })
-            })
-        })
-    });*/
     
     Contract.find({}).exec(function(err,data){
         data.forEach(function(dataa){
@@ -110,9 +74,39 @@ function halfofyear(){
     })
     
 }
+function calcroyalti(){
+    Bookcode.find({}).exec((err,data)=>{
+        data.forEach((dataa)=>{
+            Payday.find({$and: [{저자:dataa.저자}, {바코드:dataa.바코드}]}).exec((err,result)=>{
+                if(err) console.log(err);
+                result.forEach((datab)=>{
+                    Editor.find({저자:dataa.저자}).exec((err,datac)=>{
+                        let royalti = new Royalti();
+                        royalti._id = new mongoose.Types.ObjectId();
+                        if(datac[0].은행) royalti.은행 = datac[0].은행; else royalti.은행 = null
+                        if(datac[0].계좌번호) royalti.계좌번호 = datac[0].계좌번호; else royalti.계좌번호 = null
+                        if(datac[0].예금주) royalti.예금주 = datac[0].예금주; else royalti.예금주 = null
+                        if(datac[0].연락처_휴대전화) royalti.연락처 = datac[0].연락처_휴대전화; else royalti.연락처 = null
+                        royalti.일자 = datab.일자;
+                        royalti.저자 = dataa.저자;
+                        royalti.도서명 = datab.도서명;
+                        royalti.서점명 = datab.서점명;
+                        royalti.인세금액 = (datab.순매출금액*dataa.인세율) / 100;
+                        royalti.payed = false;
+                        royalti.save(function(err){
+                            if(err) console.log(err);
+                        })
+                    })
+                    
+                })
+            })
+        })
+    })
+}
 
 module.exports = {
     logging: logging,
     bnpanal: bnpanal,
-    halfofyear :halfofyear
+    halfofyear :halfofyear,
+    calcroyalti: calcroyalti
 };

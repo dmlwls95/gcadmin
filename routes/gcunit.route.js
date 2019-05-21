@@ -24,6 +24,7 @@ var Edition = require('../models/edition.js');
 var Process = require('../models/process.js');
 bnpanal = require('../services/services.js').bnpanal;
 halfofyear = require('../services/services.js').halfofyear;
+calcroyalti = require('../services/services.js').calcroyalti;
 logging = require('../services/services.js').logging;
 const upload = multer({
   storage: multer.diskStorage({
@@ -359,6 +360,7 @@ gcUnitRoutes.post('/upload/payday', upload.single('payday'), (req, res) => {
     })
     .on('end', function() {
       bnpanal().then(function(result) {
+        //calcroyalti();
         return halfofyear();
       });
       console.log('수불내역업데이트완료');
@@ -1527,4 +1529,17 @@ gcUnitRoutes.delete('/process:id', function(req,res){
   })
 })
 // edition edit api End *******************************
+gcUnitRoutes.get('/paychart', passport.authenticate('jwt', { session: false }),(req, res)=> {
+    var token = getToken(req.headers);
+    var user = req.user.저자;
+    if (token) {
+      Royalti.find({ 저자: new RegExp(user, 'i') }, (err, result)=> {
+        
+        res.json(result);
+      });
+    } else {
+      return res.status(403).send({ success: false, msg: 'Unauthorized.' });
+    }
+  }
+);
 module.exports = gcUnitRoutes;
