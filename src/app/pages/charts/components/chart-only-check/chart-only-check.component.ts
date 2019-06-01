@@ -60,7 +60,8 @@ export class ChartOnlyCheckComponent {
       연락처_휴대전화: {
         title: '연락처_휴대전화',
         type: 'string',
-        filter: false
+        filter: false,
+        width: "200px"
       },
       연락처_02: {
         title: '연락처_02',
@@ -100,7 +101,8 @@ export class ChartOnlyCheckComponent {
       },
       계좌번호: {
         title: '계좌번호',
-        type: 'string'
+        type: 'string',
+        width: "200px"
       },
       예금주: {
         title: '예금주',
@@ -109,7 +111,7 @@ export class ChartOnlyCheckComponent {
       주소_직장: {
         title: '주소_직장',
         type: 'string',
-        width: '200px'
+        width: "500px"
       },
       주소_자택: {
         title: '주소_자택',
@@ -145,7 +147,7 @@ export class ChartOnlyCheckComponent {
     },
     pager : {
       display: true,
-      perPage : 10
+      perPage : 10  
     }
   };
   source: LocalDataSource;

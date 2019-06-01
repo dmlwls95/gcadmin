@@ -46,7 +46,8 @@ export class BookCheckComponent {
       },
       도서명: {
         title: '도서명',
-        type: 'string'
+        type: 'string',
+        width: "200px"
       },
       저자: {
         title: '저자',

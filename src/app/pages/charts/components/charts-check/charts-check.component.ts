@@ -61,7 +61,8 @@ export class ChartsCheckComponent {
       연락처_휴대전화: {
         title: '연락처_휴대전화',
         type: 'string',
-        filter: false
+        filter: false,
+        width: "200px"
       },
       연락처_02: {
         title: '연락처_02',
@@ -101,7 +102,8 @@ export class ChartsCheckComponent {
       },
       계좌번호: {
         title: '계좌번호',
-        type: 'string'
+        type: 'string',
+        width: "200px"
       },
       예금주: {
         title: '예금주',
@@ -110,7 +112,7 @@ export class ChartsCheckComponent {
       주소_직장: {
         title: '주소_직장',
         type: 'string',
-        width: '200px'
+        width: "500px"
       },
       주소_자택: {
         title: '주소_자택',
@@ -183,15 +185,18 @@ export class ChartsCheckComponent {
             return date;
           }
           return this.datepipe.transform(new Date(), 'yyyy MM dd');
-        }
+        },
+        width: "10%"
       },
       내용: {
         title: '내용',
-        type: 'string'
+        type: 'string',
+        width: "80%"
       },
       담당자: {
         title: '담당자',
-        type: 'string'
+        type: 'string',
+        width: "10%"
       }
     },
     attr: {
