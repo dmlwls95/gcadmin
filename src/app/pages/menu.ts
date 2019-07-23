@@ -1,10 +1,5 @@
 export let MENU_ITEM = [
     {
-        path: 'index',
-        title: 'Home',
-        icon: 'far fa-building'
-    },
-    {
         path: 'charts',
         title: '저자 관리',
         icon: 'address-card',

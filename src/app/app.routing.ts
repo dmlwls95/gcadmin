@@ -5,12 +5,12 @@ import { AuthGuard } from './auth.guard';
 const appRoutes: Routes = [
   {
     path: '',
-    redirectTo: 'pages/index', canActivate: [AuthGuard],
+    redirectTo: 'pages/form/book-check', canActivate: [AuthGuard],
     pathMatch: 'full'
   },
   {
     path: '**',
-    redirectTo: 'pages/index', canActivate: [AuthGuard],
+    redirectTo: 'pages/form/book-check', canActivate: [AuthGuard],
   }
 ];
 
