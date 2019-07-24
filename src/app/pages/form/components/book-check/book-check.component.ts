@@ -10,6 +10,10 @@ import { CompleterService, CompleterData } from 'ng2-completer';
   styleUrls: ['./book-check.component.scss']
 })
 export class BookCheckComponent {
+  bookisshow = {
+    barcode: true,
+    barcodecol: null
+  }
 
   settings = {
     add: {
@@ -38,7 +42,8 @@ export class BookCheckComponent {
       },*/
       바코드: {
         title: '바코드',
-        type: 'string'
+        type: 'string',
+        width: ''
       },
       도서코드: {
         title: '도서코드',
@@ -619,6 +624,22 @@ export class BookCheckComponent {
       this.bookData.jaebon = null;
       this.bookData.page = null;
       this.bookData.bigo = null;
+    }
+
+    hideorshow(number){
+      if(number === 1){
+        this.bookisshow.barcode  = !this.bookisshow.barcode;
+          if (this.bookisshow.barcode == false) {
+            this.bookisshow.barcodecol = this.settings.columns["바코드"];
+            delete this.settings.columns["바코드"];
+            this.settings = Object.assign({}, this.settings );
+          }else{
+            this.settings.columns["바코드"] = this.bookisshow.barcodecol;
+            this.loadbookdata();
+            this.settings = Object.assign({}, this.settings );
+            console.log(this.settings)
+          }
+      }
     }
 }
 
