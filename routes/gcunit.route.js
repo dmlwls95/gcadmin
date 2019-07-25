@@ -1365,7 +1365,7 @@ gcUnitRoutes.delete('/getpayed/:id', function(req, res) {
 
 // counsel edit api Start *******************************
 gcUnitRoutes.get('/counsel:id', function(req, res){
-  let paged;
+  /** let paged;
   if (req.query.page == null) {
     paged = 1;
   } else {
@@ -1377,7 +1377,15 @@ gcUnitRoutes.get('/counsel:id', function(req, res){
       if(err) console.log(err);
       res.json(result);
     })
+  }*/
+  let param = req.params.id;
+  if(param){
+    Counsel.find({저자: param}, (err,result)=>{
+      if(err) console.log(err);
+      res.json(result);
+    })
   }
+  
 })
 gcUnitRoutes.post('/counsel',function(req,res){
   let counsel = new Counsel(req.body.newdata);

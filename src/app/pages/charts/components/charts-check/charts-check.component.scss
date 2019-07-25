@@ -122,8 +122,9 @@ textarea {
 }
 
 .submit_button {
-    width: 10%;
+    width: 50px;
     padding: 5px 0 5px 0;
     margin-left: 23%;
     border: 0;
+    word-break: keep-all;
 }

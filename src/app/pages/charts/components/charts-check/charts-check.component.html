@@ -2,12 +2,25 @@
 <div class="container">
   <div>
     <div class="left">
-    <card cardTitle="저자 등록">
+    <card>
       <form (keydown.enter)="$event.preventDefault()" class="container" #editorForm="ngForm" (ngSubmit)="onSubmit()">
         <table class="storage">
           <tr>
             <th>저자검색</th>
             <td><input type="text" class="form-control" [(ngModel)]="searchFname.author" name="authorfind" (keydown)="authorKeyup()"></td>
+            <th>
+              
+            </th>
+            <td>
+              <button type="button" class="submit_button" (click)="clear()">clear</button>
+              
+            </td>
+            <th>
+              <button type="button" class="submit_button" (click)="onNew()">추가저장</button>
+            </th>
+            <td>
+                <button type="submit" class="submit_button">수정및저장</button>
+            </td>
           </tr>
           <tr>
             <th>* 성명</th>
@@ -79,9 +92,7 @@
         </table>
         <br>
         <div>
-          <button type="button" class="submit_button" (click)="clear()">clear</button>
-          <button type="button" class="submit_button" (click)="onNew()">추가저장</button>
-          <button type="submit" class="submit_button">수정및저장</button>
+          
         </div>
         <br>
       </form>
@@ -89,15 +100,35 @@
     </div>
     <div class="right">
         <card cardTitle="상담기록">
-          * 날짜 미입력시 오늘날짜
           <ng2-smart-table [settings]="counselsettings" [source]="counselsource" (deleteConfirm)="counseldeleteRecord($event)" (createConfirm)="counselcreateRecord($event)" (editConfirm)="counselupdateRecord($event)" ></ng2-smart-table>
         </card>
     </div>
   </div>
 </div>
-<div class="containerbottom">
+<div class="containerbottom"> 
 <div class="scrolling-wrapper">
-    <card cardTitle="AUTHOR DATA">
+    <card >
+        <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(0)">성명</button>&nbsp;
+        <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(1)">소속</button>&nbsp;
+        <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(2)">직위</button>&nbsp;
+        <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(3)">휴대전화</button>&nbsp;
+        <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(4)">연락처_02</button>&nbsp;
+        <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(5)">팩스</button>&nbsp;
+        <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(6)">이메일</button>&nbsp;
+        <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(7)">사업자번호</button>&nbsp;
+        <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(8)">구분</button>&nbsp;
+        <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(9)">주민번호</button>&nbsp;
+        <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(10)">은행</button>&nbsp;
+        <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(11)">계좌번호</button>&nbsp;
+        <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(12)">예금주</button>&nbsp;
+        <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(13)">주소직장</button>&nbsp;
+        <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(14)">주소자택</button>&nbsp;
+        <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(15)">비고1</button>&nbsp;
+        <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(16)">비고2</button>&nbsp;
+        <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(17)">전공</button>&nbsp;
+        <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(18)">기념일</button>&nbsp;
+        <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(19)">ID</button>&nbsp;
+        <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(20)">PW</button>&nbsp;
       <form class="container" #searchForm="ngForm" (ngSubmit)="onSearch()"></form>
       <br>
       <ng2-smart-table [settings]="settings" [source]="lsource" (deleteConfirm)="deleteRecord($event)" (createConfirm)="createRecord($event)" (editConfirm)="updateRecord($event)" (rowSelect)="onRecordselected($event)"></ng2-smart-table>

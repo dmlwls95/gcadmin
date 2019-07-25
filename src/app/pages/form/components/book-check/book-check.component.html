@@ -120,7 +120,27 @@
 </div>
 <div class="containerbottom">
   <card>
-      <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(1)">test</button>
+      <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(0)">바코드</button>&nbsp;
+      <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(1)">도서코드</button>&nbsp;
+      <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(2)">도서명</button>&nbsp;
+      <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(3)">저자</button>&nbsp;
+      <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(4)">신간일</button>&nbsp;
+      <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(5)">발행일</button>&nbsp;
+      <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(6)">발행처</button>&nbsp;
+      <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(7)">정가</button>&nbsp;
+      <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(8)">계약기간</button>&nbsp;
+      <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(9)">상태</button>&nbsp;
+      <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(10)">인세율</button>&nbsp;
+      <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(11)">인세주기</button>&nbsp;
+      <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(12)">판_쇄</button>&nbsp;
+      <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(13)">발행부수</button>&nbsp;
+      <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(14)">저술_번역</button>&nbsp;
+      <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(15)">에이전시</button>&nbsp;
+      <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(16)">원출판사</button>&nbsp;
+      <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(17)">로열티</button>&nbsp;
+      <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(18)">판형</button>&nbsp;
+      <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(19)">제본</button>&nbsp;
+      <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(20)">비고</button>&nbsp;
     <div class="scrolling-wrapper">
       <ng2-smart-table [settings]="settings" [source]="lsource" (deleteConfirm)="deleteRecord($event)" (createConfirm)="createRecord($event)" (editConfirm)="updateRecord($event)" (rowSelect)="onRecordselected($event)"></ng2-smart-table>  
     </div>
