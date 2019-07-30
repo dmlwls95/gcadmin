@@ -111,10 +111,10 @@ export class RoyaltiesCheckComponent implements OnInit {
         title: '도서명',
         type: 'string'
       },
-      서점명: {
+      /*서점명: {
         title: '서점명',
         type: 'string'
-      },
+      },*/
       인세금액: {
         title: '인세금액',
         type: 'string',

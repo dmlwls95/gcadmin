@@ -42,7 +42,12 @@
             <th>도서명</th>
             <td><input type="text" class="form-control" [(ngModel)]="bookData.bookname" name="barname"></td>
             <th>저자</th>
-            <td><input type="text" class="form-control" [(ngModel)]="bookData.author" name="author"></td>
+            <td><!--<input type="text" class="form-control" [(ngModel)]="bookData.author" name="author">-->
+                <select class="form-control" [(ngModel)]="bookData.author" name="authorlist" id="authorslist">
+                  <option [ngValue]="null">{{searchSelect.author}}</option>
+                  <option *ngFor="let author of searchData" [value]="author">{{author}}</option>
+                </select>
+            </td>
           </tr>
           <tr>
             <th>바코드</th>

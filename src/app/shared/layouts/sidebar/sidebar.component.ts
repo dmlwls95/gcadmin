@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, HostListener, AfterViewInit } from '@angular/core';
 import { menuService } from '../../services/menu.service';
 import { GlobalService } from '../../services/global.service';
 
@@ -8,7 +8,7 @@ import { GlobalService } from '../../services/global.service';
   styleUrls: ['./sidebar.component.scss'],
   providers: [menuService]
 })
-export class SidebarComponent implements OnInit {
+export class SidebarComponent implements OnInit, AfterViewInit {
 
 
   public menuInfo: Array<any> = [];
@@ -56,5 +56,12 @@ export class SidebarComponent implements OnInit {
       }
     }
   }
-
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.sidebarToggle = window.innerWidth >= 970;
+  }
+  ngAfterViewInit(): void {
+    this.sidebarToggle = window.innerWidth >= 970;
+    console.log(window.innerWidth);
+  }
 }

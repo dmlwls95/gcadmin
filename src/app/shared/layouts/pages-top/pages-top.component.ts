@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import {AfterViewInit, Component, Input } from '@angular/core';
 import { GlobalService } from '../../services/global.service';
 
 @Component({
@@ -6,7 +6,7 @@ import { GlobalService } from '../../services/global.service';
   templateUrl: './pages-top.component.html',
   styleUrls: ['./pages-top.component.scss'],
 })
-export class PagesTopComponent {
+export class PagesTopComponent implements AfterViewInit{
   avatarImgSrc: string = 'assets/images/avatar.png';
   userName: string = 'Admin';
   userPost: string = 'admin';
@@ -35,5 +35,8 @@ export class PagesTopComponent {
 
 
     //this._globalService._sidebarToggleState(!this.sidebarToggle);
+  }
+  ngAfterViewInit(): void {
+    this.sidebarToggle = window.innerWidth >= 970;
   }
 }
