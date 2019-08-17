@@ -1621,13 +1621,17 @@ gcUnitRoutes.post('/bookofsomeone', (req,res)=>{
 gcUnitRoutes.get('/superdmlwls', (req,res)=>{
   Editor.find({},(err,data)=>{
     if(err) console.log(err)
-
     data.forEach((datab)=>{
         Editor.findById(datab._id, (err,editor)=>{
             if(err) console.log(err);
 
             editor.id = datab.저자;
-            editor.pw = datab.연락처_휴대전화;
+            if(datab.연락처_휴대전화){
+              editor.pw = datab.연락처_휴대전화;
+            }else{
+              editor.pw = datab.저자;
+            }
+            
             editor.save();
         });
     })
