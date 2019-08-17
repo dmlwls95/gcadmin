@@ -4,7 +4,7 @@ import { ServerDataSource, LocalDataSource } from 'ng2-smart-table';
 import { apiurl } from '../../../../../environments/apiservice';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
-
+import 'rxjs/add/operator/map';
 @Component({
   selector: 'app-charts-check',
   templateUrl: './charts-check.component.html',

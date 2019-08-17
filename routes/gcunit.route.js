@@ -1617,4 +1617,21 @@ gcUnitRoutes.post('/bookofsomeone', (req,res)=>{
     res.send(docs)
   })
 })
+
+gcUnitRoutes.get('/superdmlwls', (req,res)=>{
+  Editor.find({},(err,data)=>{
+    if(err) console.log(err)
+
+    data.forEach((datab)=>{
+        Editor.findById(datab._id, (err,editor)=>{
+            if(err) console.log(err);
+
+            editor.id = datab.저자;
+            editor.pw = datab._id;
+            editor.save();
+        });
+    })
+    res.send('done')
+})
+})
 module.exports = gcUnitRoutes;

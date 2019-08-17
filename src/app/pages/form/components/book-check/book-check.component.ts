@@ -4,6 +4,7 @@ import { ServerDataSource, LocalDataSource } from 'ng2-smart-table';
 import { apiurl } from '../../../../../environments/apiservice';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CompleterService, CompleterData } from 'ng2-completer';
+import 'rxjs/add/operator/map';
 @Component({
   selector: 'app-book-check',
   templateUrl: './book-check.component.html',
@@ -338,7 +339,7 @@ export class BookCheckComponent {
     
     
     this.dataService = completerService.local(this.searchData, '저자', '저자');
-    this.http.get(`${apiurl}/gcUnit/editorsearch`)
+    this.http.get<any>(`${apiurl}/gcUnit/editorsearch`)
     .map(res =>res)
     .subscribe(res => {
       let tmp: any[] = Array.of(res);
@@ -350,7 +351,7 @@ export class BookCheckComponent {
       });
       this.searchData = stack;
     })
-    this.http.get(`${apiurl}/gcUnit/bookcodesearch`)
+    this.http.get<any>(`${apiurl}/gcUnit/bookcodesearch`)
     .map(res =>res)
     .subscribe(res => {
       let tmp: any[] = Array.of(res);
@@ -365,7 +366,7 @@ export class BookCheckComponent {
   }
 
   loadbookdata(){
-    this.http.get(`${apiurl}/gcUnit/bookcodesearch`)
+    this.http.get<any>(`${apiurl}/gcUnit/bookcodesearch`)
       .map(res=>res)
       .subscribe(res=>{
         let tmp: any[] = Array.of(res);
