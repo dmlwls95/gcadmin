@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { ServerDataSource, LocalDataSource } from 'ng2-smart-table';
 import { apiurl } from '../../../../../environments/apiservice';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-
+import * as XLSX from 'xlsx';
 @Component({
   selector: 'app-pay-check',
   templateUrl: './pay-check.component.html',
@@ -274,6 +274,7 @@ export class PayCheckComponent {
   source: ServerDataSource;
   lsource: LocalDataSource;
   date: any;
+  nowrange: any;
 
   constructor(private http: HttpClient) { 
     this.source = new ServerDataSource(http, {
@@ -309,6 +310,7 @@ export class PayCheckComponent {
     this.daterange.start = value.start;
     this.daterange.end = value.end;
     this.daterange.label = value.label;
+    this.nowrange = value;
   }
   selected(value: any){
     this.date = value;
@@ -372,4 +374,23 @@ export class PayCheckComponent {
         }
       );
     }
+
+    exportExcel(data: any[]){
+      const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data);
+      const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+      XLSX.writeFile(workbook, 'my_file.xls', { bookType: 'xls', type: 'buffer' });
+   }
+
+   excel(){
+    this.http.post(`${apiurl}/gcUnit/revenuerangeNcalc`, this.nowrange)
+    .map(res=>res)
+    .subscribe(res => {
+      let tmp: any[] = Array.of(res);
+      console.log(tmp);
+      //this.paysource = new LocalDataSource();
+      //this.paysource.load(tmp[0]);
+      this.exportExcel(tmp[0]);
+    });
+    
+  }
 }

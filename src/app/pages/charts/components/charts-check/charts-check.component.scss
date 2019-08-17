@@ -1,5 +1,5 @@
 div.left {
-    width: 49%;
+    width: 48%;
     float: left;
 }
 div.right {
@@ -32,13 +32,13 @@ div.right {
 
 .scrolling-wrapper {
     display: flex;
-    flex-wrap: keep-all;
+    flex-wrap: nowrap;
     overflow-x: scroll;
     word-break: keep-all !important;
     .card {
       display: inline-block;
     }
-}
+  }
 
 .ng2-smart-table {
     width: 100%;
@@ -128,3 +128,23 @@ textarea {
     border: 0;
     word-break: keep-all;
 }
+
+@media (max-width:700px){
+    div.left {
+      width: 100%;
+      float: left;
+    }
+    
+    div.right {
+      width: 100%;
+      float: right;
+    }
+    .containerbottom {
+      width: 100%;
+      padding-top: 0px;
+      padding-left: 15px;
+      padding-right: 10px;
+      margin-right: 0;
+      margin-left: 0;
+    }
+  }

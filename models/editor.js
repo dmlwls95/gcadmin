@@ -40,7 +40,6 @@ var editorSchema = mongoose.Schema(
     전공: { type: String },
 
     기념일: { type: String },
-
     id: { type: String },
 
     pw: { type: String }

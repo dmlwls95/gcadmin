@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { ServerDataSource } from 'ng2-smart-table';
+import { ServerDataSource, LocalDataSource } from 'ng2-smart-table';
 import { apiurl } from '../../../../../environments/apiservice';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
@@ -62,7 +62,7 @@ export class RoyaltiePayedComponent {
       },*/
       인세금액: {
         title: '인세금액',
-        type: 'string',
+        type: 'Number',
         filter: false
       },
       comment:{
@@ -76,27 +76,43 @@ export class RoyaltiePayedComponent {
       class: 'table table-bordered'
     },
     pager : {
-      display: true,
-      perPage : 1
+      display: true
     }
   };
 
-  source: ServerDataSource;
+  source: LocalDataSource;
   editorForm: FormGroup;
-
+  paylast = [];
   constructor(private http: HttpClient, private formBuilder: FormBuilder) {
-    this.source = new ServerDataSource(http, {
-      endPoint: `${apiurl}/gcUnit/getpayed`, // 'http://localhost:4000/gcUnit/paylist',
-    pagerLimitKey: 'limit',
-    pagerPageKey: 'page',
-    dataKey: 'docs',
-    totalKey: 'pages',
-    filterFieldKey: '#field#'
-    });
-    console.log(this.source);
-    this.source.setPaging(1, 10);
-   }
+    this.source = new LocalDataSource();
+    this.callPayed();
+  }
+   
 
+  callPayed(){
+    this.http.get(`${apiurl}/gcUnit/getpayed`)
+    .map(res=>res)
+    .subscribe(res => {
+      let tmp: any[] = Array.of(res);
+      console.log(tmp[0]);
+      tmp[0].forEach((data)=>{
+        let day = new Date(data.일자);
+        let topush = {
+          _id: data._id,
+          일자: day.toLocaleDateString('ko-KR'),
+          저자: data.저자,
+          도서명: data.도서명,
+          인세금액: data.인세금액,
+          코멘트: data.코멘트
+        };
+        this.paylast.push(topush);
+      })
+      
+      this.source.load(this.paylast);
+    }, err => {
+      console.log(err);
+    });
+  }
   updateRecord(event) {
     this.http.put<any>(`${apiurl}/gcUnit/getpayed/` + event.newData._id, event.newData).subscribe(
           res => {

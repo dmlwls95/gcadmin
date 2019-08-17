@@ -77,7 +77,6 @@ export class BookCheckComponent {
       발행처: {
         title: '발행처',
         type: 'string',
-        filter: false,
         seq: 7
       },
       정가: {
@@ -110,8 +109,8 @@ export class BookCheckComponent {
         filter: false,
         seq: 12
       },
-      판_쇄: {
-        title: '판_쇄',
+      인세방식: {
+        title: '인세방식',
         type: 'String',
         filter: false,
         seq: 13
@@ -163,6 +162,16 @@ export class BookCheckComponent {
         type: 'string',
         filter: false,
         seq: 21
+      },
+      담당자: {
+        title: '담당자',
+        type: 'string',
+        seq: 22
+      },
+      특기사항:{
+        title: '특기사항',
+        type: 'string',
+        seq: 23
       }
     },
     attr: {
@@ -293,7 +302,7 @@ export class BookCheckComponent {
       status: '',
       royaltipercent: 0,
       royaltijugi: '',
-      edition: '',
+      howroyalti: '',
       relnumber: '',
       translate: '',
       agency: '',
@@ -303,6 +312,8 @@ export class BookCheckComponent {
       jaebon: '',
       page: '',
       bigo: '',
+      response: '',
+      specialthing: ''
   };
   searchSelect = {
     author: '',
@@ -564,7 +575,7 @@ export class BookCheckComponent {
       this.bookData.status = event.data.상태;
       this.bookData.royaltipercent = event.data.인세율;
       this.bookData.royaltijugi = event.data.인세주기;
-      this.bookData.edition = event.data.판_쇄;
+      this.bookData.howroyalti = event.data.인세방식;
       this.bookData.relnumber = event.data.발행부수;
       this.bookData.translate = event.data.저술_번역;
       this.bookData.agency = event.data.에이전시;
@@ -574,6 +585,8 @@ export class BookCheckComponent {
       this.bookData.jaebon = event.data.제본;
       this.bookData.page = event.data.페이지;
       this.bookData.bigo = event.data.비고;
+      this.bookData.response = event.data.담당자;
+      this.bookData.specialthing = event.data.특기사항;
 
 
       this.http.get<any>(`${apiurl}/gcUnit/edition` + event.data.바코드)
@@ -616,7 +629,11 @@ export class BookCheckComponent {
     bookKeydown(event){
       let tmp = this.searchSelect.bookname;
       this.lsource.setFilter([{ field: '도서명', search: tmp }])
+    }
 
+    authorKeydown(event){
+      let tmp = this.searchSelect.author;
+      this.lsource.setFilter([{ field: '저자', search: tmp}])
     }
     clear(){
       this.eventbarcode = null;
@@ -631,7 +648,7 @@ export class BookCheckComponent {
       this.bookData.status = null;
       this.bookData.royaltipercent = null;
       this.bookData.royaltijugi = null;
-      this.bookData.edition = null;
+      this.bookData.howroyalti = null;
       this.bookData.relnumber = null;
       this.bookData.translate = null;
       this.bookData.agency = null;
@@ -641,6 +658,8 @@ export class BookCheckComponent {
       this.bookData.jaebon = null;
       this.bookData.page = null;
       this.bookData.bigo = null;
+      this.bookData.response = null;
+      this.bookData.specialthing = null;
     }
     ordering(){
       let entries = Object.entries(this.settings.columns);
@@ -671,7 +690,7 @@ export class BookCheckComponent {
       else if(number === 9) tmpstr = '상태';
       else if(number === 10) tmpstr = '인세율';
       else if(number === 11) tmpstr = '인세주기';
-      else if(number === 12) tmpstr = '판_쇄';
+      else if(number === 12) tmpstr = '인세방식';
       else if(number === 13) tmpstr = '발행부수';
       else if(number === 14) tmpstr = '저술_번역';
       else if(number === 15) tmpstr = '에이전시';
@@ -680,6 +699,8 @@ export class BookCheckComponent {
       else if(number === 18) tmpstr = '판형';
       else if(number === 19) tmpstr = '제본';
       else if(number === 20) tmpstr = '비고';
+      else if(number === 21) tmpstr = '담당자';
+      else if(number === 22) tmpstr = '특기사항';
       this.isbookshow.arr[number]  = !this.isbookshow.arr[number];
       if (this.isbookshow.arr[number] == false) {
         this.isbookshow.arrcol[number] = this.settings.columns[tmpstr];

@@ -1,8 +1,22 @@
 <div class="container">
   <card cardTitle="인세 정산">
     <input  type="text" name="daterangeInput" daterangepicker [options]="options" (selected)="payselectedDate($event, daterange)"/>
-    <button type="submit" (click)="onSubmit()">결산</button>
-    <button type="button" (click)="excel()">엑셀다운로드</button>
+    <table>
+      <tr>
+        <th>
+          <button type="submit" (click)="onSubmit()" class="btn btn-info">결산</button>&nbsp;&nbsp;&nbsp;
+        </th>
+        <th>  
+          <button type="button" (click)="excel()" class="btn btn-info">엑셀다운로드</button>&nbsp;&nbsp;&nbsp;
+        </th>
+        <th>
+          <button type="button" class="btn btn-danger" (click)="onRecalc()">재정산(주의)</button>&nbsp;&nbsp;&nbsp;
+        </th>
+      </tr>
+    </table>
+    
+    
+    
       <div class="scrolling-wrapper">
         <ng2-smart-table [settings]="paysettings" [source]="paysource" (userRowSelect)="onUserRowSelect($event)" ></ng2-smart-table>
       </div>

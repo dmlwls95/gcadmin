@@ -2,6 +2,7 @@
       <div class="smart-table-container">
         <card cardTitle="매출 조회">
           <input type="text" name="daterangeInput" daterangepicker [options]="options" (selected)="selectedDate($event, daterange)"/>
+          <button class="btn btn-primary" (click)="excel()">엑셀다운로드</button>
           <div class="scrolling-wrapper">
           <ng2-smart-table [settings]="lsettings" [source]="lsource" (deleteConfirm)="deleteRecord($event)" (createConfirm)="createRecord($event)" (editConfirm)="updateRecord($event)"></ng2-smart-table>  
           </div>

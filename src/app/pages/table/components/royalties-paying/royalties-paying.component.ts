@@ -137,7 +137,7 @@ export class RoyaltiesPayingComponent implements OnInit {
 
   
   excel(){
-    this.http.post(`${apiurl}/gcUnit/daterangeNcalc`, this.nowrange)
+    this.http.post(`${apiurl}/gcUnit/daterangecalctoexl`, this.nowrange)
     .map(res=>res)
     .subscribe(res => {
       let tmp: any[] = Array.of(res);
@@ -156,6 +156,17 @@ export class RoyaltiesPayingComponent implements OnInit {
 
   onUserRowSelect(event) {
     this.gridSelected = event.selected;
+    
+  }
+
+  onRecalc(){
+    if(confirm('해당작업은 데이터베이스를 삭제후 생성하는 작업입니다. 저자 혹은 도서데이터의 변동으로 인세가 일치하지 않을 경우에만 사용하시길 권장합니다. 재생성 하시겠습니까?')){
+      this.http.get(`${apiurl}/gcUnit/recalc`)
+      .subscribe(res=>{
+        console.log(res);
+        alert('작업완료');
+      })
+    }
     
   }
 

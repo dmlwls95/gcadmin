@@ -10,7 +10,7 @@ export let MENU_ITEM = [
             },
             {
                 path: 'chart-only-check',
-                title: '저자정보 조회(10행)'
+                title: '저자정보 조회'
             }
         ]
     },
@@ -25,7 +25,7 @@ export let MENU_ITEM = [
             },
             {
                 path: 'book-only-check',
-                title: '도서정보 조회(10행)'
+                title: '도서정보 조회'
             }
         ]
     },

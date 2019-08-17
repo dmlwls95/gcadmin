@@ -1,7 +1,6 @@
 
 <div class="container">
-  <div>
-    <div class="left">
+  <div class="left">
     <card>
       <form (keydown.enter)="$event.preventDefault()" class="container" #editorForm="ngForm" (ngSubmit)="onSubmit()">
         <table class="storage">
@@ -91,19 +90,18 @@
             </tr>
         </table>
         <br>
-        <div>
-          
-        </div>
         <br>
       </form>
     </card>
-    </div>
-    <div class="right">
-        <card cardTitle="상담기록">
-          <ng2-smart-table [settings]="counselsettings" [source]="counselsource" (deleteConfirm)="counseldeleteRecord($event)" (createConfirm)="counselcreateRecord($event)" (editConfirm)="counselupdateRecord($event)" ></ng2-smart-table>
-        </card>
-    </div>
   </div>
+    <div class="right">
+      <card cardTitle="상담기록">
+        <ng2-smart-table [settings]="counselsettings" [source]="counselsource" (deleteConfirm)="counseldeleteRecord($event)" (createConfirm)="counselcreateRecord($event)" (editConfirm)="counselupdateRecord($event)" ></ng2-smart-table>
+      </card>
+      <card cardTitle="책리스트">
+        <ng2-smart-table [settings]="booksettings" [source]="booksource" ></ng2-smart-table>
+      </card>
+    </div>
 </div>
 <div class="containerbottom"> 
 <div class="scrolling-wrapper">

@@ -49,13 +49,11 @@ export class ChartOnlyCheckComponent {
       },
       소속: {
         title: '소속',
-        type: 'string',
-        filter: false
+        type: 'string'
       },
       직위: {
         title: '직위',
-        type: 'string',
-        filter: false
+        type: 'string'
       },
       연락처_휴대전화: {
         title: '연락처_휴대전화',

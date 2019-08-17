@@ -26,6 +26,7 @@ bnpanal = require('../services/services.js').bnpanal;
 halfofyear = require('../services/services.js').halfofyear;
 calcroyalti = require('../services/services.js').calcroyalti;
 logging = require('../services/services.js').logging;
+standardofprice = require('../services/services.js').standardofprice;
 const upload = multer({
   storage: multer.diskStorage({
     destination(req, file, cb) {
@@ -349,6 +350,7 @@ gcUnitRoutes.post('/upload/payday', upload.single('payday'), (req, res) => {
       let payday = new Payday(data);
       payday.일자 = tdate;
       payday._id = new mongoose.Types.ObjectId();
+      payday.payed = false;
       payday.save();
       return new Promise(function(resolved,rejected){
         setTimeout(
@@ -361,7 +363,7 @@ gcUnitRoutes.post('/upload/payday', upload.single('payday'), (req, res) => {
     .on('end', function() {
       bnpanal().then(function(result) {
         //calcroyalti();
-        return halfofyear();
+        return standardofprice();
       });
       console.log('수불내역업데이트완료');
     });
@@ -555,7 +557,6 @@ gcUnitRoutes.get('/editorsearch', function(req, res) {
 
 // admin book managefix api START*************************
 gcUnitRoutes.post('/bookadd', function(req, res) {
-  console.log(req.body);
   Bookcode.findOne({ 바코드: req.body.barcode }, (err, result) => {
     if (err) return res.status(500).json({ error: 'database failure' });
     if (result) {
@@ -570,7 +571,7 @@ gcUnitRoutes.post('/bookadd', function(req, res) {
       if (req.body.status) result.상태 = req.body.status;
       if (req.body.royaltipercent>=0) result.인세율 = req.body.royaltipercent;
       if (req.body.royaltijugi) result.인세주기 = req.body.royaltijugi;
-      if (req.body.edition) result.판_쇄 = req.body.edition;
+      if (req.body.howroyalti) result.인세방식 = req.body.howroyalti;
       if (req.body.relnumber) result.발행부수 = req.body.relnumber;
       if (req.body.translate) result.저술_번역 = req.body.translate;
       if (req.body.agency) result.에이전시 = req.body.agency;
@@ -580,6 +581,8 @@ gcUnitRoutes.post('/bookadd', function(req, res) {
       if (req.body.jaebon) result.제본 = req.body.jaebon;
       if (req.body.page) result.페이지 = req.body.page;
       if (req.body.bigo) result.비고 = req.body.bigo;
+      if (req.body.response) result.담당자 = req.body.response;
+      if (req.body.specialthing) result.특기사항 = req.body.specialthing;
 
       result.save(function(err) {
         if (err) res.status(500).json({ error: 'fail to updtae' });
@@ -601,7 +604,7 @@ gcUnitRoutes.post('/bookaddnew', function(req, res) {
   if (req.body.status) book.상태 = req.body.status;
   if (req.body.royaltipercent>=0) book.인세율 = req.body.royaltipercent;
   if (req.body.royaltijugi) book.인세주기 = req.body.royaltijugi;
-  if (req.body.edition) book.판_쇄 = req.body.edition;
+  if (req.body.howroyalti) book.인세방식 = req.body.howroyalti;
   if (req.body.relnumber) book.발행부수 = req.body.relnumber;
   if (req.body.translate) book.저술_번역 = req.body.translate;
   if (req.body.agency) book.에이전시 = req.body.agency;
@@ -1169,6 +1172,82 @@ gcUnitRoutes.post('/daterangeNcalc', function(req, res) {
     }
   );
 });
+
+gcUnitRoutes.post('/daterangecalctoexl', function(req, res) {
+  Royalti.find(
+    {
+      $and: [
+        { 일자: { $gte: req.body.start, $lt: req.body.end } },
+        { payed: false }
+      ]
+    },
+    function(err, result) {
+      
+      if (err) {
+        console.log(err);
+      } else {
+        let booknames = new Array();
+        result.forEach(data => {
+          booknames.push(data.도서명);
+        }); //booknames 엔 기간동안 모든 도서명들어감
+        let groupedRes = groupBy(result, result => result.도서명); //그룹화 변수
+        let single = booknames.reduce((a, b) => {
+          if (a.indexOf(b) < 0) a.push(b);
+          return a;
+        }, []); //booknames의 책이름 중복 삭제
+
+        
+        
+        Editor.find({})
+        .then(user=>{
+          const tosend4exl = new Array();
+          single.forEach(data=>{
+            let tmp = groupedRes.get(data);
+            let val = user.find((item,idx)=>{
+              return item.저자 === tmp[0].저자;
+            });
+            //val이 저자를 찾은값
+            if(err) console.log('err when find editor');
+              let idcol = new Array();
+              let restmp = {
+                저자: tmp[0].저자,
+                예금주: '',
+                은행: '',
+                계좌번호: '',
+                도서명: tmp[0].도서명,
+                인세금액: 0,
+                ids: null
+              };
+              if(val){
+                restmp.예금주 = val.예금주;
+                restmp.은행 = val.은행;
+                restmp.계좌번호 = val.계좌번호
+              }else{
+                restmp.예금주 = '저자DB에서 해당 저자를 찾을 수 없습니다';
+                restmp.은행 = '저자DB에서 해당 저자를 찾을 수 없습니다';
+                restmp.계좌번호 = '저자DB에서 해당 저자를 찾을 수 없습니다'
+              }
+              for (let i in tmp) {
+                //인세는 인세끼리 합산
+                if (tmp[i]) {
+                  restmp.인세금액 = restmp.인세금액 + tmp[i].인세금액;
+                } else {
+                  restmp.인세금액 = restmp.인세금액 + 0;
+                }
+                idcol.push(tmp[i]._id);
+              }
+              restmp.ids = idcol;
+              tosend4exl.push(restmp)
+          })
+          res.send(tosend4exl);
+        })
+
+
+         
+      }
+    }
+  );
+});
 // admin datepickNcalc api END*************************
 // revenue daterangepicker api END*************************
 gcUnitRoutes.post('/revenuerangeNcalc', function(req, res) {
@@ -1266,7 +1345,7 @@ gcUnitRoutes.post('/paying', function(req, res) {
     payed.일자 = Date.now();
     if (tmp[i].저자) payed.저자 = tmp[i].저자;
     if (tmp[i].도서명) payed.도서명 = tmp[i].도서명;
-    if (tmp[i].인세금액) payed.인세금액 = tmp[i].인세금액;
+    payed.인세금액 = tmp[i].인세금액;
     if (tmp[i].payed) payed.payed = true;
     payed.save(function(err) {
       console.log(err);
@@ -1280,6 +1359,13 @@ gcUnitRoutes.post('/paying', function(req, res) {
         result.save(err => {
           if (err) res.status(500).json({ error: 'fail to update' });
         });
+        Payday.findById({ _id: result.idofpayday},(err,sndresult)=>{
+          if(err) console.log('err when payday id process : ', err);
+          sndresult.payed = true;
+          sndresult.save(err=>{
+            if(err) res.status(500).json({ error: ' faild to update'});
+          })
+        })
         console.log(result);
         console.log('----------------updated------------------');
       });
@@ -1292,48 +1378,10 @@ gcUnitRoutes.post('/paying', function(req, res) {
 
 // admin paying api START*************************
 gcUnitRoutes.get('/getpayed', function(req, res) {
-  var paged;
-  if (req.query.page == null) {
-    paged = 1;
-  } else {
-    paged = req.query.page;
-  }
-  var query = req.query;
-
-  if (query.저자) {
-    Payed.paginate(
-      { 저자: { $regex: '.*' + query.저자 + '.*' } },
-      { page: paged, limit: 10 },
-      function(err, result) {
-        if (err) {
-          console.log(err);
-        } else {
-          res.json(result);
-        }
-      }
-    );
-  }else if(query.도서명){
-    Payed.paginate(
-      { 도서명: { $regex: '.*' + query.도서명 + '.*' } },
-      { page: paged, limit: 10 },
-      function(err, result) {
-        if (err) {
-          console.log(err);
-        } else {
-          res.json(result);
-        }
-      }
-    );
-  }
-  else{
-    Payed.paginate({}, { page: paged, limit: 10 }, function(err, result) {
-      if (err) {
-        console.log(err);
-      } else {
-        res.json(result);
-      }
-    });
-  }
+  Payed.find({},(err,docs)=>{
+    if(err) console.log(err);
+    res.status(201).send(docs);
+  })
 });
 gcUnitRoutes.put('/getpayed/:id', function(req, res) {
   Payed.findById(req.body._id, function(err, docs) {
@@ -1550,4 +1598,23 @@ gcUnitRoutes.get('/paychart', passport.authenticate('jwt', { session: false }),(
     }
   }
 );
+
+gcUnitRoutes.get('/recalc', (req,res)=>{
+  Royalti.deleteMany()
+  .then((result)=>{
+    console.log('Royalti deleted')
+    standardofprice()
+  })
+  .then((two)=>{
+    res.status(201).send({success: true, msg: 'Royalti updated'});
+  })
+})
+
+gcUnitRoutes.post('/bookofsomeone', (req,res)=>{
+  let editor = req.body.저자;
+  Bookcode.find({저자:editor},(err,docs)=>{
+    if(err) console.log(err);
+    res.send(docs)
+  })
+})
 module.exports = gcUnitRoutes;

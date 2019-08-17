@@ -231,12 +231,64 @@ export class ChartsCheckComponent {
     },
     pager : {
       display: true,
-      perPage : 10
+      perPage : 5
     }
   };
+
+  booksettings = {
+    add: {
+      addButtonContent: '<span class="fa fa-plus"></span>',
+      createButtonContent: '<span class="fa fa-check"></span>',
+      cancelButtonContent: '<span class="fa fa-times"></span>',
+      confirmCreate: true
+    },
+    edit: {
+      editButtonContent: '<span class="fa fa-edit"></span>',
+      saveButtonContent: '<span class="fa fa-check"></span>',
+      cancelButtonContent: '<span class="fa fa-times"></span>',
+      confirmSave: true
+    },
+    delete: {
+      deleteButtonContent: '<span class="fa fa-trash"></span>',
+      confirmDelete: true
+    },
+    region: {
+      class: 'wide'
+    },
+    columns: {
+      /*저자:{
+        title: '저자id',
+        type: 'string'
+      },*/
+      저자: {
+        title: '저자',
+        type: 'string',
+        width: "15%"
+      },
+      도서명: {
+        title: '도서명',
+        type: 'string',
+        width: "75%"
+      },
+      상태: {
+        title: '상태',
+        type: 'string',
+        width: "10%"
+      }
+    },
+    attr: {
+      class: 'table table-bordered'
+    },
+    pager : {
+      display: true,
+      perPage : 5
+    }
+  };
+  
   counselsource: LocalDataSource;
   source: ServerDataSource;
   lsource: LocalDataSource;
+  booksource: LocalDataSource;
   editorForm: FormGroup;
   editorData = {
       author: '',
@@ -284,7 +336,7 @@ export class ChartsCheckComponent {
     
     
     //console.log(this.source);
-    this.loadeditordata()
+    this.loadeditordata();
    }
 
    ngOnInit() {
@@ -302,6 +354,16 @@ export class ChartsCheckComponent {
       cel: [''],
       email: [''],
     })*/
+  }
+
+  loadbookofsomeone(str){
+    this.http.post(`${apiurl}/gcUnit/bookofsomeone`,{저자:str})
+    .map(res=>res)
+    .subscribe(res=>{
+      let tmp: any[] = Array.of(res);
+      this.booksource = new LocalDataSource();
+      this.booksource.load(tmp[0]);
+    })
   }
 
   loadeditordata(){
@@ -457,7 +519,6 @@ export class ChartsCheckComponent {
         );
       }
     onRecordselected(event) {
-      console.log(event.data._id)
       this.eventid = event.data._id;
       this.editorData.author = event.data.저자;
       this.editorData.org = event.data.소속;
@@ -481,7 +542,7 @@ export class ChartsCheckComponent {
       this.editorData.id = event.data.id;
       this.editorData.pw = event.data.pw;
       
-      
+      this.loadbookofsomeone(event.data.저자);
       
       
       this.http.get<any>(`${apiurl}/gcUnit/counsel` + event.data._id)

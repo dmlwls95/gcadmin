@@ -10,7 +10,7 @@ const paydaySchema = mongoose.Schema({
 
   도서명: { type: String },
 
-  정가: { type: String },
+  정가: { type: Number },
 
   서점명: { type: String },
 
@@ -44,7 +44,7 @@ const paydaySchema = mongoose.Schema({
 
   신간일자: { type: String },
   
-  
+  payed: { type: Boolean}
   
 }, { collection: 'payday'});
 paydaySchema.plugin(mongoosePaginate);

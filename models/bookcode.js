@@ -25,6 +25,8 @@ const bookcodeSchema = mongoose.Schema({
   계약기간: { type: String },
 
   상태: { type: String },
+  
+  인세방식: { type: String},
 
   인세율: { type: Number },
 
@@ -49,6 +51,10 @@ const bookcodeSchema = mongoose.Schema({
   페이지: { type :String },
   
   비고: { type :String },
+      
+  담당자: {type: String},
+
+  특기사항: {type: String},
 
 }, { collection: 'bookcode'});
 bookcodeSchema.virtual('paydays', {

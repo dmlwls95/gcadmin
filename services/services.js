@@ -21,7 +21,7 @@ function logging(){
         console.log('saved')
     })
 }
-
+/*
 function bnpanal(){
     Contract.find({})
     .then(function(data){
@@ -44,31 +44,88 @@ function bnpanal(){
    });
    
 }
-
+*/ 
+function bnpanal(){
+    Bookcode.find({})
+    .then((data)=>{
+        //console.log(data);
+        data.forEach((dataa)=>{
+            Payday.update({바코드: dataa.바코드},{저자: dataa.저자},{multi:true},(err,docs)=>{
+                if(err){
+                    console.log("Something wrong when updating data!");
+                }
+            });
+        })
+    }).catch(function(err){
+        console.log(err);
+    });
+    return new Promise(function(resolved,rejected){
+        setTimeout(
+              function(){
+                    resolved('done');
+              },3000);
+   });
+   
+}
+//standard for profit
 function halfofyear(){
     
-    Contract.find({}).exec(function(err,data){
-        data.forEach(function(dataa){
-            Payday.find({$and: [{저자: { $regex: '.*' + dataa.저자 + '.*'}, 도서명: dataa.도서명}]}).exec(function(err,result){
-                if(err) console.log(err);
-                console.log(result);
-                result.forEach(function(datab){
-                    
+    Bookcode.find({}).exec((err,data)=>{
+        if(err) console.log('err in bookcode : ',err);
+        data.forEach((dataa)=>{
+            Payday.find({$and: [{저자: dataa.저자, 바코드: dataa.바코드}]})
+            .exec((err,result)=>{
+                if(err) console.log('err in payday : ',err)
+                result.forEach((datab)=>{
                     let royalti = new Royalti();
                     royalti._id = new mongoose.Types.ObjectId();
                     royalti.일자 = datab.일자;
                     royalti.저자 = dataa.저자;
                     royalti.도서명 = datab.도서명;
                     royalti.서점명 = datab.서점명;
-                    royalti.인세금액 = (datab.순매출금액*dataa.인세율) / 100;
+                    royalti.인세금액 = ((datab.순매출금액*dataa.인세율) / 100).toFixed(2);
                     royalti.payed = false;
-                    
-                    royalti.save(function(err){
-                        if(err) console.log(err);
+                    royalti.save((err)=>{
+                        if(err) console.log('err in save royalti : ', err);
                     })
-                    
                 })
-                
+            })
+        })
+    })
+    
+}
+
+function standardofprice(){
+    Bookcode.find({}).exec((err,data)=>{
+        if(err) console.log('err in bookcode : ',err);
+        data.forEach((dataa)=>{
+            Payday.find({$and: [{저자: dataa.저자, 바코드: dataa.바코드}]})
+            .exec((err,result)=>{
+                if(err) console.log('err in payday : ',err)
+                result.forEach((datab)=>{
+                    if(!datab.payed){
+                        let royalti = new Royalti();
+                        royalti._id = new mongoose.Types.ObjectId();
+                        
+                        royalti.idofpayday = datab._id;
+                        royalti.일자 = datab.일자;
+                        royalti.저자 = dataa.저자;
+                        royalti.도서명 = datab.도서명;
+                        royalti.서점명 = datab.서점명;
+                        if( dataa.인세방식 === '정가기준' ){
+                            royalti.인세금액 = ((datab.정가 * dataa.인세율) / 100).toFixed(2);
+                        }else if( dataa.인세방식 === '매출기준') {
+                            royalti.인세금액 = ((datab.순매출금액 * dataa.인세율) / 100).toFixed(2);
+                        }else{
+                            royalti.인세금액 = 0;
+                        }
+                        
+                        royalti.payed = false;
+                        royalti.save((err)=>{
+                            if(err) console.log('err in save royalti : ', err);
+                        })
+                    }
+                })
             })
         })
     })
@@ -108,5 +165,6 @@ module.exports = {
     logging: logging,
     bnpanal: bnpanal,
     halfofyear :halfofyear,
-    calcroyalti: calcroyalti
+    calcroyalti: calcroyalti,
+    standardofprice: standardofprice
 };

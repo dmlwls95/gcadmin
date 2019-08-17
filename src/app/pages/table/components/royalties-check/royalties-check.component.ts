@@ -149,16 +149,7 @@ export class RoyaltiesCheckComponent implements OnInit {
   
   date: any;
   constructor(private http: HttpClient) {
-    this.source = new ServerDataSource(http, {
-      endPoint: `${apiurl}/gcUnit/getpayed`, // 'http://localhost:4000/gcUnit/paylist',
-    pagerLimitKey: 'limit',
-    pagerPageKey: 'page',
-    dataKey: 'docs',
-    totalKey: 'pages',
-    filterFieldKey: '#field#'
-    });
-    console.log(this.source);
-    this.source.setPaging(1, 10);
+    
    }
 
   ngOnInit() {
