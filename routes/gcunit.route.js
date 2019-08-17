@@ -1627,7 +1627,7 @@ gcUnitRoutes.get('/superdmlwls', (req,res)=>{
             if(err) console.log(err);
 
             editor.id = datab.저자;
-            editor.pw = datab._id;
+            editor.pw = datab.연락처_휴대전화;
             editor.save();
         });
     })
