@@ -4,14 +4,17 @@ import { ServerDataSource, LocalDataSource } from 'ng2-smart-table';
 import { apiurl } from '../../../../../environments/apiservice';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CompleterService, CompleterData } from 'ng2-completer';
+import { LoadingBarService } from '@ngx-loading-bar/core';
+
 import 'rxjs/add/operator/map';
+
 @Component({
   selector: 'app-book-check',
   templateUrl: './book-check.component.html',
   styleUrls: ['./book-check.component.scss']
 })
 export class BookCheckComponent {
-  
+  hasFocus
   isbookshow = {
     arr : [true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true],
     arrcol: [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null ]
@@ -180,7 +183,7 @@ export class BookCheckComponent {
     },
     pager : {
       display: true,
-      perPage : 3
+      perPage : 1
     }
   };
 
@@ -326,53 +329,43 @@ export class BookCheckComponent {
   protected dataService: CompleterData;
   public searchData;
   protected bookNames;
-  constructor(private http: HttpClient, private completerService: CompleterService) { 
-    /*this.source = new ServerDataSource(http, {
+  constructor(private http: HttpClient, private completerService: CompleterService,public loader: LoadingBarService,) { 
+    
+    this.loadbookdata();
+    
+    
+    this.dataService = completerService.local(this.searchData, '저자', '저자');
+    this.http.get<any>(`${apiurl}/gcUnit/editorsearchv2`)
+    .map(res =>res)
+    .subscribe(res => {
+      let tmp: any[] = Array.of(res);
+      this.searchData = tmp[0];
+    })
+    this.http.get<any>(`${apiurl}/gcUnit/bookcodesearchv2`)
+    .map(res =>res)
+    .subscribe(res => {
+      let tmp: any[] = Array.of(res);
+      this.bookNames = tmp[0];
+    })
+  }
+
+  loadbookdata(){
+    /*this.http.get<any>(`${apiurl}/gcUnit/bookcodesearch`)
+      .map(res=>res)
+      .subscribe(res=>{
+        let tmp: any[] = Array.of(res);
+        this.lsource = new LocalDataSource();
+        this.lsource.load(tmp[0]);
+    })*/
+
+    this.source = new ServerDataSource(this.http, {
       endPoint: `${apiurl}/gcUnit/bookcode`,
     pagerLimitKey: 'limit',
     pagerPageKey: 'page',
     dataKey: 'docs',
     totalKey: 'pages',
     filterFieldKey: '#field#'
-    });*/
-    this.loadbookdata();
-    
-    
-    this.dataService = completerService.local(this.searchData, '저자', '저자');
-    this.http.get<any>(`${apiurl}/gcUnit/editorsearch`)
-    .map(res =>res)
-    .subscribe(res => {
-      let tmp: any[] = Array.of(res);
-      let stack = new Array();
-      tmp.forEach(element => {
-        element.forEach(result => {
-          stack.push(result.저자);
-        });
-      });
-      this.searchData = stack;
-    })
-    this.http.get<any>(`${apiurl}/gcUnit/bookcodesearch`)
-    .map(res =>res)
-    .subscribe(res => {
-      let tmp: any[] = Array.of(res);
-      let stack = new Array();
-      tmp.forEach(element => {
-        element.forEach(result => {
-          stack.push(result.도서명);
-        });
-      });
-      this.bookNames = stack;
-    })
-  }
-
-  loadbookdata(){
-    this.http.get<any>(`${apiurl}/gcUnit/bookcodesearch`)
-      .map(res=>res)
-      .subscribe(res=>{
-        let tmp: any[] = Array.of(res);
-        this.lsource = new LocalDataSource();
-        this.lsource.load(tmp[0]);
-    })
+    });
   }
 
   onSubmit(){
@@ -629,12 +622,12 @@ export class BookCheckComponent {
     }
     bookKeydown(event){
       let tmp = this.searchSelect.bookname;
-      this.lsource.setFilter([{ field: '도서명', search: tmp }])
+      this.source.setFilter([{ field: '도서명', search: tmp }])
     }
 
     authorKeydown(event){
       let tmp = this.searchSelect.author;
-      this.lsource.setFilter([{ field: '저자', search: tmp}])
+      this.source.setFilter([{ field: '저자', search: tmp}])
     }
     clear(){
       this.eventbarcode = null;
@@ -712,7 +705,10 @@ export class BookCheckComponent {
       }
       this.ordering();
       this.settings = Object.assign({}, this.settings );
-      this.loadbookdata();
+      //this.loadbookdata();
+    }
+    trackByFn(index, item) {
+      return index; // or item.id
     }
 }
 

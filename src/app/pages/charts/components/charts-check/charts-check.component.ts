@@ -4,6 +4,8 @@ import { ServerDataSource, LocalDataSource } from 'ng2-smart-table';
 import { apiurl } from '../../../../../environments/apiservice';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
+import { LoadingBarService } from '@ngx-loading-bar/core';
+
 import 'rxjs/add/operator/map';
 @Component({
   selector: 'app-charts-check',
@@ -58,32 +60,27 @@ export class ChartsCheckComponent {
       소속: {
         title: '소속',
         type: 'string',
-        filter: false,
         seq: 2
       },
       직위: {
         title: '직위',
         type: 'string',
-        filter: false,
         seq: 3
       },
       연락처_휴대전화: {
         title: '연락처_휴대전화',
         type: 'string',
-        filter: false,
         width: "200px",
         seq: 4
       },
       연락처_02: {
         title: '연락처_02',
         type: 'string',
-        filter: false,
         seq: 5
       },
       팩스: {
         title: '팩스',
         type: 'string',
-        filter: false,
         seq: 6
       },
       /*팩스: {
@@ -93,7 +90,6 @@ export class ChartsCheckComponent {
       이메일: {
         title: '이메일',
         type: 'string',
-        filter: false,
         seq: 7
       },
       사업자번호: {
@@ -104,7 +100,6 @@ export class ChartsCheckComponent {
       구분: {
         title: '구분',
         type: 'string',
-        filter: false,
         seq: 9
       },
       주민번호: {
@@ -175,7 +170,7 @@ export class ChartsCheckComponent {
     },
     pager : {
       display: true,
-      perPage : 3
+      perPage : 1
     }
   };
   today: number = Date.now();
@@ -321,18 +316,10 @@ export class ChartsCheckComponent {
   searchForm: FormGroup;
   searchData = { query: ''};
   date;
-  constructor(public datepipe: DatePipe,private http: HttpClient, private formBuilder: FormBuilder) {
+  constructor(public datepipe: DatePipe,private http: HttpClient, private formBuilder: FormBuilder, public loader: LoadingBarService) {
     this.date = new Date();
     console.log(this.date)
-    /*this.source = new ServerDataSource(http, {
-      endPoint: `${apiurl}/gcUnit/editorchart`,
-    pagerLimitKey: 'limit',
-    pagerPageKey: 'page',
-    dataKey: 'docs',
-    totalKey: 'pages',
-    filterFieldKey: '#field#'
-    });
-    this.source.setPaging(1, 10);*/
+    
     
     
     //console.log(this.source);
@@ -367,14 +354,23 @@ export class ChartsCheckComponent {
   }
 
   loadeditordata(){
-    this.http.get(`${apiurl}/gcUnit/editorsearch`)
+    /*this.http.get(`${apiurl}/gcUnit/editorsearch`)
       .map(res=>res)
       .subscribe(res=>{
         let tmp: any[] = Array.of(res);
         console.log(tmp);
         this.lsource = new LocalDataSource();
         this.lsource.load(tmp[0]);
-    })
+    })*/
+    this.source = new ServerDataSource(this.http, {
+      endPoint: `${apiurl}/gcUnit/editorchart`,
+    pagerLimitKey: 'limit',
+    pagerPageKey: 'page',
+    dataKey: 'docs',
+    totalKey: 'pages',
+    filterFieldKey: '#field#'
+    });
+    this.source.setPaging(1, 10);
   }
 
   onSubmit(){
@@ -639,6 +635,6 @@ export class ChartsCheckComponent {
       }
       this.ordering();
       this.settings = Object.assign({}, this.settings );
-      this.loadeditordata();
+      //this.loadeditordata();
     }
 }

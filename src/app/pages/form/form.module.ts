@@ -7,7 +7,8 @@ import { SelectModule } from 'ng2-select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { Ng2CompleterModule } from "ng2-completer";
-
+import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
+import { LoadingBarHttpModule } from '@ngx-loading-bar/http';
 /* components */
 import { FormComponent } from './form.component';
 import { FormInputsComponent } from './components/form-inputs/form-inputs.component';
@@ -31,7 +32,9 @@ import { BookOnlyCheckComponent } from './components/book-only-check/book-only-c
         FormsModule, 
         ReactiveFormsModule,
         Ng2SmartTableModule,
-        Ng2CompleterModule
+        Ng2CompleterModule,
+        LoadingBarHttpClientModule,
+        LoadingBarHttpModule,
     ],
     declarations: [
         FormComponent,

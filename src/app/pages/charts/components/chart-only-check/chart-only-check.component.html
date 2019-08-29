@@ -1,5 +1,28 @@
+<ngx-loading-bar color="#fff" height="3px"></ngx-loading-bar>
 <div class="container">
-  <card cardTitle="BOOK DATA">
+    <button type="button" (click)="excel()" class="btn btn-info">엑셀다운로드</button>&nbsp;&nbsp;&nbsp;
+  <card>
+      <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(0)">성명</button>&nbsp;
+      <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(1)">소속</button>&nbsp;
+      <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(2)">직위</button>&nbsp;
+      <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(3)">휴대전화</button>&nbsp;
+      <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(4)">연락처_02</button>&nbsp;
+      <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(5)">팩스</button>&nbsp;
+      <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(6)">이메일</button>&nbsp;
+      <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(7)">사업자번호</button>&nbsp;
+      <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(8)">구분</button>&nbsp;
+      <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(9)">주민번호</button>&nbsp;
+      <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(10)">은행</button>&nbsp;
+      <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(11)">계좌번호</button>&nbsp;
+      <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(12)">예금주</button>&nbsp;
+      <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(13)">주소직장</button>&nbsp;
+      <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(14)">주소자택</button>&nbsp;
+      <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(15)">비고1</button>&nbsp;
+      <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(16)">비고2</button>&nbsp;
+      <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(17)">전공</button>&nbsp;
+      <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(18)">기념일</button>&nbsp;
+      <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(19)">ID</button>&nbsp;
+      <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(20)">PW</button>&nbsp;
     <div class="scrolling-wrapper">
       <ng2-smart-table [settings]="settings" [source]="source" ></ng2-smart-table>  
     </div>

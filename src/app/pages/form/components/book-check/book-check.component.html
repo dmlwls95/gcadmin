@@ -1,4 +1,4 @@
-
+<ngx-loading-bar color="#fff" height="3px"></ngx-loading-bar>
 <div class="container">
   <div class="left">
     <card>
@@ -44,9 +44,12 @@
             <td><input type="text" class="form-control" [(ngModel)]="bookData.bookname" name="barname"></td>
             <th>저자</th>
             <td><!--<input type="text" class="form-control" [(ngModel)]="bookData.author" name="author">-->
-                <select class="form-control" [(ngModel)]="bookData.author" name="authorlist" id="authorslist">
+                <select class="form-control" [(ngModel)]="bookData.author" name="authorlist" id="authorslist" (focus)="hasFocus = true">
                   <option [ngValue]="null">{{searchSelect.author}}</option>
-                  <option *ngFor="let author of searchData" [value]="author">{{author}}</option>
+                  <ng-container *ngIf="hasFocus">
+                    <option *ngFor="let author of searchData; trackBy: trackByFn " [value]="author">{{author}}</option>
+                  </ng-container>
+                  
                 </select>
             </td>
           </tr>
@@ -171,7 +174,7 @@
       <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(21)">담당자</button>&nbsp;
       <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(22)">특기사항</button>&nbsp;
     <div class="scrolling-wrapper">
-      <ng2-smart-table [settings]="settings" [source]="lsource" (deleteConfirm)="deleteRecord($event)" (createConfirm)="createRecord($event)" (editConfirm)="updateRecord($event)" (rowSelect)="onRecordselected($event)"></ng2-smart-table>  
+      <ng2-smart-table [settings]="settings" [source]="source" (deleteConfirm)="deleteRecord($event)" (createConfirm)="createRecord($event)" (editConfirm)="updateRecord($event)" (rowSelect)="onRecordselected($event)"></ng2-smart-table>  
     </div>
   </card>   
 </div>

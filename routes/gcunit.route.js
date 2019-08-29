@@ -386,40 +386,58 @@ gcUnitRoutes.get('/editorchart', function(req, res, next) {
     paged = req.query.page;
   }
   var query = req.query;
-  console.log(query);
-  if (query.저자) {
-    Editor.paginate(
-      { 저자: { $regex: '.*' + query.저자 + '.*' } },
-      { page: paged, limit: 3 },
-      function(err, result) {
-        if (err) {
-          console.log(err);
-        } else {
-          res.json(result);
-        }
-      }
-    );
-  } else if (query.주민번호) {
-    Editor.paginate(
-      { 주민번호: { $regex: '.*' + query.주민번호 + '.*' } },
-      { page: paged, limit: 3 },
-      function(err, result) {
-        if (err) {
-          console.log(err);
-        } else {
-          res.json(result);
-        }
-      }
-    );
-  } else {
-    Editor.paginate({}, { page: paged, limit: 3 }, function(err, result) {
-      if (err) {
-        console.log(err);
-      } else {
-        res.json(result);
-      }
-    });
+  var querytmp = {};
+  if(query.저자){
+    querytmp = {저자: { $regex: '.*' + query.저자 + '.*' }}
+  } else if(query.소속){
+    querytmp = {소속: { $regex: '.*' + query.소속 + '.*' }}
+  } else if(query.직위){
+    querytmp = {직위: { $regex: '.*' + query.직위 + '.*' }}
+  } else if(query.연락처_휴대전화){
+    querytmp = {연락처_휴대전화: { $regex: '.*' + query.연락처_휴대전화 + '.*' }}
+  } else if(query.연락처_02){
+    querytmp = {연락처_02: { $regex: '.*' + query.연락처_02 + '.*' }}
+  } else if(query.팩스){
+    querytmp = {팩스: { $regex: '.*' + query.팩스 + '.*' }}
+  } else if(query.이메일){
+    querytmp = {이메일: { $regex: '.*' + query.이메일 + '.*' }}
+  } else if(query.사업자번호){
+    querytmp = {사업자번호: { $regex: '.*' + query.사업자번호 + '.*' }}
+  } else if(query.구분){
+    querytmp = {구분: { $regex: '.*' + query.구분 + '.*' }}
+  } else if(query.주민번호){
+    querytmp = {주민번호: { $regex: '.*' + query.주민번호 + '.*' }}
+  } else if(query.은행){
+    querytmp = {은행: { $regex: '.*' + query.은행 + '.*' }}
+  } else if(query.계좌번호){
+    querytmp = {계좌번호: { $regex: '.*' + query.계좌번호 + '.*' }}
+  } else if(query.예금주){
+    querytmp = {예금주: { $regex: '.*' + query.예금주 + '.*' }}
+  } else if(query.주소_직장){
+    querytmp = {주소_직장: { $regex: '.*' + query.주소_직장 + '.*' }}
+  } else if(query.주소_자택){
+    querytmp = {주소_자택: { $regex: '.*' + query.주소_자택 + '.*' }}
+  } else if(query.비고_01){
+    querytmp = {비고_01: { $regex: '.*' + query.비고_01 + '.*' }}
+  } else if(query.비고_02){
+    querytmp = {비고_02: { $regex: '.*' + query.비고_02 + '.*' }}
+  } else if(query.전공){
+    querytmp = {전공: { $regex: '.*' + query.전공 + '.*' }}
+  } else if(query.기념일){
+    querytmp = {기념일: { $regex: '.*' + query.기념일 + '.*' }}
+  } else if(query.id){
+    querytmp = {id: { $regex: '.*' + query.id + '.*' }}
+  } else if(query.pw){
+    querytmp = {pw: { $regex: '.*' + query.pw + '.*' }}
   }
+  Editor.paginate(querytmp,
+    {page: paged, limit: 7},
+    (err, result)=>{
+      if(err){
+        console.log(err);
+      }
+      res.send(result);
+    })
 });
 
 gcUnitRoutes.post('/editorchart', function(req, res) {
@@ -542,7 +560,16 @@ gcUnitRoutes.post('/editoraddnew', (req,res)=>{
     res.status(201).json(docs);
   })
 })
-
+gcUnitRoutes.get('/editorsearchv2', (req,res)=>{
+  Editor.find({},(err,result)=>{
+    if(err) console.log(err);
+    let tosend= [];
+    result.forEach(val=>{
+      tosend.push(val.저자)
+    })
+    res.json(tosend);
+  })
+})
 gcUnitRoutes.get('/editorsearch', function(req, res) {
   Editor.find({}, function(err, result) {
     if (err) {
@@ -633,63 +660,34 @@ gcUnitRoutes.get('/bookcode', function(req, res, next) {
     paged = req.query.page;
   }
   var query = req.query;
+  var querytmp = {};
   if (query.바코드) {
-    Bookcode.paginate(
-      { 바코드: { $regex: '.*' + query.바코드 + '.*' } },
-      { page: paged, limit: 3 },
-      function(err, result) {
-        if (err) {
-          console.log(err);
-        } else {
-          res.json(result);
-        }
-      }
-    );
+    querytmp = {바코드: { $regex: '.*' + query.바코드 + '.*' }}
   } else if (query.도서코드) {
-    Bookcode.paginate(
-      { 도서코드: { $regex: '.*' + query.도서코드 + '.*' } },
-      { page: paged, limit: 3 },
-      function(err, result) {
-        if (err) {
-          console.log(err);
-        } else {
-          res.json(result);
-        }
-      }
-    );
+    querytmp = {도서코드: { $regex: '.*' + query.도서코드 + '.*' }}
   } else if (query.도서명) {
-    Bookcode.paginate(
-      { 도서명: { $regex: '.*' + query.도서명 + '.*' } },
-      { page: paged, limit: 3 },
-      function(err, result) {
-        if (err) {
-          console.log(err);
-        } else {
-          res.json(result);
-        }
-      }
-    );
+    querytmp = {도서명: { $regex: '.*' + query.도서명 + '.*' }}
   } else if (query.저자) {
-    Bookcode.paginate(
-      { 저자: { $regex: '.*' + query.저자 + '.*' } },
-      { page: paged, limit: 3 },
-      function(err, result) {
-        if (err) {
-          console.log(err);
-        } else {
-          res.json(result);
-        }
-      }
-    );
-  } else {
-    Bookcode.paginate({}, { page: paged, limit: 3 }, function(err, result) {
+    querytmp = {저자: { $regex: '.*' + query.저자 + '.*' }}
+  } else if (query.발행처){
+    querytmp = {발행처: { $regex: '.*' + query.발행처 + '.*' }}
+  } else if (query.담당자){
+    querytmp = {담당자: { $regex: '.*' + query.담당자 + '.*' }}
+  } else if (query.특기사항){
+    querytmp = {특기사항: { $regex: '.*' + query.특기사항 + '.*' }}
+  }
+
+  Bookcode.paginate(
+    querytmp,
+    { page: paged, limit: 7 },
+    function(err, result) {
       if (err) {
         console.log(err);
       } else {
         res.json(result);
       }
-    });
-  }
+    }
+  );
 });
 gcUnitRoutes.get('/bookcodebyten', function(req, res, next) {
   var paged;
@@ -699,63 +697,39 @@ gcUnitRoutes.get('/bookcodebyten', function(req, res, next) {
     paged = req.query.page;
   }
   var query = req.query;
+  var querytmp = {}
   if (query.바코드) {
-    Bookcode.paginate(
-      { 바코드: { $regex: '.*' + query.바코드 + '.*' } },
-      { page: paged, limit: 10 },
-      function(err, result) {
-        if (err) {
-          console.log(err);
-        } else {
-          res.json(result);
-        }
-      }
-    );
+    querytmp = { 바코드: { $regex: '.*' + query.바코드 + '.*' } }
   } else if (query.도서코드) {
-    Bookcode.paginate(
-      { 도서코드: { $regex: '.*' + query.도서코드 + '.*' } },
-      { page: paged, limit: 10 },
-      function(err, result) {
-        if (err) {
-          console.log(err);
-        } else {
-          res.json(result);
-        }
-      }
-    );
+    querytmp =   { 도서코드: { $regex: '.*' + query.도서코드 + '.*' } }
   } else if (query.도서명) {
-    Bookcode.paginate(
-      { 도서명: { $regex: '.*' + query.도서명 + '.*' } },
-      { page: paged, limit: 10 },
-      function(err, result) {
-        if (err) {
-          console.log(err);
-        } else {
-          res.json(result);
-        }
-      }
-    );
+    querytmp =   { 도서명: { $regex: '.*' + query.도서명 + '.*' } }
   } else if (query.저자) {
-    Bookcode.paginate(
-      { 저자: { $regex: '.*' + query.저자 + '.*' } },
-      { page: paged, limit: 10 },
-      function(err, result) {
-        if (err) {
-          console.log(err);
-        } else {
-          res.json(result);
-        }
-      }
-    );
-  } else {
-    Bookcode.paginate({}, { page: paged, limit: 10 }, function(err, result) {
+    querytmp =   { 저자: { $regex: '.*' + query.저자 + '.*' } }
+  }  else if (query.발행처) {
+    querytmp =   { 발행처: { $regex: '.*' + query.발행처 + '.*' } }
+  }  else if (query.상태) {
+    querytmp =   { 상태: { $regex: '.*' + query.상태 + '.*' } }
+  }  else if (query.저술_번역) {
+    querytmp =   { 저술_번역: { $regex: '.*' + query.저술_번역 + '.*' } }
+  }  else if (query.에이전시) {
+    querytmp =   { 에이전시: { $regex: '.*' + query.에이전시 + '.*' } }
+  }  else if (query.원출판사) {
+    querytmp =   { 원출판사: { $regex: '.*' + query.원출판사 + '.*' } }
+  }  else if (query.비고) {
+    querytmp =   { 비고: { $regex: '.*' + query.비고 + '.*' } }
+  }
+  Bookcode.paginate(
+    querytmp ,
+    { page: paged, limit: 10 },
+    function(err, result) {
       if (err) {
         console.log(err);
       } else {
         res.json(result);
       }
-    });
-  }
+    }
+  );
 });
 gcUnitRoutes.post('/bookcodebyname', (req,res)=>{
   let name = req.body.name;
@@ -800,6 +774,17 @@ gcUnitRoutes.get('/bookcodesearch', function(req, res) {
     res.json(result);
   });
 });
+gcUnitRoutes.get('bookcodesearchv2',(req,res)=>{
+  Bookcode.find({}, 도서명 , (err,result)=>{
+    if(err) console.log(err);
+    /*let tosend= [];
+    result.forEach(val=>{
+      tosend.push(val.도서명)
+    })*/
+    console.log(result)
+    res.json(tosend);
+  })
+})
 
 gcUnitRoutes.post('/bookcode', function(req, res) {
   console.log(req.body);

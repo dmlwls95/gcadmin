@@ -255,6 +255,15 @@ Apache-2.0
 @firebase/util
 Apache-2.0
 
+@ngx-loading-bar/core
+MIT
+
+@ngx-loading-bar/http
+MIT
+
+@ngx-loading-bar/http-client
+MIT
+
 animate.css
 MIT
 The MIT License (MIT)

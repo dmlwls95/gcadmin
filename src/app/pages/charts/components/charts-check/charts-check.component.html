@@ -1,4 +1,4 @@
-
+<ngx-loading-bar color="#fff" height="3px"></ngx-loading-bar>
 <div class="container">
   <div class="left">
     <card>
@@ -15,10 +15,10 @@
               
             </td>
             <th>
-              <button type="button" class="submit_button" (click)="onNew()">추가저장</button>
+              <button type="button" class="submit_button" (click)="onNew()">저장</button>
             </th>
             <td>
-                <button type="submit" class="submit_button">수정및저장</button>
+                <button type="submit" class="submit_button">수정</button>
             </td>
           </tr>
           <tr>
@@ -129,7 +129,7 @@
         <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="hideorshow(20)">PW</button>&nbsp;
       <form class="container" #searchForm="ngForm" (ngSubmit)="onSearch()"></form>
       <br>
-      <ng2-smart-table [settings]="settings" [source]="lsource" (deleteConfirm)="deleteRecord($event)" (createConfirm)="createRecord($event)" (editConfirm)="updateRecord($event)" (rowSelect)="onRecordselected($event)"></ng2-smart-table>
+      <ng2-smart-table [settings]="settings" [source]="source" (deleteConfirm)="deleteRecord($event)" (createConfirm)="createRecord($event)" (editConfirm)="updateRecord($event)" (rowSelect)="onRecordselected($event)"></ng2-smart-table>
     </card>
   </div>
 </div>

@@ -5,7 +5,8 @@ import { routing } from './charts.routing';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { NgxPaginationModule } from 'ngx-pagination';
-
+import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
+import { LoadingBarHttpModule } from '@ngx-loading-bar/http';
 /* components */
 import { ChartsComponent } from './charts.component';
 import { EChartsComponent } from './components/echarts/echarts.component';
@@ -22,7 +23,9 @@ import { ChartOnlyCheckComponent } from './components/chart-only-check/chart-onl
         Ng2SmartTableModule,
         FormsModule, 
         ReactiveFormsModule,
-        NgxPaginationModule
+        NgxPaginationModule,
+        LoadingBarHttpClientModule,
+        LoadingBarHttpModule,
     ],
     declarations: [
         ChartsComponent,

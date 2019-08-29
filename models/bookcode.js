@@ -8,7 +8,7 @@ const bookcodeSchema = mongoose.Schema({
 
   바코드: { type: String},
 
-  도서코드: { type: Number},
+  도서코드: { type: String},
 
   도서명: { type: String },
 
