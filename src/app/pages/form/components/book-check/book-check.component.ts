@@ -507,7 +507,7 @@ export class BookCheckComponent {
         );
       }
       processupdateRecord(event) {
-        this.http.put<any>(`${apiurl}/gcUnit/process/` + event.newData._id, event.newData).subscribe(
+        this.http.put<any>(`${apiurl}/gcUnit/process` + event.data._id, event.newData).subscribe(
               res => {
                 console.log(res);
                 event.confirm.resolve(event.newData);

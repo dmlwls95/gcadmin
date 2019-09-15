@@ -560,10 +560,21 @@ gcUnitRoutes.post('/editoraddnew', (req,res)=>{
     res.status(201).json(docs);
   })
 })
+
 gcUnitRoutes.get('/editorsearchv2', (req,res)=>{
-  Editor.find({},(err,result)=>{
+  /*Editor.find({},저자 , {sort: {저자: 1}},(err,result)=>{
     if(err) console.log(err);
-    let tosend= [];
+    /*let tosend= [];
+    result.forEach(val=>{
+      tosend.push(val.저자)
+    })
+    res.json(result);
+  })*/
+  Editor.find({},'저자')
+  .sort('저자')
+  .then(result=>{
+    
+    tosend= [];
     result.forEach(val=>{
       tosend.push(val.저자)
     })
@@ -775,12 +786,9 @@ gcUnitRoutes.get('/bookcodesearch', function(req, res) {
   });
 });
 gcUnitRoutes.get('bookcodesearchv2',(req,res)=>{
-  Bookcode.find({}, 도서명 , (err,result)=>{
+  Bookcode.find({}, '도서명' , (err,result)=>{
     if(err) console.log(err);
-    /*let tosend= [];
-    result.forEach(val=>{
-      tosend.push(val.도서명)
-    })*/
+    
     console.log(result)
     res.json(tosend);
   })
@@ -1495,7 +1503,11 @@ gcUnitRoutes.put('/edition:id', function(req,res){
     if (err) return res.status(500).json({ error: 'database failure' });
     if (!edition) return res.status(404).json({ error: 'edition not found' });
 
-    edition = req.body;
+    if (req.body.날짜) edition.날짜 = req.body.날짜; else if(req.body.날짜 ==null) edition.날짜 = '';
+    if (req.body.쇄) edition.쇄 = req.body.쇄; else if(req.body.쇄 ==null) edition.쇄 = '';
+    if (req.body.바코드) edition.바코드 = req.body.바코드; else if(req.body.바코드 ==null) edition.바코드 = '';
+    if (req.body.부수) edition.부수 = req.body.부수;  else if(req.body.부수 ==null) edition.부수 = '';
+    if (req.body.인세) edition.인세 = req.body.인세; else if(req.body.인세 ==null) edition.인세 = '';
 
     edition.save((err)=>{
       if (err) res.status(500).json({ error: 'fail to updtae' });
@@ -1546,12 +1558,15 @@ gcUnitRoutes.post('/process',function(req,res){
   })
 })
 gcUnitRoutes.put('/process:id', function(req,res){
-  Process.findById(req.body._id, (err,process)=>{
+  Process.findById(req.params.id, (err,process)=>{
     if (err) return res.status(500).json({ error: 'database failure' });
     if (!process) return res.status(404).json({ error: 'process not found' });
 
-    process = req.body;
-
+    if (req.body.날짜) process.날짜 = req.body.날짜; else if(req.body.날짜 ==null) process.날짜 = '';
+    if (req.body.항목) process.항목 = req.body.항목; else if(req.body.항목 ==null) process.항목 = '';
+    if (req.body.바코드) process.바코드 = req.body.바코드; else if(req.body.바코드 ==null) process.바코드 = '';
+    if (req.body.작업내용) process.작업내용 = req.body.작업내용;  else if(req.body.작업내용 ==null) process.작업내용 = '';
+    if (req.body.담당자) process.담당자 = req.body.담당자; else if(req.body.담당자 ==null) process.담당자 = '';
     process.save((err)=>{
       if (err) res.status(500).json({ error: 'fail to updtae' });
       res.json({ message: 'updated successfully' });
