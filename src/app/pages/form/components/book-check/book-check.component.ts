@@ -81,7 +81,22 @@ export class BookCheckComponent {
       발행처: {
         title: '발행처',
         type: 'string',
-        seq: 7
+        seq: 7,
+        editor: {
+          type: 'list',
+          config: {
+            selectText: 'Select',
+            list: [
+              {value: '글로벌컨텐츠출판그룹',title: '글로벌컨텐츠출판그룹'},
+              {value: '작가와비평(글로벌콘텐츠)',title: '작가와비평(글로벌콘텐츠)'},
+              {value: '글모아출판(글로벌콘텐츠)',title: '글모아출판(글로벌콘텐츠)'},
+              {value: '세림출판(글로벌콘텐츠)',title: '세림출판(글로벌콘텐츠)'},
+              {value: '컴원미디어(글로벌콘텐츠)',title: '컴원미디어(글로벌콘텐츠)'},
+              {value: 'G노벨(글로벌콘텐츠)',title: 'G노벨(글로벌콘텐츠)'}
+            ]
+          }
+        },
+        width: '200px'
       },
       정가: {
         title: '정가',
@@ -98,8 +113,24 @@ export class BookCheckComponent {
       상태: {
         title: '상태',
         type: 'string',
-        filter: false,
-        seq: 10
+        seq: 10,
+        editor: {
+          type: 'list',
+          config: {
+            selectText: 'Select',
+            list: [
+              {value: '정상',title: '정상'},
+              {value: '정상(출간)',title: '정상(출간)'},
+              {value: '편집중',title: '편집중'},
+              {value: '집필중',title: '집필중'},
+              {value: '검토중',title: '검토중'},
+              {value: '보류',title: '보류'},
+              {value: '절판',title: '절판'},
+            ]
+          }
+        },
+        width: '150px'
+        
       },
       인세율: {
         title: '인세율',
@@ -117,7 +148,18 @@ export class BookCheckComponent {
         title: '인세방식',
         type: 'String',
         filter: false,
-        seq: 13
+        seq: 13,
+        editor: {
+          type: 'list',
+          config: {
+            selectText: 'Select',
+            list: [
+              {value: '정가기준',title: '정가기준'},
+              {value: '매출기준',title: '매출기준'}
+            ]
+          }
+        },
+        width: '100px'
       },
       발행부수: {
         title: '발행부수',
@@ -424,8 +466,9 @@ export class BookCheckComponent {
     }
 
     deleteRecord(event) {
-         console.log(event.data);
-        this.http.delete<any>(`${apiurl}/gcUnit/bookcode/` + event.data._id).subscribe(
+        console.log(event.data);
+        if(confirm('삭제하시겠습니까?')){
+          this.http.delete<any>(`${apiurl}/gcUnit/bookcode/` + event.data._id).subscribe(
             res => {
               alert('successfully removed')
               event.confirm.resolve(event.source.data);
@@ -438,6 +481,8 @@ export class BookCheckComponent {
             }
           });
         // event.confirm.resolve(event.source.data);}
+        }
+        
     }
 
     createRecord(event) {
@@ -474,8 +519,9 @@ export class BookCheckComponent {
       }
     
     editiondeleteRecord(event) {
-           console.log(event.data);
-          this.http.delete<any>(`${apiurl}/gcUnit/edition` + event.data._id).subscribe(
+          console.log(event.data);
+          if(confirm('삭제하시겠습니까?')){
+            this.http.delete<any>(`${apiurl}/gcUnit/edition` + event.data._id).subscribe(
               res => {
                 console.log(res);
                 event.confirm.resolve(event.source.data);
@@ -488,6 +534,8 @@ export class BookCheckComponent {
               }
             });
           // event.confirm.resolve(event.source.data);}
+          }
+          
       }
     
       editioncreateRecord(event) {
@@ -523,7 +571,8 @@ export class BookCheckComponent {
       
         processdeleteRecord(event) {
              console.log(event.data);
-            this.http.delete<any>(`${apiurl}/gcUnit/process` + event.data._id).subscribe(
+            if(confirm('삭제하시겠습니까?')){
+              this.http.delete<any>(`${apiurl}/gcUnit/process` + event.data._id).subscribe(
                 res => {
                   console.log(res);
                   event.confirm.resolve(event.source.data);
@@ -536,6 +585,8 @@ export class BookCheckComponent {
                 }
               });
             // event.confirm.resolve(event.source.data);}
+            }
+            
         }
       
         processcreateRecord(event) {

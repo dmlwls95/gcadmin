@@ -19,6 +19,8 @@ var editorSchema = mongoose.Schema(
 
     이메일: { type: String },
 
+    주민번호: { type: String },
+
     사업자번호: { type: String },
 
     구분: { type: String },

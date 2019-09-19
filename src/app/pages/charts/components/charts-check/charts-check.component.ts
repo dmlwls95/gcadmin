@@ -434,8 +434,9 @@ export class ChartsCheckComponent {
     }
   
     deleteRecord(event) {
-         console.log(event.data);
-        this.http.delete<any>(`${apiurl}/gcUnit/editorchart/` + event.data._id).subscribe(
+        console.log(event.data);
+        if(confirm('삭제하시겠습니까?')){
+          this.http.delete<any>(`${apiurl}/gcUnit/editorchart/` + event.data._id).subscribe(
             res => {
               console.log(res);
               event.confirm.resolve(event.source.data);
@@ -447,7 +448,10 @@ export class ChartsCheckComponent {
               console.log('Server-side error occured.');
             }
           });
-        // event.confirm.resolve(event.source.data);}
+          // event.confirm.resolve(event.source.data);}
+        }
+        
+        
     }
   
     createRecord(event) {
@@ -483,7 +487,8 @@ export class ChartsCheckComponent {
     
     counseldeleteRecord(event) {
            console.log(event.data);
-          this.http.delete<any>(`${apiurl}/gcUnit/counsel` + event.data._id).subscribe(
+          if(confirm('삭제하시겠습니까?')){
+            this.http.delete<any>(`${apiurl}/gcUnit/counsel` + event.data._id).subscribe(
               res => {
                 console.log(res);
                 event.confirm.resolve(event.source.data);
@@ -496,6 +501,8 @@ export class ChartsCheckComponent {
               }
             });
           // event.confirm.resolve(event.source.data);}
+          }
+          
       }
     
       counselcreateRecord(event) {
@@ -559,7 +566,7 @@ export class ChartsCheckComponent {
 
     authorKeyup(){
       let tmp = this.searchFname.author;
-      this.lsource.setFilter([{ field:'저자', search: tmp}]);
+      this.source.setFilter([{ field:'저자', search: tmp}]);
     }
       
     clear(){

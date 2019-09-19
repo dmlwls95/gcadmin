@@ -511,6 +511,7 @@ gcUnitRoutes.post('/editoradd', function(req, res) {
       if (req.body.fax) result.팩스 = req.body.fax; else result.팩스 = '';
       if (req.body.email) result.이메일 = req.body.email; else result.이메일 = '';
       if (req.body.busn) result.사업자번호 = req.body.busn; else result.사업자번호 = '';
+      if (req.body.RRN) result.주민번호 = req.body.RRN; else result.주민번호 = '';
       if (req.body.cate) result.구분 = req.body.cate; else result.구분 = '';
       if (req.body.bank) result.은행 = req.body.bank; else result.은행 = '';
       if (req.body.bankaccount) result.계좌번호 = req.body.bankaccount; else result.계좌번호 = '';
@@ -542,6 +543,7 @@ gcUnitRoutes.post('/editoraddnew', (req,res)=>{
   if (req.body.fax) editor.팩스 = req.body.fax; else editor.팩스 = '';
   if (req.body.email) editor.이메일 = req.body.email; else editor.이메일 = '';
   if (req.body.busn) editor.사업자번호 = req.body.busn; else editor.사업자번호 = '';
+  if (req.body.RRN) editor.주민번호 = req.body.RRN; else editor.주민번호 = '';
   if (req.body.cate) editor.구분 = req.body.cate; else editor.구분 = '';
   if (req.body.bank) editor.은행 = req.body.bank; else editor.은행 = '';
   if (req.body.bankaccount) editor.계좌번호 = req.body.bankaccount; else editor.계좌번호 = '';
@@ -595,11 +597,12 @@ gcUnitRoutes.get('/editorsearch', function(req, res) {
 
 // admin book managefix api START*************************
 gcUnitRoutes.post('/bookadd', function(req, res) {
-  Bookcode.findOne({ 바코드: req.body.barcode }, (err, result) => {
+  Bookcode.findOne({ 바코드: req.body.barcode, 저자: req.body.author }, (err, result) => {
     if (err) return res.status(500).json({ error: 'database failure' });
     if (result) {
       if (req.body.barcode) result.바코드 = req.body.barcode;
       if (req.body.bookcode) result.도서코드 = req.body.bookcode;
+      if (req.body.contactdate) result.계약일 = req.body.contactdate;
       if (req.body.bookname) result.도서명 = req.body.bookname;
       if (req.body.author) result.저자 = req.body.author;
       if (req.body.relday) result.발행일 = req.body.relday;
@@ -633,6 +636,7 @@ gcUnitRoutes.post('/bookaddnew', function(req, res) {
   let book = new Bookcode();
   if (req.body.barcode) book.바코드 = req.body.barcode;
   if (req.body.bookcode) book.도서코드 = req.body.bookcode;
+  if (req.body.contactdate) book.계약일 = req.body.contactdate;
   if (req.body.bookname) book.도서명 = req.body.bookname;
   if (req.body.author) book.저자 = req.body.author;
   if (req.body.relday) book.발행일 = req.body.relday;
@@ -652,6 +656,8 @@ gcUnitRoutes.post('/bookaddnew', function(req, res) {
   if (req.body.jaebon) book.제본 = req.body.jaebon;
   if (req.body.page) book.페이지 = req.body.page;
   if (req.body.bigo) book.비고 = req.body.bigo;
+  if (req.body.response) book.담당자 = req.body.response;
+  if (req.body.specialthing) book.특기사항 = req.body.specialthing;
   book._id = new mongoose.Types.ObjectId();
 
   Bookcode.insertMany(book,(err,docs)=>{
@@ -814,15 +820,28 @@ gcUnitRoutes.put('/bookcode/:id', function(req, res) {
 
     if (req.body.바코드) book.바코드 = req.body.바코드;
     if (req.body.도서코드) book.도서코드 = req.body.도서코드;
+    if (req.body.계약일) book.계약일 = req.body.계약일;
     if (req.body.도서명) book.도서명 = req.body.도서명;
     if (req.body.저자) book.저자 = req.body.저자;
-    if (req.body.신간일) book.신간일 = req.body.신간일;
+    if (req.body.발행일) book.발행일 = req.body.발행일;
     if (req.body.발행처) book.발행처 = req.body.발행처;
     if (req.body.정가) book.정가 = req.body.정가;
-    if (req.body.총재고) book.총재고 = req.body.총재고;
-    if (req.body.본사재고) book.본사재고 = req.body.본사재고;
-    if (req.body.정품재고) book.정품재고 = req.body.정품재고;
-    if (req.body.반품재고) book.반품재고 = req.body.반품재고;
+    if (req.body.계약기간) book.계약기간 = req.body.계약기간;
+    if (req.body.상태) book.상태 = req.body.상태;
+    if (req.body.인세율) book.인세율 = req.body.인세율;
+    if (req.body.인세주기) book.인세주기 = req.body.인세주기;
+    if (req.body.인세방식) book.인세방식 = req.body.인세방식;
+    if (req.body.발행부수) book.발행부수 = req.body.발행부수;
+    if (req.body.저술_번역) book.저술_번역 = req.body.저술_번역;
+    if (req.body.에이전시) book.에이전시= req.body.에이전시;
+    if (req.body.원출판사) book.원출판사= req.body.원출판사;
+    if (req.body.로열티) book.로열티 = req.body.로열티;
+    if (req.body.판형) book.판형 = req.body.판형;
+    if (req.body.제본) book.제본 = req.body.제본;
+    if (req.body.페이지) book.페이지 = req.body.페이지;
+    if (req.body.비고) book.비고 = req.body.비고;
+    if (req.body.담당자) book.담당자 = req.body.담당자;
+    if (req.body.특기사항) book.특기사항 = req.body.특기사항;
     book.save(function(err) {
       if (err) res.status(500).json({ error: 'fail to updtae' });
       res.json({ message: 'updated successfully' });

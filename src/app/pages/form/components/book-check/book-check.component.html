@@ -66,11 +66,13 @@
             <td>
               <select class="form-control" [(ngModel)]="bookData.status" name="status" id="status">
                   <option [ngValue]="null">{{bookData.status}}</option>
+                  <option value="정상">정상</option>
                   <option value="정상(출간)">정상(출간)</option>
                   <option value="편집중">편집중</option>
                   <option value="집필중">집필중</option>
                   <option value="검토중">검토중</option>
                   <option value="보류">보류</option>
+                  <option value="절판">절판</option>
                 </select>
             </td>
             <th>인세방식</th>
